@@ -1,19 +1,19 @@
 import React from 'react';
-import './Counter.css'
+import './Scoreboard.css'
 import CounterTab from './CounterTab'
 
-type CounterProps = {
+type ScoreboardProps = {
   player1: number,
   player2: number
 }
 
-const Counter: React.FC<CounterProps> = ({ player1, player2 }) => {
+const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
   return (
-    <div className="Counter">
+    <div className="Scoreboard">
       <CounterTab count={player1} name="player 1" />
       <CounterTab count={player2} name="player 2" />
     </div>
   );
 };
 
-export default Counter;
+export default Scoreboard;

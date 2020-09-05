@@ -1,5 +1,5 @@
 import React from 'react';
-import './Counter.css'
+import './Scoreboard.css'
 
 type CounterProps = {
   count: number,
