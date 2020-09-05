@@ -1,0 +1,9 @@
+.Counter {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.CounterTab {
+  width: 15%;
+  margin: 1em;
+}
