@@ -1,0 +1,21 @@
+ {
+    "folders":
+    [
+        {
+            "exclude_folder_patterns":
+            [
+                "*node_modules"
+            ],
+            "name": "sea-battle (Root)",
+            "path": "."
+        },
+        {
+            "path": "web",
+            "name": "Web"
+        }
+    ],
+    "settings":
+    {
+        "tab_size": 4
+    }
+ }
