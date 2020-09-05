@@ -1,0 +1,25 @@
+.Shipboard {
+  width: 30%;
+}
+
+.Ship {
+  margin-top: 3px;
+  width: 30%;
+  display: flex;
+  border: 1px solid black;
+}
+
+.Ship > img {
+  height: 4em;
+  margin: 3px 1em auto 1em;
+}
+
+.Indicator {
+  height: 25px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.Indicator > img {
+  height: 25px;
+}
