@@ -1,5 +1,6 @@
 import React from 'react';
 import Ship from './Ship'
+import './Shipboard.css'
 
 const Shipsboard: React.FC = () => {
   return (

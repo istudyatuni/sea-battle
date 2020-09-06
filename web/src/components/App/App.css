@@ -1,6 +1,18 @@
 .App {
+  display: flex;
   text-align: center;
   padding: 2em;
+  user-select: none;
+}
+
+.inline-board {
+  flex-grow: 1;
+}
+
+.inline-field {
+  /* display flex here for 100% table height*/
+  display: flex;
+  flex-grow: 7;
 }
 
 .App-header {

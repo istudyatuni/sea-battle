@@ -1,0 +1,22 @@
+.Battlefield {
+  width: 100%;
+  height: 100%;
+}
+
+table {
+  table-layout: fixed;
+  width: 60%;
+  margin: auto;
+  height: 100%;
+}
+
+td {
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border: 1px solid black;
+}
+
+td:active {
+  background-color: #B897DF;
+}
