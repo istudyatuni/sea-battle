@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 
 
 type CellProps = {
+  i: number,
   state: number,
   stateGame: number,
-  isShip: boolean
+  isShip: boolean,
+  setShip: (arg0: number)=>void
 }
 
-const Cell: React.FC<CellProps> = ({ state, stateGame, isShip }) => {
+const Cell: React.FC<CellProps> = ({ i, state, stateGame, isShip, setShip }) => {
 
-  const [ship, setShip] = useState(isShip)
   function block(first: boolean, state: number): any {
     console.log(first, state, stateGame, isShip)
     let path
     if(first===false && stateGame===0 || isShip===true){
       path = "Ship"
-      // setShip(true)
+      setShip(i)
     } else if(state===1) {
       path = "Miss"
     } else if(state===2){
@@ -28,7 +29,6 @@ const Cell: React.FC<CellProps> = ({ state, stateGame, isShip }) => {
   }
 
   const [image, setImg] = useState(block(true, state))
-  isShip = ship
   return (
     <>
       <div className="Cell" onClick={()=>setImg(block(false, state+1))}>
