@@ -3,13 +3,13 @@ import CellRow from './CellRow'
 import './Battlefield.css'
 
 type BattlefieldProps = {
-  stateGame: number,
+  gameMode: number,
   ships: boolean[][]
 }
 
-const Battlefield: React.FC<BattlefieldProps> = ({ stateGame, ships }) => {
+const Battlefield: React.FC<BattlefieldProps> = ({ gameMode, ships }) => {
   // 0 - empty, 1 - miss, 2 - hit (in j)
-  // stateGame: 0 - placing ships
+  // gameMode: 0 - placing ships
 
   function renderRows(): any {
     let rows = []
@@ -17,7 +17,7 @@ const Battlefield: React.FC<BattlefieldProps> = ({ stateGame, ships }) => {
       rows.push(<CellRow
         i={ind}
         j={[0,0,0,0,0,0,0,0,0,0]}
-        stateGame={stateGame}
+        gameMode={gameMode}
         ship={ships[ind]}
       />)
     }

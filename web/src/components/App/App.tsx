@@ -17,8 +17,18 @@ function ShipsInit(): boolean[][] {
 }
 
 const App: React.FC = () => {
-  const [allShips, setShips] = useState<boolean[][]>(ShipsInit())
+  const [allShips, _] = useState<boolean[][]>(ShipsInit())
   const [gameMode, setMode] = useState(0)
+  const [ships, setShips] = useState<boolean[][]>(getShips())
+
+  function getShips(): boolean[][] {
+    let ship: boolean[][]
+    if(gameMode===0)
+      ship = allShips
+    else
+      ship = ShipsInit()
+    return ship
+  }
 
   function showShips() {
     for(let i=0; i<100; i++) {
@@ -28,16 +38,18 @@ const App: React.FC = () => {
       }
     }
     console.log('--')
+    setShips(getShips())
   }
   return (
     <div className="App">
       <div className="inline-board">
         <Scoreboard player1={2} player2={3}/>
         <Shipsboard/>
-        <button onClick={showShips/*()=>setMode((gameMode+1)%2)*/}>Show ships</button>
+        <button onClick={()=>setMode((gameMode+1)%2)}>Change mode {gameMode}</button>
+        <button onClick={showShips}>Show ships</button>
       </div>
       <div className="inline-field">
-        <Battlefield stateGame={gameMode} ships={allShips}/>
+        <Battlefield gameMode={gameMode} ships={ships}/>
       </div>
     </div>
   );

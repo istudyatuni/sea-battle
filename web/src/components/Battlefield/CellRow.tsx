@@ -4,11 +4,11 @@ import Cell from './Cell'
 type CellRowProps = {
   i: number,
   j: number[],
-  stateGame: number,
+  gameMode: number,
   ship: boolean[]
 }
 
-const CellRow: React.FC<CellRowProps> = ({ i, j, stateGame, ship }) => {
+const CellRow: React.FC<CellRowProps> = ({ i, j, gameMode, ship }) => {
   let tmpShip = useState(ship)
   ship = tmpShip[0]
 
@@ -22,7 +22,7 @@ const CellRow: React.FC<CellRowProps> = ({ i, j, stateGame, ship }) => {
       cells.push(<Cell
         i={ind}
         state={j[ind]}
-        stateGame={stateGame}
+        gameMode={gameMode}
         isShip={ship[ind]}
         setShip={setShip}
       />)
