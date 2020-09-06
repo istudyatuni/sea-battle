@@ -1,28 +1,27 @@
 import React from 'react';
-import Cell from './Cell'
+import CellRow from './CellRow'
 import './Battlefield.css'
 
 /*type BattlefieldProps = {
 }*/
 
-function TestOnClick(a: number): number {
-  return a++;
-}
-
 const Battlefield: React.FC = () => {
-  let fieldWidth = 10
-  let rows = []
-  for(let i=0; i<fieldWidth; i++) {
-    let row = []
-    for(let j=0; j<fieldWidth; j++) {
-      row.push(<td onClick={()=>TestOnClick(i+j)}>{i+j}</td>)
-    }
-    rows.push(<tr>{row}</tr>)
-  }
+  // 0 - empty, 1 - miss, 2 - hit
   return (
     <div className="Battlefield">
         <table>
-          <tbody>{rows}</tbody>
+          <tbody>
+            <CellRow i={0} j={[0,0,0,0,0,0,1,0,1,0]}/>
+            <CellRow i={1} j={[0,0,0,0,0,0,1,0,1,0]}/>
+            <CellRow i={2} j={[0,0,0,0,0,0,0,0,1,0]}/>
+            <CellRow i={3} j={[0,0,0,1,0,0,1,0,0,0]}/>
+            <CellRow i={4} j={[0,0,0,0,0,0,1,0,1,0]}/>
+            <CellRow i={5} j={[0,0,0,0,0,0,0,0,1,0]}/>
+            <CellRow i={6} j={[0,0,0,0,0,0,1,0,0,0]}/>
+            <CellRow i={7} j={[0,2,0,0,0,0,1,0,0,0]}/>
+            <CellRow i={8} j={[0,0,0,0,0,0,1,0,1,0]}/>
+            <CellRow i={9} j={[0,0,0,0,0,0,1,0,1,0]}/>
+          </tbody>
         </table>
     </div>
   );
