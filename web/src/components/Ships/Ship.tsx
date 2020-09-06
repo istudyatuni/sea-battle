@@ -23,6 +23,7 @@ const Ship: React.FC<ShipProps> = ({ name, count, kill }) => {
   return (
     <div className="Ship">
       <img src={path} alt={name} />
+      <p>{count}</p>
       {KillsLine}
     </div>
   );

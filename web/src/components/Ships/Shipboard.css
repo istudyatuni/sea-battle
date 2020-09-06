@@ -10,6 +10,10 @@
   margin: 3px 1em auto 1em;
 }
 
+.Ship > p {
+  margin: auto 0.5em auto 0;
+}
+
 .Indicator {
   height: 25px;
   margin-top: auto;

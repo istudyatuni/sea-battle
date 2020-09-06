@@ -13,7 +13,7 @@ const Indicator: React.FC<ShipProps> = ({ isKill }) => {
   path = "assets/" + path + " small.png"
   return (
     <div className="Indicator">
-      <img src={path}/>
+      <img src={path} alt=""/>
     </div>
   );
 };
