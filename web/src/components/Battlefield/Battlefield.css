@@ -1,35 +1,21 @@
 .Battlefield {
   width: 100%;
-  height: 100%;
-}
-
-table {
-  /*table-layout: fixed;*/
-  border-collapse: collapse;
-  width: 60%;
-  margin: auto;
-  height: 100%;
 }
 
 .CellRow {
-  height: 50px;
-  width: 500px;
-  margin: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .Cell {
-  width: 50px;
-  height: 50px;
-  padding: 0;
-  border: 1px solid black;
+  height: 70px;
+  width: 70px;
+}
+
+.Cell > img {
+  pointer-events: none;
 }
 
 .Cell:active {
   background-color: #B897DF;
-}
-
-.Cell > img {
-  width: 100%;
-  height: 100%;
-  margin: 0;
 }

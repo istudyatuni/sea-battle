@@ -16,24 +16,17 @@ const Cell: React.FC<CellProps> = ({ state }) => {
       path = "Hit"
     }
     else {
-      state = 0
-      path = 0
+      path = "Empty"
     }
-    let image
-    if(state>0){
-      path = "assets/" + path + ".png"
-      image = <img src={path} alt="" width="100%" height="100%"/>
-    } else {
-      image = <div></div>
-    }
-    return image
+    path = "assets/" + path + ".png"
+    return <img src={path} alt="" width="100%" height="100%"/>
   }
   const [image, setImg] = useState(block(state))
   return (
     <>
-      <td className="Cell" onClick={()=>setImg(block(state+1))}>
+      <div className="Cell" onClick={()=>setImg(block(state+1))}>
         {image}
-      </td>
+      </div>
     </>
   );
 };

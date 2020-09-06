@@ -9,7 +9,7 @@ type CellRowProps = {
 const CellRow: React.FC<CellRowProps> = ({ i, j }) => {
   return (
     <>
-      <tr className="CellRow">
+      <div className="CellRow">
         <Cell state={j[0]}/>
         <Cell state={j[1]}/>
         <Cell state={j[2]}/>
@@ -20,7 +20,7 @@ const CellRow: React.FC<CellRowProps> = ({ i, j }) => {
         <Cell state={j[7]}/>
         <Cell state={j[8]}/>
         <Cell state={j[9]}/>
-      </tr>
+      </div>
     </>
   );
 };

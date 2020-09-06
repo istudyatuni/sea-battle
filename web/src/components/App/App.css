@@ -10,8 +10,6 @@
 }
 
 .inline-field {
-  /* display flex here for 100% table height*/
-  display: flex;
   flex-grow: 7;
 }
 
