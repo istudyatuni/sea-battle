@@ -15,7 +15,7 @@ const Cell: React.FC<CellProps> = ({ state, stateGame, isShip }) => {
     let path
     if(first===false && stateGame===0 || isShip===true){
       path = "Ship"
-      setShip(true)
+      // setShip(true)
     } else if(state===1) {
       path = "Miss"
     } else if(state===2){
