@@ -9,33 +9,68 @@ type CellProps = {
   setShip: (arg0: number)=>void
 }
 
+function settingShips(first: boolean, isShip: boolean): string {
+  let path
+  if(isShip===false) {
+    path = "Ship"
+    console.log("set ship")
+  } else if(first===false) {
+    path = "Ship"
+  } else {
+    path = "Empty"
+  }
+  // console.log(path)
+  return path
+}
+
+function battle(state: number): string {
+  let path
+  if(state===1) {
+    path = "Miss"
+  } else if(state===2){
+    path = "Hit"
+  } else {
+    path = "Empty"
+  }
+  // console.log(path)
+  return path
+}
+
 const Cell: React.FC<CellProps> = ({ i, state, gameMode, isShip, setShip }) => {
-  // maybe isShip no need more?
-  function block(first: boolean, state: number): any {
+  // first == true when first cell's render
+
+  // const [lastGameMode, setLastMode] = useState(gameMode)
+
+  function fillBlock(first: boolean): object {
     let path
-    if(first===false && gameMode===0){
-      path = "Ship"
-      setShip(i)
-    } else if(state===1) {
-      path = "Miss"
-    } else if(state===2){
-      path = "Hit"
-    } else {
-      path = "Empty"
+    if(gameMode===0){
+      if(first===false) {
+        path = settingShips(first, isShip)
+        setShip(i)
+      } else if(isShip===true){
+        // path = "Ship"
+      } else {
+        path = "Empty"
+      }
+    } else if(gameMode===1) {
+      if(first===false) {
+        path = battle(1)
+      } else {
+        // before battle need clear field
+        path = "Empty"
+      }
     }
-    if(gameMode===1)
-      path = "Empty"
+    if(isShip===true)
+      path = "Ship"
     path = "assets/" + path + ".png"
     return <img src={path} alt="" width="100%" height="100%"/>
   }
 
-  const [image, setImg] = useState(block(true, state))
+  const [image, setImg] = useState(fillBlock(true))
   return (
-    <>
-      <div className="Cell" onClick={()=>setImg(block(false, state+1))}>
-        {image}
-      </div>
-    </>
+    <div className="Cell" onClick={()=>setImg(fillBlock(false))}>
+      {image}
+    </div>
   );
 };
 

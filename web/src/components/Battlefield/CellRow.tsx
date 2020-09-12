@@ -16,7 +16,7 @@ const CellRow: React.FC<CellRowProps> = ({ i, j, gameMode, ship }) => {
     ship[ind] = true
   }
 
-  function renderCells(): any{
+  function renderCells(): object[] {
     let cells = []
     for(let ind=0; ind<10; ind++) {
       cells.push(<Cell

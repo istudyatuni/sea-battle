@@ -9,7 +9,7 @@ type BattlefieldProps = {
 
 const Battlefield: React.FC<BattlefieldProps> = ({ gameMode, ships }) => {
   // 0 - empty, 1 - miss, 2 - hit (in j)
-  // gameMode: 0 - placing ships
+  // gameMode: 0 - placing ships, 1 -battle
 
   function renderRows(): any {
     let rows = []

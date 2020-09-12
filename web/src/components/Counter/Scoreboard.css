@@ -1,6 +1,8 @@
 .Scoreboard {
   display: flex;
   flex-wrap: nowrap;
+  max-width: 30em;
+  margin: auto;
 }
 
 .CounterTab {
