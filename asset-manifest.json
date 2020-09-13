@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/sea-battle/static/css/main.10a6414b.chunk.css",
-    "main.js": "/sea-battle/static/js/main.5ed4408d.chunk.js",
-    "main.js.map": "/sea-battle/static/js/main.5ed4408d.chunk.js.map",
-    "runtime-main.js": "/sea-battle/static/js/runtime-main.4b27f1c6.js",
-    "runtime-main.js.map": "/sea-battle/static/js/runtime-main.4b27f1c6.js.map",
-    "static/js/2.81c19146.chunk.js": "/sea-battle/static/js/2.81c19146.chunk.js",
-    "static/js/2.81c19146.chunk.js.map": "/sea-battle/static/js/2.81c19146.chunk.js.map",
-    "index.html": "/sea-battle/index.html",
-    "precache-manifest.c31e837b7d64dbac54d5c1798dba827b.js": "/sea-battle/precache-manifest.c31e837b7d64dbac54d5c1798dba827b.js",
-    "service-worker.js": "/sea-battle/service-worker.js",
-    "static/css/main.10a6414b.chunk.css.map": "/sea-battle/static/css/main.10a6414b.chunk.css.map",
-    "static/js/2.81c19146.chunk.js.LICENSE.txt": "/sea-battle/static/js/2.81c19146.chunk.js.LICENSE.txt"
+    "main.css": "/sea-battle-deploy/static/css/main.10a6414b.chunk.css",
+    "main.js": "/sea-battle-deploy/static/js/main.fa1db63e.chunk.js",
+    "main.js.map": "/sea-battle-deploy/static/js/main.fa1db63e.chunk.js.map",
+    "runtime-main.js": "/sea-battle-deploy/static/js/runtime-main.a403f144.js",
+    "runtime-main.js.map": "/sea-battle-deploy/static/js/runtime-main.a403f144.js.map",
+    "static/js/2.81c19146.chunk.js": "/sea-battle-deploy/static/js/2.81c19146.chunk.js",
+    "static/js/2.81c19146.chunk.js.map": "/sea-battle-deploy/static/js/2.81c19146.chunk.js.map",
+    "index.html": "/sea-battle-deploy/index.html",
+    "precache-manifest.9f1c04d2facfeae8b55d963103b3b658.js": "/sea-battle-deploy/precache-manifest.9f1c04d2facfeae8b55d963103b3b658.js",
+    "service-worker.js": "/sea-battle-deploy/service-worker.js",
+    "static/css/main.10a6414b.chunk.css.map": "/sea-battle-deploy/static/css/main.10a6414b.chunk.css.map",
+    "static/js/2.81c19146.chunk.js.LICENSE.txt": "/sea-battle-deploy/static/js/2.81c19146.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.4b27f1c6.js",
+    "static/js/runtime-main.a403f144.js",
     "static/js/2.81c19146.chunk.js",
     "static/css/main.10a6414b.chunk.css",
-    "static/js/main.5ed4408d.chunk.js"
+    "static/js/main.fa1db63e.chunk.js"
   ]
 }
