@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/sea-battle/static/css/main.e7854c7a.chunk.css",
-    "main.js": "/sea-battle/static/js/main.e1023de1.chunk.js",
-    "main.js.map": "/sea-battle/static/js/main.e1023de1.chunk.js.map",
-    "runtime-main.js": "/sea-battle/static/js/runtime-main.4b27f1c6.js",
-    "runtime-main.js.map": "/sea-battle/static/js/runtime-main.4b27f1c6.js.map",
-    "static/js/2.81c19146.chunk.js": "/sea-battle/static/js/2.81c19146.chunk.js",
-    "static/js/2.81c19146.chunk.js.map": "/sea-battle/static/js/2.81c19146.chunk.js.map",
-    "index.html": "/sea-battle/index.html",
-    "precache-manifest.c8a3f9942f9b457d86ce2472df1e4597.js": "/sea-battle/precache-manifest.c8a3f9942f9b457d86ce2472df1e4597.js",
-    "service-worker.js": "/sea-battle/service-worker.js",
-    "static/css/main.e7854c7a.chunk.css.map": "/sea-battle/static/css/main.e7854c7a.chunk.css.map",
-    "static/js/2.81c19146.chunk.js.LICENSE.txt": "/sea-battle/static/js/2.81c19146.chunk.js.LICENSE.txt"
+    "main.css": "/test-deploy-only-one-branch/static/css/main.10a6414b.chunk.css",
+    "main.js": "/test-deploy-only-one-branch/static/js/main.c0cd8326.chunk.js",
+    "main.js.map": "/test-deploy-only-one-branch/static/js/main.c0cd8326.chunk.js.map",
+    "runtime-main.js": "/test-deploy-only-one-branch/static/js/runtime-main.d13b8e21.js",
+    "runtime-main.js.map": "/test-deploy-only-one-branch/static/js/runtime-main.d13b8e21.js.map",
+    "static/js/2.81c19146.chunk.js": "/test-deploy-only-one-branch/static/js/2.81c19146.chunk.js",
+    "static/js/2.81c19146.chunk.js.map": "/test-deploy-only-one-branch/static/js/2.81c19146.chunk.js.map",
+    "index.html": "/test-deploy-only-one-branch/index.html",
+    "precache-manifest.5518296c2ac45be9d27cc0925230afec.js": "/test-deploy-only-one-branch/precache-manifest.5518296c2ac45be9d27cc0925230afec.js",
+    "service-worker.js": "/test-deploy-only-one-branch/service-worker.js",
+    "static/css/main.10a6414b.chunk.css.map": "/test-deploy-only-one-branch/static/css/main.10a6414b.chunk.css.map",
+    "static/js/2.81c19146.chunk.js.LICENSE.txt": "/test-deploy-only-one-branch/static/js/2.81c19146.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.4b27f1c6.js",
+    "static/js/runtime-main.d13b8e21.js",
     "static/js/2.81c19146.chunk.js",
-    "static/css/main.e7854c7a.chunk.css",
-    "static/js/main.e1023de1.chunk.js"
+    "static/css/main.10a6414b.chunk.css",
+    "static/js/main.c0cd8326.chunk.js"
   ]
 }
