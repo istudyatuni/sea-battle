@@ -11,7 +11,7 @@ const Battlefield: React.FC<BattlefieldProps> = ({ gameMode, ships }) => {
   // 0 - empty, 1 - miss, 2 - hit (in j)
   // gameMode: 0 - placing ships, 1 -battle
 
-  function renderRows(): any {
+  function renderRows(): object[] {
     let rows = []
     for(let ind=0; ind<10; ind++) {
       rows.push(<CellRow

@@ -70,8 +70,12 @@ const App: React.FC = () => {
         <Scoreboard player1={countPlayer1} player2={3}/>
         <Shipsboard/>
         <button onClick={()=>setGameMode((gameMode+1)%2)}>Change mode, now {gameMode}</button>
-        <button onClick={showShips}>Show ships</button>
         <button onClick={addShip}>Add ship</button>
+        <br/>
+        <button onClick={showShips}>Show ships</button>
+        <button onClick={()=>setAllShips(ShipsInit())}>Clear</button>
+        <p>for apply clear and add ship, you need to click on "change mode" twice</p>
+        <p>¯\_(ツ)_/¯</p>
       </div>
       <div className="inline-field">
         <Battlefield key={gameMode.toString()} gameMode={gameMode} ships={ships}/>

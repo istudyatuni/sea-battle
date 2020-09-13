@@ -39,8 +39,6 @@ function battle(state: number): string {
 const Cell: React.FC<CellProps> = ({ i, state, gameMode, isShip, setShip }) => {
   // first == true when first cell's render
 
-  // const [lastGameMode, setLastMode] = useState(gameMode)
-
   function fillBlock(first: boolean): object {
     let path
     if(gameMode===0){
