@@ -2,7 +2,7 @@
   "name": "sea-battle",
   "version": "0.1.0",
   "private": true,
-  "homepage.delete-this-for-gh-pages": "http://istudyatuni.github.io/sea-battle",
+  "homepage.delete-this-for-gh-pages": "https://istudyatuni.github.io/sea-battle-deploy",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
