@@ -2,8 +2,8 @@ defmodule SeaBattleServer.Router do
   use Plug.Router
   use Plug.Debugger
 
-  # use SeaBattleServer.ShipHandler
-  # alias SeaBattleServer.ShipHandler
+  use SeaBattleServer.ShipHandler
+  alias SeaBattleServer.ShipHandler
 
   require Logger
   plug(Plug.Logger, log: :debug)
@@ -32,17 +32,19 @@ defmodule SeaBattleServer.Router do
     end
   end
 
-  get "/ships" do
-    # show_ships("1")
-    send_resp(conn, 201, "responce")
-    # responce = Poison.encode!(struct_here, [])
+  get "/shot" do
+    {:ok, body, conn} = read_body(conn)
+    body = Poison.decode!(body)
+
+    ans = ShipHandler.hitOrMiss(body["id"], body["x"], body["y"])
+    responce = Poison.encode!(ans, [])
+    send_resp(conn, 200, responce)
   end
 
   post "/ships" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body)
     insert_new_ships(body)
-    show_ships(body["id"])
     send_resp(conn, 201, "created")
   end
 

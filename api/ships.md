@@ -1,4 +1,6 @@
-Struct for ships:
+## POST /ships
+
+Sending info about ships on battlefield as:
 ```json
 {
   "id": "id",
@@ -16,3 +18,24 @@ Struct for ships:
   ]
 }
 ```
+
+## GET /shot
+Where player make shot
+```json
+{
+  "id": "id",
+  "x": 5,
+  "y": 4
+}
+```
+`x,y = [0..9]`
+x - vertical, y - gorisantal: `[x][y]`
+
+Returned:
+```json
+{
+  "id": "id",
+  "type": "value"
+}
+```
+`value = ["hit","miss"]`
