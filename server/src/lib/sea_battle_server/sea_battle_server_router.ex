@@ -19,12 +19,12 @@ defmodule SeaBattleServer.Router do
   end
 
   def insert_new_ships(ships) do
-    # if table not exist
-    if Enum.member?(:ets.all(), @all_ships) == false do
-      init_all_ships()
+    existance = :ets.insert_new(@all_ships, {ships["id"], ships["ships"]})
+    if existance == false do
+      Logger.debug("ships table already exist, id=#{ships["id"]}")
+    else
+      Logger.debug("inserting . .")
     end
-
-    true = :ets.insert_new(@all_ships, {ships["id"], ships["ships"]})
   end
 
   def show_ships(id) do
@@ -37,13 +37,18 @@ defmodule SeaBattleServer.Router do
   end
 
   get "/ships" do
-    # show_ships()
+    # show_ships("1")
     send_resp(conn, 201, "responce")
     # battlefield = %ShipHandler{id: "-", coordinates: [0]}
     # responce = Poison.encode!(battlefield, [])
   end
 
   post "/ships" do
+    # if table not exist
+    if :ets.whereis(@all_ships) == :undefined do
+      init_all_ships()
+    end
+
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body)
     insert_new_ships(body)
