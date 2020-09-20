@@ -12,7 +12,4 @@ defmodule SeaBattleServer do
       :world
 
   """
-  def hello do
-    :world
-  end
 end

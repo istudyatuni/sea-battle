@@ -2,8 +2,8 @@ defmodule SeaBattleServer.Router do
   use Plug.Router
   use Plug.Debugger
 
-  use SeaBattleServer.ShipHandler
-  alias SeaBattleServer.ShipHandler
+  # use SeaBattleServer.ShipHandler
+  # alias SeaBattleServer.ShipHandler
 
   require Logger
   plug(Plug.Logger, log: :debug)
@@ -12,14 +12,10 @@ defmodule SeaBattleServer.Router do
   plug(:dispatch)
 
   @all_ships :all_ships
-  def init_all_ships() do
-    IO.puts("Init ships . .")
-    all_ships = @all_ships
-    ^all_ships = :ets.new(all_ships, [:public, :named_table, read_concurrency: true])
-  end
 
   def insert_new_ships(ships) do
     existance = :ets.insert_new(@all_ships, {ships["id"], ships["ships"]})
+
     if existance == false do
       Logger.debug("ships table already exist, id=#{ships["id"]}")
     else
@@ -39,22 +35,15 @@ defmodule SeaBattleServer.Router do
   get "/ships" do
     # show_ships("1")
     send_resp(conn, 201, "responce")
-    # battlefield = %ShipHandler{id: "-", coordinates: [0]}
-    # responce = Poison.encode!(battlefield, [])
+    # responce = Poison.encode!(struct_here, [])
   end
 
   post "/ships" do
-    # if table not exist
-    if :ets.whereis(@all_ships) == :undefined do
-      init_all_ships()
-    end
-
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body)
     insert_new_ships(body)
     show_ships(body["id"])
     send_resp(conn, 201, "created")
-    # battlefield = %ShipHandler{id: "0", coordinates: body["ships"]}
   end
 
   # "Default" route that will get called when no other route is matched

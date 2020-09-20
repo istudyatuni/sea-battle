@@ -2,8 +2,10 @@ defmodule SeaBattleServer.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
+  @all_ships :all_ships
 
   use Application
+  require Logger
 
   def start(_type, _args) do
     children = [
@@ -11,6 +13,10 @@ defmodule SeaBattleServer.Application do
       # {SeaBattleServer.Worker, arg}
       {Plug.Cowboy, scheme: :http, plug: SeaBattleServer.Router, options: [port: 8080]}
     ]
+
+    Logger.debug("Init ships . .")
+    all_ships = @all_ships
+    ^all_ships = :ets.new(all_ships, [:public, :named_table, read_concurrency: true])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
