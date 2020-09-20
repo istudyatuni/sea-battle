@@ -6,6 +6,10 @@
             "path": "."
         },
         {
+            "name": "API",
+            "path": "api"
+        },
+        {
             "folder_exclude_patterns":
             [
                 "*build"
