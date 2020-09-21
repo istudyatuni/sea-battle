@@ -6,12 +6,24 @@
             "path": "."
         },
         {
+            "name": "API",
+            "path": "api"
+        },
+        {
+            "folder_exclude_patterns":
+            [
+                "*build"
+            ],
+            "name": "Server",
+            "path": "server"
+        },
+        {
             "folder_exclude_patterns":
             [
                 "node_modules"
             ],
-            "path": "web",
-            "name": "Web"
+            "name": "Web",
+            "path": "web"
         }
     ],
     "settings":
