@@ -19,13 +19,13 @@ defmodule SeaBattleServer.ShipHandler do
 
     existance = :ets.insert_new(@all_ships, {id, ships["ships"]})
 
-    if existance == false do
-      # AHAHA INTERNAL SERVER ERROR and I don't know why
-      [_, _] = ["", 500]
-    else
+    if existance == true do
       # created
       Logger.debug("inserting, id=#{id}")
-      [_, _] = [%{"id" => id, "ships" => ships["ships"]}, 201]
+      [_, _] = [%{"id" => id}, 201]
+    else
+      # AHAHA INTERNAL SERVER ERROR and I don't know why
+      [_, _] = ["", 500]
     end
   end
 
@@ -47,6 +47,7 @@ defmodule SeaBattleServer.ShipHandler do
     value = Enum.at(value, y)
 
     Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
+
     if value == 1 do
       _ = "hit"
     else
