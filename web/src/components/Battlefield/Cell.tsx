@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
 
-
-type CellProps = {
-  i: number,
-  state: number,
-  gameMode: number,
-  isShip: boolean,
-  setShip: (arg0: number)=>void
-}
-
-function settingShips(first: boolean, isShip: boolean): string {
+function settingShips(first: boolean, clear: boolean): string {
   let path
-  if(isShip===false) {
-    path = "Ship"
-  } else if(first===false) {
-    path = "Ship"
+  if(first===false) {
+    if(clear===false) {
+      path = "Ship"
+    } else {
+      path = "Empty"
+    }
   } else {
     path = "Empty"
   }
-  // console.log(path)
   return path
 }
 
@@ -31,25 +23,31 @@ function battle(state: number): string {
   } else {
     path = "Empty"
   }
-  // console.log(path)
   return path
 }
 
-const Cell: React.FC<CellProps> = ({ i, state, gameMode, isShip, setShip }) => {
+type CellProps = {
+  i: number,
+  isClear: boolean,
+  gameMode: number,
+  setShip: (arg0: number)=>void
+}
+
+const Cell: React.FC<CellProps> = ({ i, isClear, gameMode, setShip }) => {
   // first == true when first cell's render
 
   function fillBlock(first: boolean): object {
     let path
     if(gameMode===0){
+      // setting ships
       if(first===false) {
-        path = settingShips(first, isShip)
+        path = settingShips(first, isClear)
         setShip(i)
-      } else if(isShip===true){
-        // path = "Ship"
       } else {
         path = "Empty"
       }
     } else if(gameMode===1) {
+      // when battle
       if(first===false) {
         path = battle(1)
       } else {
@@ -57,8 +55,6 @@ const Cell: React.FC<CellProps> = ({ i, state, gameMode, isShip, setShip }) => {
         path = "Empty"
       }
     }
-    if(isShip===true)
-      path = "Ship"
     path = "assets/" + path + ".png"
     return <img src={path} alt="" width="100%" height="100%"/>
   }

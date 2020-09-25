@@ -3,17 +3,20 @@ import Cell from './Cell'
 
 type CellRowProps = {
   i: number,
-  j: number[],
+  isClear: boolean,
   gameMode: number,
   ship: boolean[]
 }
 
-const CellRow: React.FC<CellRowProps> = ({ i, j, gameMode, ship }) => {
+const CellRow: React.FC<CellRowProps> = ({ i, isClear, gameMode, ship }) => {
   let tmpShip = useState(ship)
   ship = tmpShip[0]
 
   function setShip(ind: number) {
-    ship[ind] = true
+    if(isClear===false)
+      ship[ind] = true
+    else
+      ship[ind] = false
   }
 
   function renderCells(): object[] {
@@ -21,9 +24,8 @@ const CellRow: React.FC<CellRowProps> = ({ i, j, gameMode, ship }) => {
     for(let ind=0; ind<10; ind++) {
       cells.push(<Cell
         i={ind}
-        state={j[ind]}
+        isClear={isClear}
         gameMode={gameMode}
-        isShip={ship[ind]}
         setShip={setShip}
       />)
     }

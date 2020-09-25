@@ -34,9 +34,11 @@ function BoolArrayToInt(a: boolean[][]): number[][] {
 }
 
 const App: React.FC = () => {
+  const [countPlayer1, setCount1] = useState(0)
+
   const [gameMode, setMode] = useState(0)
   const [ships, setShips] = useState<boolean[][]>(ShipsInit())
-  const [countPlayer1, setCount1] = useState(0)
+  const [isClear, setClear] = useState(false)
 
   const go_battle = async () => {
     let sendShips = BoolArrayToInt(ships)
@@ -61,10 +63,19 @@ const App: React.FC = () => {
       <div className="inline-board">
         <Scoreboard player1={countPlayer1} player2={3}/>
         <Shipsboard/>
+        <button onClick={()=>setClear(!isClear)}>
+          Fix ships is now <i>{isClear.toString()}</i>
+        </button>
         <button onClick={go_battle}>Go battle</button>
+        <p>Fix ships - if you place it wrong</p>
       </div>
       <div className="inline-field">
-        <Battlefield key={gameMode.toString()} gameMode={gameMode} ships={ships}/>
+        <Battlefield
+          key={gameMode.toString()}
+          isClear={isClear}
+          gameMode={gameMode}
+          ships={ships}
+        />
       </div>
     </div>
   );
