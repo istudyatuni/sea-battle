@@ -18,64 +18,45 @@ function ShipsInit(): boolean[][] {
 }
 
 const App: React.FC = () => {
-  const [allShips, setAllShips] = useState<boolean[][]>(ShipsInit())
   const [gameMode, setMode] = useState(0)
-  const [ships, setShips] = useState<boolean[][]>(getShips(0))
-  const [i, setI] = useState(0)
-  const [j, setJ] = useState(0)
+  const [ships, setShips] = useState<boolean[][]>(ShipsInit())
   const [countPlayer1, setCount1] = useState(0)
 
-  function getShips(mode: number): boolean[][] {
-    // wtf? when gameMode==0, it return ship
-    // as empty array (filled with false)
-    // but, maybe it happend not in this func
-
-    // i add param mode, and it work good
-    if(mode===0)
-      return allShips
-    else
-      return ShipsInit()
-  }
-
-  function showShips() {
+  const go_battle = async () => {
+    let sendShips = []
     for(let i=0; i<10; i++) {
+      let ship = []
       for(let j=0; j<10; j++) {
-        if(ships[i][j]===true)
-          console.log("ship: ", i, j)
+        if(ships[i][j]===true){
+          ship.push(1)
+        } else {
+          ship.push(0)
+        }
       }
+      sendShips.push(ship)
     }
-    console.log('--')
-    // setShips(getShips())
+    const response = await fetch('/ships', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ships: sendShips }),
+    });
+    let resp = await response.json() as {
+      id: string;
+    }
+    let id = resp.id
+    console.log("good luck :)")
+
+    setShips(ShipsInit())
+    setMode(1)
   }
 
-  function setGameMode(a: number) {
-    setShips(getShips((gameMode+1)%2))
-    setMode(a)
-    showShips()
-  }
-
-  function addShip() {
-    let ships = allShips
-    ships[i][j] = true
-    setAllShips(ships)
-    setShips(getShips((gameMode+1)%2))
-    setI((i+1)%10)
-    setJ((j+1)%10)
-    setCount1(countPlayer1+1)
-  }
-
+  // ¯\_(ツ)_/¯
   return (
     <div className="App">
       <div className="inline-board">
         <Scoreboard player1={countPlayer1} player2={3}/>
         <Shipsboard/>
-        <button onClick={()=>setGameMode((gameMode+1)%2)}>Change mode, now {gameMode}</button>
-        <button onClick={addShip}>Add ship</button>
-        <br/>
-        <button onClick={showShips}>Show ships</button>
-        <button onClick={()=>setAllShips(ShipsInit())}>Clear</button>
-        <p>for apply clear and add ship, you need to click on "change mode" twice</p>
-        <p>¯\_(ツ)_/¯</p>
+        <button onClick={go_battle}>Go battle</button>
       </div>
       <div className="inline-field">
         <Battlefield key={gameMode.toString()} gameMode={gameMode} ships={ships}/>

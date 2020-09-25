@@ -32,7 +32,7 @@ const Shipsboard: React.FC = () => {
           kill={kills[i]}
           changeKill={changeKill}
         />)
-      console.log([i, kills[i]].toString())
+      // console.log([i, kills[i]].toString())
     }
     return ships
   }

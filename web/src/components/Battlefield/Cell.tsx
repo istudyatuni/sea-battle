@@ -13,7 +13,6 @@ function settingShips(first: boolean, isShip: boolean): string {
   let path
   if(isShip===false) {
     path = "Ship"
-    console.log("set ship")
   } else if(first===false) {
     path = "Ship"
   } else {

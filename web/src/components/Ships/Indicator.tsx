@@ -10,7 +10,7 @@ const Indicator: React.FC<ShipProps> = ({ isKill }) => {
   if(isKill===true)
     path = "Hit"
   else path = "Miss"
-  path = "assets/" + path + " small.png"
+  path = "assets/" + path + "Small.png"
   return (
     <div className="Indicator">
       <img src={path} alt=""/>

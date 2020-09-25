@@ -15,7 +15,7 @@ const Ship: React.FC<ShipProps> = ({ i, name, count, kill, changeKill }) => {
   let KillLine: object[] = []
 
   function renderKillLine(): object[] {
-    console.log("renderKillLine")
+    // console.log("renderKillLine")
     let line = []
     for(let i = 0; i < kill; i++){
       line.push(<Indicator isKill={true}/>)
