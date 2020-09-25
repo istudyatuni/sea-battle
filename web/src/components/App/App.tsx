@@ -17,24 +17,29 @@ function ShipsInit(): boolean[][] {
   return ships
 }
 
+function BoolArrayToInt(a: boolean[][]): number[][] {
+  let num = []
+  for(let i=0; i<10; i++) {
+    let tmp = []
+    for(let j=0; j<10; j++) {
+      if(a[i][j]===true){
+        tmp.push(1)
+      } else {
+        tmp.push(0)
+      }
+    }
+    num.push(tmp)
+  }
+  return num
+}
+
 const App: React.FC = () => {
   const [gameMode, setMode] = useState(0)
   const [ships, setShips] = useState<boolean[][]>(ShipsInit())
   const [countPlayer1, setCount1] = useState(0)
 
   const go_battle = async () => {
-    let sendShips = []
-    for(let i=0; i<10; i++) {
-      let ship = []
-      for(let j=0; j<10; j++) {
-        if(ships[i][j]===true){
-          ship.push(1)
-        } else {
-          ship.push(0)
-        }
-      }
-      sendShips.push(ship)
-    }
+    let sendShips = BoolArrayToInt(ships)
     const response = await fetch('/ships', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
