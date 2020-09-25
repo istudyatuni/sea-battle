@@ -3,6 +3,7 @@ defmodule SeaBattleServer.Application do
   # for more information on OTP Applications
   @moduledoc false
   @all_ships :all_ships
+  @number_battles :number_battles
 
   use Application
   require Logger
@@ -17,6 +18,10 @@ defmodule SeaBattleServer.Application do
     Logger.debug("Init ships . .")
     all_ships = @all_ships
     ^all_ships = :ets.new(all_ships, [:public, :named_table, read_concurrency: true])
+
+    # for counting, how many tables with battles already exist
+    :ets.new(@number_battles, [:public, :named_table])
+    :ets.insert_new(@number_battles, {"number", 0})
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

@@ -26,9 +26,11 @@ defmodule SeaBattleServer.Router do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body)
 
-    code = ShipHandler.insert_new_ships(body)
+    [body, code] = ShipHandler.insert_new_ships(body)
     ShipHandler.show_ships(body["id"])
-    send_resp(conn, code, "")
+
+    body = Poison.encode!(body)
+    send_resp(conn, code, body)
   end
 
   # "Default" route that will get called when no other route is matched
