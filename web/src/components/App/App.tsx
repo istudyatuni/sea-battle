@@ -40,8 +40,13 @@ const App: React.FC = () => {
   const [ships, setShips] = useState<boolean[][]>(ShipsInit())
   const [isClear, setClear] = useState(false)
 
+  const hide = {
+    display: 'none'
+  }
+
   const go_battle = async () => {
     let sendShips = BoolArrayToInt(ships)
+
     const response = await fetch('/ships', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -51,10 +56,15 @@ const App: React.FC = () => {
       id: string;
     }
     let id = resp.id
-    console.log("good luck :)")
 
     setShips(ShipsInit())
     setMode(1)
+  }
+
+  function hideOrNot(a: number): any {
+    if(a===1) {
+      return hide
+    }
   }
 
   // ¯\_(ツ)_/¯
@@ -63,11 +73,14 @@ const App: React.FC = () => {
       <div className="inline-board">
         <Scoreboard player1={countPlayer1} player2={3}/>
         <Shipsboard/>
-        <button onClick={()=>setClear(!isClear)}>
+
+        <button onClick={()=>setClear(!isClear)} style={hideOrNot(gameMode)}>
           Fix ships is now <i>{isClear.toString()}</i>
         </button>
-        <button onClick={go_battle}>Go battle</button>
-        <p>Fix ships - if you place it wrong</p>
+        <button onClick={go_battle} style={hideOrNot(gameMode)}>Go battle</button>
+
+        <p style={hideOrNot(gameMode)}>Fix ships - if you place it wrong</p>
+        <p style={hideOrNot((gameMode+1)%2)}>Good game!</p>
       </div>
       <div className="inline-field">
         <Battlefield

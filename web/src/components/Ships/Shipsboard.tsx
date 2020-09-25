@@ -38,7 +38,7 @@ const Shipsboard: React.FC = () => {
   }
 
   useEffect(()=>{
-    console.log("useEffect Shipsboard")
+    // console.log("useEffect Shipsboard")
     renderShips()
   }, [kills]);
 
