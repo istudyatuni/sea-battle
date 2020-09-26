@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import './App.css';
 
-import Scoreboard from '../Counter/Scoreboard'
+import './App.css';
+import Scoreboard from '../Scoreboard/Scoreboard'
 import Shipsboard from '../Ships/Shipsboard'
 import Battlefield from '../Battlefield/Battlefield'
 
 import {
   ShipsInit,
   BoolArrayToInt,
-  hideOrNot
+  hideOrNot,
+  boolToOnOff
 } from './AppFunctions'
 
 const App: React.FC = () => {
   const [countPlayer1, setCount1] = useState(0)
+  const [countPlayer2, setCount2] = useState(0)
 
   const [gameMode, setMode] = useState(0)
   const [ships, setShips] = useState<boolean[][]>(ShipsInit())
@@ -43,23 +45,36 @@ const App: React.FC = () => {
 
     setShips(ShipsInit())
     setMode(1)
+    setClear(false)
   }
 
   // ¯\_(ツ)_/¯
   return (
     <div className="App">
       <div className="inline-board">
-        <Scoreboard player1={countPlayer1} player2={3}/>
+        <Scoreboard player1={countPlayer1} player2={countPlayer2}/>
         <Shipsboard/>
 
-        <button onClick={()=>setClear(!isClear)} style={hideOrNot(gameMode)}>
-          Fix ships is now <i>{isClear.toString()}</i>
+        <button
+            onClick={go_battle}
+            style={hideOrNot(gameMode)}>
+          Go battle
         </button>
-        <button onClick={go_battle} style={hideOrNot(gameMode)}>Go battle</button>
+        <button
+            onClick={()=>setClear(!isClear)}
+            style={hideOrNot(gameMode)}>
+          Fix ships
+        </button>
+        <i style={hideOrNot(gameMode)}>{boolToOnOff(isClear)}</i>
 
-        <p style={hideOrNot(gameMode)}>Fix ships - if you place it wrong</p>
-        <p style={hideOrNot((gameMode+1)%2)}>Good game!</p>
+        <p style={hideOrNot(gameMode)}>
+          You can fix ships if place them wrong
+        </p>
+        <p style={hideOrNot((gameMode+1)%2)} onClick={()=>setMode(0)}>
+          Good game!
+        </p>
       </div>
+
       <div className="inline-field">
         <Battlefield
           key={gameMode.toString()}

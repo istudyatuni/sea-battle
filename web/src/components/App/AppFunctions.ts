@@ -32,3 +32,10 @@ export const hideOrNot = (a: number): any => {
     return { display: 'none' }
   }
 }
+
+export const boolToOnOff = (a: boolean): string => {
+  if(a===true)
+    return 'Enabled'
+  else
+    return 'Disabled'
+}
