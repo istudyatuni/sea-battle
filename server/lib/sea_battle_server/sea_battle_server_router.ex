@@ -27,7 +27,6 @@ defmodule SeaBattleServer.Router do
     body = Poison.decode!(body)
 
     [body, code] = ShipHandler.insert_new_ships(body)
-    ShipHandler.show_ships(body["id"])
 
     body = Poison.encode!(body)
     send_resp(conn, code, body)
