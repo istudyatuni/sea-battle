@@ -5,21 +5,26 @@ deploy_remote="deploy"
 gh_pages="gh-pages"
 
 # colorize some output
+RED="\033[0;31m"
 ORANGE="\033[0;33m"
-CYAN="\033[0;36m"
+BLUE="\033[0;34m"
 NC="\033[0m" # No Color
 
 # checking where the script starts from
 dir=${PWD##*/}
 if [ $dir != "sea-battle" ]; then
-  echo "Make sure then you run this script from sea-battle/ directory"
+  echo -e "${RED}Make sure you run this script from sea-battle/ directory$NC"
   dir=`pwd`
   echo -e "Now directory is $dir"
   exit
 fi
 
-echo -e "${CYAN}Better, if you will run it from branch \"$deploy_source_branch\"$NC"
-echo -e "If not, check for unsaved changes\n"
+current_branch=`git branch --show-current`
+
+if [ $current_branch != $deploy_source_branch ]; then
+  echo -e "\n${BLUE}Better, if you will run it from branch \"$deploy_source_branch\"$NC"
+  echo -e "${BLUE}Do not forget check for unsaved changes$NC\n"
+fi
 
 # checking for correct "homepage" key in package.json
 echo -n "cat:"
@@ -34,6 +39,13 @@ case $answer in
     exit;;
 esac
 
+if [ $current_branch != $deploy_source_branch ]; then
+  echo -e "\n${ORANGE}git stash save 'save working directory before deploy'$NC"
+  git stash save 'save working directory before deploy'
+  echo -e "\n${ORANGE}git stash apply$NC"
+  git stash apply
+fi
+
 # checking out source branch
 echo -e "\n${ORANGE}git checkout $deploy_source_branch$NC"
 git checkout $deploy_source_branch
@@ -42,7 +54,10 @@ cd web
 # building
 echo -e "\n${ORANGE}npm run deploy$NC"
 npm run deploy
+
 read -p "Check for unsaved changes in working directory (after it tap enter)"
+echo -e "\n${ORANGE}git stash save 'save working directory on deploy'$NC"
+git stash save 'save working directory on deploy'
 
 # pulling
 git checkout $gh_pages
@@ -54,5 +69,5 @@ echo -e "\n${ORANGE}git push $deploy_remote $gh_pages$NC"
 git push $deploy_remote $gh_pages
 
 # returning
-echo -e "\n${ORANGE}git checkout $deploy_source_branch$NC"
-git checkout $deploy_source_branch
+echo -e "\n${ORANGE}git checkout $current_branch$NC"
+git checkout $current_branch
