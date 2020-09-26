@@ -1,37 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
+
 import Scoreboard from '../Counter/Scoreboard'
 import Shipsboard from '../Ships/Shipsboard'
 import Battlefield from '../Battlefield/Battlefield'
 
-function ShipsInit(): boolean[][] {
-  // return array filled with false value
-  let ships = []
-  for(let i=0; i<10; i++) {
-    let ship = []
-    for(let j=0; j<10; j++) {
-      ship.push(false)
-    }
-    ships.push(ship)
-  }
-  return ships
-}
-
-function BoolArrayToInt(a: boolean[][]): number[][] {
-  let num = []
-  for(let i=0; i<10; i++) {
-    let tmp = []
-    for(let j=0; j<10; j++) {
-      if(a[i][j]===true){
-        tmp.push(1)
-      } else {
-        tmp.push(0)
-      }
-    }
-    num.push(tmp)
-  }
-  return num
-}
+import {
+  ShipsInit,
+  BoolArrayToInt,
+  hideOrNot
+} from './AppFunctions'
 
 const App: React.FC = () => {
   const [countPlayer1, setCount1] = useState(0)
@@ -39,10 +17,6 @@ const App: React.FC = () => {
   const [gameMode, setMode] = useState(0)
   const [ships, setShips] = useState<boolean[][]>(ShipsInit())
   const [isClear, setClear] = useState(false)
-
-  const hide = {
-    display: 'none'
-  }
 
   const go_battle = async () => {
     let sendShips = BoolArrayToInt(ships)
@@ -69,12 +43,6 @@ const App: React.FC = () => {
 
     setShips(ShipsInit())
     setMode(1)
-  }
-
-  function hideOrNot(a: number): any {
-    if(a===1) {
-      return hide
-    }
   }
 
   // ¯\_(ツ)_/¯

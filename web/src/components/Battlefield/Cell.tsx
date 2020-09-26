@@ -1,30 +1,9 @@
 import React, { useState } from 'react';
 
-function settingShips(first: boolean, clear: boolean): string {
-  let path
-  if(first===false) {
-    if(clear===false) {
-      path = "Ship"
-    } else {
-      path = "Empty"
-    }
-  } else {
-    path = "Empty"
-  }
-  return path
-}
-
-function battle(state: number): string {
-  let path
-  if(state===1) {
-    path = "Miss"
-  } else if(state===2){
-    path = "Hit"
-  } else {
-    path = "Empty"
-  }
-  return path
-}
+import {
+  settingShips,
+  battle
+} from './CellFunctions'
 
 type CellProps = {
   i: number,
