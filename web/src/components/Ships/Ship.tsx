@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import './Shipboard.css'
 import Indicator from './Indicator'
 
@@ -7,16 +8,20 @@ type ShipProps = {
   name: string,
   count: number,
   kill: number,
-  changeKill: (arg0: number, arg1: number)=>void
+  changeKill: (arg0: number)=>void
 }
 
 const Ship: React.FC<ShipProps> = ({ i, name, count, kill, changeKill }) => {
   let path = "assets/" + name + "Shape.png"
-  let KillLine: object[] = []
+
+  useEffect(()=>{
+    setKillLine(renderKillLine())
+  }, [kill]);
 
   function renderKillLine(): object[] {
-    // console.log("renderKillLine")
     let line = []
+    if(kill > count)
+      kill = count
     for(let i = 0; i < kill; i++){
       line.push(<Indicator isKill={true}/>)
     }
@@ -26,15 +31,11 @@ const Ship: React.FC<ShipProps> = ({ i, name, count, kill, changeKill }) => {
     return line
   }
 
-  useEffect(()=>{
-    KillLine = renderKillLine()
-  }, [kill]);
-
   function addKill() {
-    changeKill(i, 1)
+    changeKill(i)
   }
 
-  KillLine = renderKillLine()
+  const [KillLine, setKillLine] = useState(renderKillLine())
 
   return (
     <div className="Ship">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './App.css';
 
+import './App.css';
 import Scoreboard from '../Counter/Scoreboard'
 import Shipsboard from '../Ships/Shipsboard'
 import Battlefield from '../Battlefield/Battlefield'
@@ -16,7 +16,15 @@ const App: React.FC = () => {
 
   const [gameMode, setMode] = useState(0)
   const [ships, setShips] = useState<boolean[][]>(ShipsInit())
+  const [kills, setKills] = useState([0,0,0,0,0])
   const [isClear, setClear] = useState(false)
+
+  function addZero() {
+    let a = kills
+    a[0]++
+    setKills(a)
+    console.log(kills)
+  }
 
   const go_battle = async () => {
     let sendShips = BoolArrayToInt(ships)
@@ -50,12 +58,13 @@ const App: React.FC = () => {
     <div className="App">
       <div className="inline-board">
         <Scoreboard player1={countPlayer1} player2={3}/>
-        <Shipsboard/>
+        <Shipsboard kills={kills}/>
 
         <button onClick={()=>setClear(!isClear)} style={hideOrNot(gameMode)}>
           Fix ships is now <i>{isClear.toString()}</i>
         </button>
         <button onClick={go_battle} style={hideOrNot(gameMode)}>Go battle</button>
+        <button onClick={addZero}>add kill in 0 row</button>
 
         <p style={hideOrNot(gameMode)}>Fix ships - if you place it wrong</p>
         <p style={hideOrNot((gameMode+1)%2)}>Good game!</p>

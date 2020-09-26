@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import Ship from './Ship'
+
 import './Shipboard.css'
+import Ship from './Ship'
 
 let shipName = ["Aircraft", "Battleship",
 "Cruiser", "Submarine", "Carrier"]
 
-const Shipsboard: React.FC = () => {
+type ShipsboardProps = {
+  kills: number[]
+}
 
-  const [kills, setKills] = useState([0,0,0,0,0])
+const Shipsboard: React.FC<ShipsboardProps> = ({ kills }) => {
 
-  function changeKill(i: number, updown: number) {
-    let kill = kills
-    /*if(updown < 0) {
-      kill[i]--
-    } else if(updown > 0) {
-      kill[i]++
-    }*/
-    kill[i]=(kill[i]+1)%(i+2)
-    setKills(kill)
-    // console.log(kills)
+  useEffect(()=>{
+    console.log('useEffect')
+    setShips(renderShips())
+  }, [kills]);
+
+  function changeKill(i: number) {
+    kills[i]++
+    console.log('changeKill', kills)
   }
 
   function renderShips(): object[] {
     let ships = []
+    console.log('rerender')
     for(let i=0; i<5; i++) {
       ships.push(<Ship
           key={[i, kills[i]].toString()}
@@ -37,10 +39,7 @@ const Shipsboard: React.FC = () => {
     return ships
   }
 
-  useEffect(()=>{
-    // console.log("useEffect Shipsboard")
-    renderShips()
-  }, [kills]);
+  const [ships, setShips] = useState(renderShips())
 
   return (
     <div className="Shipsboard">
