@@ -47,15 +47,25 @@ const App: React.FC = () => {
   const go_battle = async () => {
     let sendShips = BoolArrayToInt(ships)
 
+    const NO_RESPONSE_CODE = 0
+
     const response = await fetch('/ships', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ships: sendShips }),
     });
-    let resp = await response.json() as {
-      id: string;
+
+    let id
+    if (response.status === NO_RESPONSE_CODE) {
+      // server unavailable
+      console.log('Server unavailable')
+      return Promise.reject(new Error('Server unavailable'));
+    } else if(response.ok) {
+      let resp = await response.json() as {
+        id: string;
+      }
+      id = resp.id
     }
-    let id = resp.id
 
     setShips(ShipsInit())
     setMode(1)
