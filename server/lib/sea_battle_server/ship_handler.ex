@@ -43,6 +43,9 @@ defmodule SeaBattleServer.ShipHandler do
     ships = hd(:ets.lookup(@all_ships, id))
     ships = elem(ships, 1)
 
+    {x, ""} = Integer.parse(x)
+    {y, ""} = Integer.parse(y)
+
     value = Enum.at(ships, x)
     value = Enum.at(value, y)
 

@@ -1,4 +1,5 @@
 defmodule SeaBattleServer.Router do
+  import Plug.Conn
   use Plug.Router
   use Plug.Debugger
 
@@ -12,11 +13,11 @@ defmodule SeaBattleServer.Router do
   plug(:dispatch)
 
   get "/shot" do
-    {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body)
+    conn = fetch_query_params(conn)
+    %{ "id" => id, "x" => x, "y" => y } = conn.params
 
-    ans = ShipHandler.hitOrMiss(body["id"], body["x"], body["y"])
-    ans = %{"id" => body["id"], "type" => ans}
+    ans = ShipHandler.hitOrMiss(id, x, y)
+    ans = %{"id" => id, "type" => ans}
 
     response = Poison.encode!(ans, [])
     send_resp(conn, 200, response)

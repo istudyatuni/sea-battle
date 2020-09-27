@@ -1,4 +1,4 @@
-## POST /ships
+## POST `/ships`
 
 Sending info about ships on battlefield as:
 ```json
@@ -24,17 +24,10 @@ Returned:
 }
 ```
 
-## GET /shot
+## GET `/shot/?id={id}&x={x}&y={y}`
 Where player make shot
-```json
-{
-  "id": "id",
-  "x": 5,
-  "y": 4
-}
-```
-`x,y = [0..9]`
-x - vertical, y - gorisantal: `[x][y]`
+
+`x,y = [0..9]`, x - vertical (row), y - gorisantal (column): `[x][y]`
 
 Returned:
 ```json
