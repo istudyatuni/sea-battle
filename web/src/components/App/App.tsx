@@ -6,46 +6,34 @@ import Shipsboard from '../Ships/Shipsboard'
 import Battlefield from '../Battlefield/Battlefield'
 
 import {
-  ShipsInit,
-  BoolArrayToInt,
-  hideOrNot,
-  boolToOnOff
+  FieldInit, HideOrNot,
+  BoolArrayToInt, BoolToOnOff,
+  HitOrMiss
 } from './AppFunctions'
+
+import { SendShips, SendShot } from './AppServerAPI'
 
 const App: React.FC = () => {
   const [countPlayer1, setCount1] = useState(0)
   const [countPlayer2, setCount2] = useState(0)
 
   const [gameMode, setMode] = useState(0)
-  const [ships, setShips] = useState<boolean[][]>(ShipsInit())
+  const [field, setField] = useState<boolean[][]>(FieldInit())
   const [isClear, setClear] = useState(false)
+  const [ID, setID] = useState("0")
 
-  const go_battle = async () => {
-    let sendShips = BoolArrayToInt(ships)
+  const goBattle = async () => {
+    let sendShips = BoolArrayToInt(field)
 
-    const NO_RESPONSE_CODE = 0
+    SendShips(sendShips, setID)
 
-    const response = await fetch('/ships', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ships: sendShips }),
-    });
-
-    let id
-    if (response.status === NO_RESPONSE_CODE) {
-      // server unavailable
-      console.log('Server unavailable')
-      return Promise.reject(new Error('Server unavailable'));
-    } else if(response.ok) {
-      let resp = await response.json() as {
-        id: string;
-      }
-      id = resp.id
-    }
-
-    setShips(ShipsInit())
+    setField(FieldInit())
     setMode(1)
     setClear(false)
+  }
+
+  const shot = async (x: number, y: number) => {
+    HitOrMiss(ID, x, y)
   }
 
   // ¯\_(ツ)_/¯
@@ -56,23 +44,26 @@ const App: React.FC = () => {
         <Shipsboard/>
 
         <button
-            onClick={go_battle}
-            style={hideOrNot(gameMode)}>
+            onClick={goBattle}
+            style={HideOrNot(gameMode)}>
           Go battle
         </button>
         <button
             onClick={()=>setClear(!isClear)}
-            style={hideOrNot(gameMode)}>
+            style={HideOrNot(gameMode)}>
           Fix ships
         </button>
-        <i style={hideOrNot(gameMode)}>{boolToOnOff(isClear)}</i>
+        <i style={HideOrNot(gameMode)}>{BoolToOnOff(isClear)}</i>
 
-        <p style={hideOrNot(gameMode)}>
+        <p style={HideOrNot(gameMode)}>
           You can fix ships if place them wrong
         </p>
-        <p style={hideOrNot((gameMode+1)%2)} onClick={()=>setMode(0)}>
-          Good game!
+        <p style={HideOrNot((gameMode+1)%2)} onClick={()=>setMode(0)}>
+          Good game! id={ID}
         </p>
+        <button style={HideOrNot((gameMode+1)%2)} onClick={async()=>shot(2,3)}>
+          Shot
+        </button>
       </div>
 
       <div className="inline-field">
@@ -80,7 +71,7 @@ const App: React.FC = () => {
           key={gameMode.toString()}
           isClear={isClear}
           gameMode={gameMode}
-          ships={ships}
+          ships={field}
         />
       </div>
     </div>

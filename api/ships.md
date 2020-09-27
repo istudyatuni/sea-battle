@@ -24,15 +24,8 @@ Returned:
 }
 ```
 
-## GET /shot
+## GET /shot/{id}?x={x}&y={y}
 Where player make shot
-```json
-{
-  "id": "id",
-  "x": 5,
-  "y": 4
-}
-```
 `x,y = [0..9]`
 x - vertical, y - gorisantal: `[x][y]`
 

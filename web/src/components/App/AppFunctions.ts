@@ -1,4 +1,6 @@
-export const ShipsInit = (): boolean[][] => {
+import { SendShot } from './AppServerAPI'
+
+export const FieldInit = (): boolean[][] => {
   // return array filled with false value
   let ships = []
   for(let i=0; i<10; i++) {
@@ -27,15 +29,24 @@ export const BoolArrayToInt = (a: boolean[][]): number[][] => {
   return num
 }
 
-export const hideOrNot = (a: number): any => {
+export const HideOrNot = (a: number): any => {
   if(a===1) {
     return { display: 'none' }
   }
 }
 
-export const boolToOnOff = (a: boolean): string => {
+export const BoolToOnOff = (a: boolean): string => {
   if(a===true)
     return 'Enabled'
   else
     return 'Disabled'
+}
+
+export const HitOrMiss = async (id: string, x: number, y: number) => {
+  let type = "none"
+  async function returnResponse(response: any) {
+    type = response.type
+  }
+  SendShot(id, x, y, returnResponse)
+  console.log(type)
 }
