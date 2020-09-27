@@ -22,6 +22,12 @@ const App: React.FC = () => {
   const [isClear, setClear] = useState(false)
   const [ID, setID] = useState("0")
 
+  function changeField(x: number, y: number, new_value: boolean) {
+    let f = field
+    f[x][y] = new_value
+    setField(f)
+  }
+
   const goBattle = async () => {
     let sendShips = BoolArrayToInt(field)
 
@@ -33,7 +39,7 @@ const App: React.FC = () => {
   }
 
   const shot = async (x: number, y: number) => {
-    HitOrMiss(ID, x, y)
+    HitOrMiss(ID, x, y, changeField)
   }
 
   // ¯\_(ツ)_/¯
@@ -61,7 +67,7 @@ const App: React.FC = () => {
         <p style={HideOrNot((gameMode+1)%2)} onClick={()=>setMode(0)}>
           Good game! id={ID}
         </p>
-        <button style={HideOrNot((gameMode+1)%2)} onClick={async()=>shot(2,3)}>
+        <button style={HideOrNot((gameMode+1)%2)} onClick={async()=>shot(1,1)}>
           Shot
         </button>
       </div>

@@ -42,11 +42,23 @@ export const BoolToOnOff = (a: boolean): string => {
     return 'Disabled'
 }
 
-export const HitOrMiss = async (id: string, x: number, y: number) => {
+export const HitOrMiss = async (id: string,
+                                 x: number,
+                                 y: number,
+                                 changeField: (arg0: number,
+                                               arg1: number,
+                                               arg2: boolean
+                                               ) => void
+                                 ) => {
   let type = "none"
   async function returnResponse(response: any) {
     type = response.type
   }
-  SendShot(id, x, y, returnResponse)
-  console.log(type)
+  await SendShot(id, x, y, returnResponse)
+  let value
+  if (type==='miss')
+    value = false
+  else // if type === 'hit'
+    value = true
+  changeField(x, y, value)
 }

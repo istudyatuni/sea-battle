@@ -24,8 +24,7 @@ export const SendShot = async (id: string,
                                 y: number,
                                 sendResp: (arg0: any)=>any
                               ) => {
-  let url = '/shot/' + id + '?x=' + x + '&y=' + y
-  console.log('url: ', url)
+  let url = '/shot/?id=' + id + '&x=' + x + '&y=' + y
   const response = await fetch(url, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
@@ -36,7 +35,7 @@ export const SendShot = async (id: string,
       id: string;
       type: string;
     }
-    sendResp(resp)
+    await sendResp(resp)
   } else if (response.status === NO_RESPONSE_CODE) {
     // server unavailable
   }
