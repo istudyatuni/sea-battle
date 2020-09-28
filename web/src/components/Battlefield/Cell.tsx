@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   settingShips,
@@ -8,12 +8,18 @@ import {
 type CellProps = {
   i: number,
   isClear: boolean,
+  element: number,
   gameMode: number,
-  setShip: (arg0: number)=>void
+  setCell: (arg0: number)=>void
 }
 
-const Cell: React.FC<CellProps> = ({ i, isClear, gameMode, setShip }) => {
+const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell }) => {
   // first == true when first cell's render
+
+  useEffect(()=>{
+    console.log('useEffect')
+    setImg(fillBlock(true))
+  },[element]);
 
   function fillBlock(first: boolean): object {
     let path
@@ -21,7 +27,7 @@ const Cell: React.FC<CellProps> = ({ i, isClear, gameMode, setShip }) => {
       // setting ships
       if(first===false) {
         path = settingShips(first, isClear)
-        setShip(i)
+        setCell(i)
       } else {
         path = "Empty"
       }

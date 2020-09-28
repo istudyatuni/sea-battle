@@ -5,18 +5,18 @@ type CellRowProps = {
   i: number,
   isClear: boolean,
   gameMode: number,
-  ship: boolean[]
+  row: number[]
 }
 
-const CellRow: React.FC<CellRowProps> = ({ i, isClear, gameMode, ship }) => {
-  let tmpShip = useState(ship)
-  ship = tmpShip[0]
+const CellRow: React.FC<CellRowProps> = ({ i, isClear, gameMode, row }) => {
+  let tmpShip = useState(row)
+  row = tmpShip[0]
 
-  function setShip(ind: number) {
+  function setCell(ind: number) {
     if(isClear===false)
-      ship[ind] = true
+      row[ind] = 1
     else
-      ship[ind] = false
+      row[ind] = 0
   }
 
   function renderCells(): object[] {
@@ -26,7 +26,8 @@ const CellRow: React.FC<CellRowProps> = ({ i, isClear, gameMode, ship }) => {
         i={ind}
         isClear={isClear}
         gameMode={gameMode}
-        setShip={setShip}
+        setCell={setCell}
+        element={row[ind]}
       />)
     }
     return cells

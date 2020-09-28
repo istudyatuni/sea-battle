@@ -1,32 +1,16 @@
 import { SendShot } from './AppServerAPI'
 
-export const FieldInit = (): boolean[][] => {
+export const FieldInit = (): number[][] => {
   // return array filled with false value
   let ships = []
   for(let i=0; i<10; i++) {
     let ship = []
     for(let j=0; j<10; j++) {
-      ship.push(false)
+      ship.push(0)
     }
     ships.push(ship)
   }
   return ships
-}
-
-export const BoolArrayToInt = (a: boolean[][]): number[][] => {
-  let num = []
-  for(let i=0; i<10; i++) {
-    let tmp = []
-    for(let j=0; j<10; j++) {
-      if(a[i][j]===true){
-        tmp.push(1)
-      } else {
-        tmp.push(0)
-      }
-    }
-    num.push(tmp)
-  }
-  return num
 }
 
 export const HideOrNot = (a: number): any => {
@@ -47,7 +31,7 @@ export const HitOrMiss = async (id: string,
                                  y: number,
                                  changeField: (arg0: number,
                                                arg1: number,
-                                               arg2: boolean
+                                               arg2: number
                                                ) => void
                                  ) => {
   let type = "none"
@@ -57,8 +41,8 @@ export const HitOrMiss = async (id: string,
   await SendShot(id, x, y, returnResponse)
   let value
   if (type==='miss')
-    value = false
+    value = 1
   else // if type === 'hit'
-    value = true
+    value = 2
   changeField(x, y, value)
 }

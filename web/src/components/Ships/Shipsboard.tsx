@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { /*useEffect,*/ useState } from 'react';
 
 import Ship from './Ship'
 import './Shipboard.css'
@@ -38,11 +38,11 @@ const Shipsboard: React.FC = () => {
     return ships
   }
 
-  useEffect(()=>{
+  /*useEffect(()=>{
     // console.log("useEffect Shipsboard")
     renderShips()
   }, [kills]);
-
+*/
   return (
     <div className="Shipsboard">
       {renderShips()}

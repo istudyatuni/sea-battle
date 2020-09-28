@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './Shipboard.css'
 import Indicator from './Indicator'
@@ -13,7 +13,7 @@ type ShipProps = {
 
 const Ship: React.FC<ShipProps> = ({ i, name, count, kill, changeKill }) => {
   let path = "assets/" + name + "Shape.png"
-  let KillLine: object[] = []
+  const [KillLine, setLine] = useState(renderKillLine())
 
   function renderKillLine(): object[] {
     // console.log("renderKillLine")
@@ -28,14 +28,12 @@ const Ship: React.FC<ShipProps> = ({ i, name, count, kill, changeKill }) => {
   }
 
   useEffect(()=>{
-    KillLine = renderKillLine()
+    setLine(renderKillLine())
   }, [kill]);
 
   function addKill() {
     changeKill(i, 1)
   }
-
-  KillLine = renderKillLine()
 
   return (
     <div className="Ship">

@@ -7,31 +7,30 @@ import Battlefield from '../Battlefield/Battlefield'
 
 import {
   FieldInit, HideOrNot,
-  BoolArrayToInt, BoolToOnOff,
-  HitOrMiss
+  BoolToOnOff, HitOrMiss
 } from './AppFunctions'
 
-import { SendShips, SendShot } from './AppServerAPI'
+import { SendShips } from './AppServerAPI'
 
 const App: React.FC = () => {
   const [countPlayer1, setCount1] = useState(0)
   const [countPlayer2, setCount2] = useState(0)
 
   const [gameMode, setMode] = useState(0)
-  const [field, setField] = useState<boolean[][]>(FieldInit())
+  const [field, setField] = useState<number[][]>(FieldInit())
   const [isClear, setClear] = useState(false)
   const [ID, setID] = useState("0")
 
-  function changeField(x: number, y: number, new_value: boolean) {
+  function changeField(x: number, y: number, new_value: number) {
     let f = field
     f[x][y] = new_value
     setField(f)
   }
 
   const goBattle = async () => {
-    let sendShips = BoolArrayToInt(field)
+    let sendShips = field
 
-    SendShips(sendShips, setID)
+    await SendShips(sendShips, setID)
 
     setField(FieldInit())
     setMode(1)
@@ -77,7 +76,7 @@ const App: React.FC = () => {
           key={gameMode.toString()}
           isClear={isClear}
           gameMode={gameMode}
-          ships={field}
+          field={field}
         />
       </div>
     </div>
