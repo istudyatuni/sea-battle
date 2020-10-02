@@ -13,9 +13,8 @@ NC="\033[0m" # No Color
 # checking where the script starts from
 dir=${PWD##*/}
 if [ $dir != "sea-battle" ]; then
-  echo -e "${RED}Make sure you run this script from sea-battle/ directory$NC"
-  dir=`pwd`
-  echo -e "Now directory is $dir"
+  echo -e "${RED}Make sure you run this script from ${ORANGE}sea-battle ${RED}directory$NC"
+  echo -e "Now directory is $ORANGE$(pwd)$NC"
   exit
 fi
 
@@ -29,8 +28,9 @@ fi
 # checking for correct "homepage" key in package.json
 echo -n "cat:"
 cat web/package.json | grep homepage
-answer=y
-read -p "Did you change \"homepage\" in package.json? [y,n]:" answer
+
+echo -en "Did you change ${ORANGE}\"homepage\"${NC} in package.json? "
+read -p "[y,n]:" answer
 case $answer in
   y) echo "Good";;
   n) echo "This file is located at web/package.json"
@@ -60,6 +60,7 @@ echo -e "\n${ORANGE}git stash save 'save working directory on deploy'$NC"
 git stash save 'save working directory on deploy'
 
 # pulling
+echo -e "\n${ORANGE}git checkout $gh_pages$NC"
 git checkout $gh_pages
 echo -e "\n${ORANGE}git pull origin $gh_pages$NC"
 git pull origin $gh_pages
