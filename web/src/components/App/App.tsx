@@ -21,10 +21,14 @@ const App: React.FC = () => {
   const [isClear, setClear] = useState(false)
   const [ID, setID] = useState("0")
 
+  const [i, setI] = useState(0)
+  const [j, setJ] = useState(0)
+
   function changeField(x: number, y: number, new_value: number) {
     let f = field
     f[x][y] = new_value
     setField(f)
+    console.log(field)
   }
 
   const goBattle = async () => {
@@ -38,7 +42,14 @@ const App: React.FC = () => {
   }
 
   const shot = async (x: number, y: number) => {
-    HitOrMiss(ID, x, y, changeField)
+    await HitOrMiss(ID, x, y, changeField)
+  }
+
+  function addShip(x: number) {
+    changeField(i, j, x)
+    setI((i+1)%10)
+    setJ((j+1)%10)
+    setCount1(countPlayer1+1)
   }
 
   // ¯\_(ツ)_/¯
@@ -51,32 +62,34 @@ const App: React.FC = () => {
         <button
             onClick={goBattle}
             style={HideOrNot(gameMode)}>
-          Go battle
-        </button>
+          Go battle</button>
         <button
             onClick={()=>setClear(!isClear)}
             style={HideOrNot(gameMode)}>
-          Fix ships
-        </button>
-        <i style={HideOrNot(gameMode)}>{BoolToOnOff(isClear)}</i>
+          Fix ships</button>
+        <i style={HideOrNot(gameMode)}>
+          {BoolToOnOff(isClear)}</i>
 
         <p style={HideOrNot(gameMode)}>
-          You can fix ships if place them wrong
-        </p>
+          You can fix ships if place them wrong</p>
         <p style={HideOrNot((gameMode+1)%2)} onClick={()=>setMode(0)}>
-          Good game! id={ID}
-        </p>
-        <button style={HideOrNot((gameMode+1)%2)} onClick={async()=>shot(1,1)}>
-          Shot
-        </button>
+          Good game! id={ID}</p>
+
+        <button style={HideOrNot((gameMode+1)%2)} onClick={()=>addShip(1)}>
+          Miss</button>
+        <button style={HideOrNot((gameMode+1)%2)} onClick={()=>addShip(2)}>
+          Hit</button>
+        <button style={HideOrNot((gameMode+1)%2)} onClick={()=>{console.log(field)}}>
+          Print</button>
       </div>
 
       <div className="inline-field">
         <Battlefield
-          key={gameMode.toString()}
+          key={field.toString()}
           isClear={isClear}
           gameMode={gameMode}
           field={field}
+          shot={shot}
         />
       </div>
     </div>

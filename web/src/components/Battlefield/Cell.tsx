@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  settingShips,
-  battle
+  settingShips
 } from './CellFunctions'
 
 type CellProps = {
@@ -10,10 +9,11 @@ type CellProps = {
   isClear: boolean,
   element: number,
   gameMode: number,
-  setCell: (arg0: number)=>void
+  setCell: (arg0: number)=>void,
+  shot: (arg0: number)=>void
 }
 
-const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell }) => {
+const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, shot }) => {
   // first == true when first cell's render
 
   useEffect(()=>{
@@ -23,6 +23,7 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell }) =
 
   function fillBlock(first: boolean): object {
     let path
+    console.log('el : ', element)
     if(gameMode===0){
       // setting ships
       if(first===false) {
@@ -34,10 +35,31 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell }) =
     } else if(gameMode===1) {
       // when battle
       if(first===false) {
-        path = battle(1)
+        // when player tap to cell
+        /*(async ()=>{
+          await shot(i)
+        })()*/
+        shot(i)
+        // path = "Hit"
+        if(element===0) {
+          // before battle need clear field
+          path = "Miss"
+        } else if(element===1) {
+          path = "Hit"
+        } else {
+          path = "Empty"
+        }
+        console.log('f 0: ', path)
       } else {
-        // before battle need clear field
-        path = "Empty"
+        if(element===0) {
+          // before battle need clear field
+          path = "Empty"
+        } else if(element===1) {
+          path = "Miss"
+        } else {
+          path = "Hit"
+        }
+        console.log('f 1: ', path)
       }
     }
     path = "assets/" + path + ".png"

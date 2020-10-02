@@ -6,10 +6,11 @@ import './Battlefield.css'
 type BattlefieldProps = {
   isClear: boolean,
   gameMode: number,
-  field: number[][]
+  field: number[][],
+  shot: (arg0: number, arg1: number)=>any
 }
 
-const Battlefield: React.FC<BattlefieldProps> = ({ isClear, gameMode, field }) => {
+const Battlefield: React.FC<BattlefieldProps> = ({ isClear, gameMode, field, shot }) => {
   // 0 - empty, 1 - miss, 2 - hit (in j)
   // gameMode: 0 - placing ships, 1 -battle
 
@@ -21,6 +22,7 @@ const Battlefield: React.FC<BattlefieldProps> = ({ isClear, gameMode, field }) =
         isClear={isClear}
         gameMode={gameMode}
         row={field[ind]}
+        shot={shot}
       />)
     }
     return rows
