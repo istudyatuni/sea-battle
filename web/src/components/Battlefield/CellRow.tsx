@@ -45,7 +45,6 @@ const CellRow: React.FC<CellRowProps> = ({ i, isClear, gameMode, row, shot }) =>
   return (
     <>
       <div className="CellRow">
-        {/*<button onClick={()=>{console.log(row)}}>check</button>*/}
         {cells}
       </div>
     </>

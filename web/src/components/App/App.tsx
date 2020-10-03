@@ -21,14 +21,10 @@ const App: React.FC = () => {
   const [isClear, setClear] = useState(false)
   const [ID, setID] = useState("0")
 
-  const [i, setI] = useState(0)
-  const [j, setJ] = useState(0)
-
   function changeField(x: number, y: number, new_value: number) {
     let f = field
     f[x][y] = new_value
     setField(f)
-    console.log(field)
   }
 
   const goBattle = async () => {
@@ -41,15 +37,16 @@ const App: React.FC = () => {
     setClear(false)
   }
 
+  /*
+    WTF? if call in 'shot' just one async function with await,
+    re-render child components not work (empty not change to
+    "hit" / "miss"), but if use some changes for some state (like
+    i below), then all work. How, just.. HOW??
+  */
+  const [wtf, setWTF] = useState(0)
   const shot = async (x: number, y: number) => {
     await HitOrMiss(ID, x, y, changeField)
-  }
-
-  function addShip(x: number) {
-    changeField(i, j, x)
-    setI((i+1)%10)
-    setJ((j+1)%10)
-    setCount1(countPlayer1+1)
+    setWTF(wtf+1)
   }
 
   // ¯\_(ツ)_/¯
@@ -72,15 +69,9 @@ const App: React.FC = () => {
 
         <p style={HideOrNot(gameMode)}>
           You can fix ships if place them wrong</p>
+
         <p style={HideOrNot((gameMode+1)%2)} onClick={()=>setMode(0)}>
           Good game! id={ID}</p>
-
-        <button style={HideOrNot((gameMode+1)%2)} onClick={()=>addShip(1)}>
-          Miss</button>
-        <button style={HideOrNot((gameMode+1)%2)} onClick={()=>addShip(2)}>
-          Hit</button>
-        <button style={HideOrNot((gameMode+1)%2)} onClick={()=>{console.log(field)}}>
-          Print</button>
       </div>
 
       <div className="inline-field">

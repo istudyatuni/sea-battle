@@ -16,7 +16,6 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void) 
     }
     setID(resp.id)
   }
-  console.log('ships: ', ships)
 }
 
 
