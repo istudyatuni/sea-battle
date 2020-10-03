@@ -29,6 +29,10 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, sho
       if(first===false) {
         path = settingShips(first, isClear)
         setCell(i)
+      } else if(isClear===true) {
+        path = "Empty"
+        if(element===1)
+          path = "Ship"
       } else {
         path = "Empty"
       }
