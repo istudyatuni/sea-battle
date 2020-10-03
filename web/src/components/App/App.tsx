@@ -76,7 +76,7 @@ const App: React.FC = () => {
 
       <div className="inline-field">
         <Battlefield
-          key={field.toString()}
+          key={gameMode.toString()}
           isClear={isClear}
           gameMode={gameMode}
           field={field}
