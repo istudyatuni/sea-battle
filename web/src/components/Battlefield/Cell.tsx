@@ -37,8 +37,16 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, sho
     } else if(gameMode===1) {
       // when battle
       if(first===false) {
-        shot(i)
-        path = "Empty"
+        if(element===0) {
+          shot(i)
+          path = "Empty"
+        } else {
+          // if tap more one time
+          if(element===1)
+            path = "Miss"
+          else if(element===2)
+            path = "Hit"
+        }
       } else {
         if(element===0) {
           // before battle need clear field
