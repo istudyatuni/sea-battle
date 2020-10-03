@@ -13,7 +13,7 @@ npm start
 
 *Server*
 
-To start elixir server, you need installed it.
+To start elixir server, you need installed Elixir
 
 After it, install dependencies:
 ```
@@ -22,7 +22,7 @@ mix deps.get
 
 Then run server:
 
-1. `iex -S mix` (it's better for testing)
+1. `iex -S mix` (it's better for development)
 
 or
 
