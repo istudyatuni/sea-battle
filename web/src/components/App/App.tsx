@@ -21,6 +21,8 @@ const App: React.FC = () => {
   const [isClear, setClear] = useState(false)
   const [ID, setID] = useState("0")
 
+  const [serverIsOff, setServerOff] = useState(false)
+
   function changeField(x: number, y: number, new_value: number) {
     let f = field
     f[x][y] = new_value
@@ -37,6 +39,17 @@ const App: React.FC = () => {
     setClear(false)
   }
 
+  function toggleServerPopup() {
+    let popup = document.getElementById("serverOffPopup")
+    if(serverIsOff===true) {
+      if(popup!==null)
+        popup.classList.add("show")
+    } else {
+      if(popup!==null)
+        popup.classList.remove("show")
+    }
+  }
+
   /*
     WTF? if call in 'shot' just one async function with await,
     re-render child components not work (empty not change to
@@ -45,8 +58,9 @@ const App: React.FC = () => {
   */
   const [wtf, setWTF] = useState(0)
   const shot = async (x: number, y: number) => {
-    await HitOrMiss(ID, x, y, changeField)
+    await HitOrMiss(ID, x, y, changeField, setServerOff)
     setWTF(wtf+1)
+    toggleServerPopup()
   }
 
   // ¯\_(ツ)_/¯
@@ -82,6 +96,11 @@ const App: React.FC = () => {
           field={field}
           shot={shot}
         />
+      </div>
+
+      <div className="popup">
+        <span className="popuptext" id="serverOffPopup">
+          Server unavailable</span>
       </div>
     </div>
   );

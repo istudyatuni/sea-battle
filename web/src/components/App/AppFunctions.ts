@@ -32,17 +32,19 @@ export const HitOrMiss = async (id: string,
                                  changeField: (arg0: number,
                                                arg1: number,
                                                arg2: number
-                                               ) => void
+                                               ) => void,
+                                 setServerOff: (arg0: boolean) => void
                                  ) => {
   let type = "none"
   async function returnResponse(response: any) {
     type = response.type
   }
   await SendShot(id, x, y, returnResponse)
-  let value
+  setServerOff(false)
   if (type==='miss')
-    value = 1
-  else // if type === 'hit'
-    value = 2
-  changeField(x, y, value)
+    changeField(x, y, 1)
+  else if (type === 'hit')
+    changeField(x, y, 2)
+  else
+    setServerOff(true)
 }

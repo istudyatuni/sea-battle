@@ -24,3 +24,30 @@ button {
   user-select: none;
   margin: 1em;
 }
+
+/* Popup */
+.popup {
+  bottom: 0;
+
+  position: absolute;
+  width: 90%;
+}
+
+.popup .popuptext {
+  bottom: 0;
+  visibility: hidden;
+
+  background-color: #FFBABA;
+  color: #D8000C;
+
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  width: 160px;
+}
+
+.popup .show {
+  bottom: 5em;
+  visibility: visible;
+  transition: all .3s ease-in-out;
+}
