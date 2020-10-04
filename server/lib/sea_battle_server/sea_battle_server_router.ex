@@ -14,7 +14,7 @@ defmodule SeaBattleServer.Router do
 
   get "/shot" do
     conn = fetch_query_params(conn)
-    %{ "id" => id, "x" => x, "y" => y } = conn.params
+    %{"id" => id, "x" => x, "y" => y} = conn.params
 
     ans = ShipHandler.hitOrMiss(id, x, y)
     ans = %{"id" => id, "type" => ans}
@@ -28,6 +28,16 @@ defmodule SeaBattleServer.Router do
     body = Poison.decode!(body)
 
     [body, code] = ShipHandler.insert_new_ships(body)
+
+    body = Poison.encode!(body)
+    send_resp(conn, code, body)
+  end
+
+  patch "/opponent" do
+    conn = fetch_query_params(conn)
+    %{"id" => id, "opponentID" => opponentID} = conn.params
+
+    [body, code] = ShipHandler.set_opponent(id, opponentID)
 
     body = Poison.encode!(body)
     send_resp(conn, code, body)
