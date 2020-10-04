@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  settingShips
+  settingShips, getCursor
 } from './CellFunctions'
 
 type CellProps = {
@@ -64,7 +64,9 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, sho
 
   const [image, setImg] = useState(fillBlock(true))
   return (
-    <div className="Cell" onClick={()=>setImg(fillBlock(false))}>
+    <div className="Cell"
+         onClick={()=>setImg(fillBlock(false))}
+         style={getCursor(gameMode)}>
       {image}
     </div>
   );
