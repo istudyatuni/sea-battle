@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import './App.css';
+import Buttons from'./Buttons'
 import Scoreboard from '../Scoreboard/Scoreboard'
 import Shipsboard from '../Ships/Shipsboard'
 import Battlefield from '../Battlefield/Battlefield'
@@ -55,23 +56,14 @@ const App: React.FC = () => {
       <div className="inline-board">
         <Scoreboard player1={countPlayer1} player2={countPlayer2}/>
         <Shipsboard/>
-
-        <button
-            onClick={goBattle}
-            style={HideOrNot(gameMode)}>
-          Go battle</button>
-        <button
-            onClick={()=>setClear(!isClear)}
-            style={HideOrNot(gameMode)}>
-          Fix ships</button>
-        <i style={HideOrNot(gameMode)}>
-          {BoolToOnOff(isClear)}</i>
-
-        <p style={HideOrNot(gameMode)}>
-          You can fix ships if place them wrong</p>
-
-        <p style={HideOrNot((gameMode+1)%2)} onClick={()=>setMode(0)}>
-          Good game! id={ID}</p>
+        <Buttons
+          gameMode={gameMode}
+          setMode={setMode}
+          goBattle={goBattle}
+          isClear={isClear}
+          setClear={setClear}
+          ID={ID}
+        />
       </div>
 
       <div className="inline-field">
