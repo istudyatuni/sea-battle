@@ -21,7 +21,7 @@ defmodule SeaBattleServer.ShipHandler do
     existance = :ets.insert_new(@all_ships, {id, opID, ships["ships"]})
 
     if opID !== "0" do
-      set_opponent(id, opID)
+      set_opponent(opID, id)
     end
 
     if existance == true do
