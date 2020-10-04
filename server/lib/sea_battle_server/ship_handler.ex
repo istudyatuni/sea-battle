@@ -66,6 +66,21 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
+  def getOpponentID(id) do
+    check = :ets.lookup(@number_battles, "number")
+    check = Enum.at(check, 0) |> elem(1)
+    {id, ""} = Integer.parse(id)
+
+    if id <= check && id > 0 do
+      id = to_string(id)
+      id = :ets.lookup(@all_ships, id)
+      id = Enum.at(id, 0) |> elem(1)
+      [_, _] = [%{"opponentID" => id}, 200]
+    else
+      [_, _] = [%{"error" => "ID is invalid"}, 400]
+    end
+  end
+
   def show_ships(id) do
     IO.puts("show ships, id=#{id}")
     # if table not exist
