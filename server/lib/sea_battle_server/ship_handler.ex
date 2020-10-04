@@ -16,13 +16,18 @@ defmodule SeaBattleServer.ShipHandler do
 
     :ets.insert(@number_battles, {"number", id})
     id = to_string(id)
+    opID = ships["opponent"]
 
-    existance = :ets.insert_new(@all_ships, {id, "0", ships["ships"]})
+    existance = :ets.insert_new(@all_ships, {id, opID, ships["ships"]})
+
+    if opID !== "0" do
+      set_opponent(id, opID)
+    end
 
     if existance == true do
       # created
       Logger.debug("inserting, id=#{id}")
-      [_, _] = [%{"id" => id}, 201]
+      [_, _] = [%{"id" => id, "opponentID" => opID}, 201]
     else
       # AHAHA INTERNAL SERVER ERROR and I don't know why
       Logger.error("server error, cannot insert_new in ETS")
