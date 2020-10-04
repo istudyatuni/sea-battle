@@ -1,5 +1,16 @@
 import { SendShot } from './AppServerAPI'
 
+export const toggleServerPopup = (a: boolean) => {
+  let popup = document.getElementById("serverOffPopup")
+  if(a===true) {
+    if(popup!==null)
+      popup.classList.add("show")
+  } else {
+    if(popup!==null)
+      popup.classList.remove("show")
+  }
+}
+
 export const FieldInit = (): number[][] => {
   // return array filled with false value
   let ships = []
@@ -32,19 +43,18 @@ export const HitOrMiss = async (id: string,
                                  changeField: (arg0: number,
                                                arg1: number,
                                                arg2: number
-                                               ) => void,
-                                 setServerOff: (arg0: boolean) => void
+                                               ) => void
                                  ) => {
   let type = "none"
   async function returnResponse(response: any) {
     type = response.type
   }
   await SendShot(id, x, y, returnResponse)
-  setServerOff(false)
+
   if (type==='miss')
     changeField(x, y, 1)
   else if (type === 'hit')
     changeField(x, y, 2)
   else
-    setServerOff(true)
+    toggleServerPopup(true)
 }

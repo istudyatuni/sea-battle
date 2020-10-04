@@ -41,9 +41,9 @@ button {
   color: #D8000C;
 
   border-radius: 6px;
-  padding: 8px 0;
+  padding: .7em 0;
   position: absolute;
-  width: 160px;
+  width: 11em;
 }
 
 .popup .show {

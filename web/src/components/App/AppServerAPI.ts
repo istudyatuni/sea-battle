@@ -1,4 +1,4 @@
-const NO_RESPONSE_CODE = 0
+import { toggleServerPopup } from './AppFunctions'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void) => {
   const response = await fetch('/ships', {
@@ -7,17 +7,16 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void) 
     body: JSON.stringify({ ships: ships }),
   });
 
-  if (response.status === NO_RESPONSE_CODE) {
-    // server unavailable
-    setID('Server unavailable')
-  } else if(response.ok) {
+  if(response.ok) {
     let resp = await response.json() as {
       id: string;
     }
     setID(resp.id)
+  } else {
+    // server unavailable
+    toggleServerPopup(true)
   }
 }
-
 
 export const SendShot = async (id: string,
                                 x: number,
@@ -36,7 +35,7 @@ export const SendShot = async (id: string,
       type: string;
     }
     await sendResp(resp)
-  } else if (response.status === NO_RESPONSE_CODE) {
+  } else {
     // server unavailable
   }
 }
