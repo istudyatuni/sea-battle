@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/sea-battle-deploy/precache-manifest.2cfa86d02807454eddac7643c93638dc.js"
+  "/sea-battle-deploy/precache-manifest.e66b41fb4d5f353403a06474683e48dd.js"
 );
 
 self.addEventListener('message', (event) => {
