@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import './App.css'
 
 import {
   HideOrNot, BoolToOnOff
@@ -12,16 +14,31 @@ type ButtonsProps = {
 
   setClear: (arg0: boolean) => any,
   isClear: boolean,
+
+  setOpponentID: (arg0: string) => any,
   ID: string
 }
 
-const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear, isClear, ID }) => {
+const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear, isClear, setOpponentID, ID }) => {
+  const [newID, setNewID] = useState("")
+
+  function handleChange(event: any) {
+    let a = event.target.value
+    if(a > 0) {
+      setNewID(a)
+      setOpponentID(a)
+    }
+  }
+
+  function submitID(event: any) {
+    goBattle()
+    event.preventDefault()
+  }
+
   return (
     <div className="Buttons">
-      <button
-          onClick={goBattle}
-          style={HideOrNot(gameMode)}>
-        Go battle</button>
+      <span style={HideOrNot(gameMode)}>
+        You can fix ships if place them wrong</span>
       <button
           onClick={()=>setClear(!isClear)}
           style={HideOrNot(gameMode)}>
@@ -29,11 +46,18 @@ const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear
       <i style={HideOrNot(gameMode)}>
         {BoolToOnOff(isClear)}</i>
 
-      <p style={HideOrNot(gameMode)}>
-        You can fix ships if place them wrong</p>
-
-      <p style={HideOrNot((gameMode+1)%2)} onClick={()=>setMode(0)}>
-        Good game! id={ID}</p>
+      <form onSubmit={submitID} style={HideOrNot(gameMode)} >
+        <label>
+          Friend ID: <input
+            type="number"
+            value={newID}
+            placeholder="0"
+            onChange={handleChange} />
+        </label>
+        <input type="submit" value="Go battle"/>
+      </form>
+      <p style={HideOrNot((gameMode+1)%2)}>
+        Good game! Your ID: {ID}</p>
     </div>
   );
 };

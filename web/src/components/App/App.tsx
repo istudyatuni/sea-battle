@@ -11,7 +11,7 @@ import {
   BoolToOnOff, HitOrMiss
 } from './AppFunctions'
 
-import { SendShips } from './AppServerAPI'
+import { SendShips, getOpponentID } from './AppServerAPI'
 
 const App: React.FC = () => {
   const [countPlayer1, setCount1] = useState(0)
@@ -20,6 +20,8 @@ const App: React.FC = () => {
   const [gameMode, setMode] = useState(0)
   const [field, setField] = useState<number[][]>(FieldInit())
   const [isClear, setClear] = useState(false)
+
+  const [opponentID, setOpponentID] = useState("0")
   const [ID, setID] = useState("0")
 
   function changeField(x: number, y: number, new_value: number) {
@@ -29,9 +31,7 @@ const App: React.FC = () => {
   }
 
   const goBattle = async () => {
-    let sendShips = field
-
-    await SendShips(sendShips, setID)
+    await SendShips(field, setID, opponentID)
 
     setField(FieldInit())
     setMode(1)
@@ -46,7 +46,7 @@ const App: React.FC = () => {
   */
   const [wtf, setWTF] = useState(0)
   const shot = async (x: number, y: number) => {
-    await HitOrMiss(ID, x, y, changeField)
+    await HitOrMiss(opponentID, x, y, changeField)
     setWTF(wtf+1)
   }
 
@@ -62,8 +62,13 @@ const App: React.FC = () => {
           goBattle={goBattle}
           isClear={isClear}
           setClear={setClear}
+          setOpponentID={setOpponentID}
           ID={ID}
         />
+        <button onClick={()=>{getOpponentID(ID, setOpponentID)}}
+                style={HideOrNot((gameMode+1)%2)}
+                id="getID"
+        >Get opponent ID</button>
       </div>
 
       <div className="inline-field">
