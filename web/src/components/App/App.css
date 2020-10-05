@@ -66,9 +66,19 @@ button, input {
   color: #D8000C;
 }
 
+.warn {
+  background-color: #FEEFB3;
+  color: #9F6000;
+}
+
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;
+}
+
+.info {
+  background-color: #D9EDF7;
+  color: #31708F;
 }
 
 .popup .popup-box {
