@@ -1,4 +1,4 @@
-import { togglePopup } from './AppFunctions'
+import { togglePopup, removeGetOp } from './AppFunctions'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
   opID: string) => {
@@ -11,13 +11,13 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
   if(response.ok) {
     let resp = await response.json() as {
       id: string;
-      opponent: string;
+      opponentID: string;
     }
     setID(resp.id)
-    togglePopup(false)
+    togglePopup(true, "success", "Good game!")
   } else {
     // server unavailable
-    togglePopup(true, "Server unavailable")
+    togglePopup(true, "error", "Server unavailable")
   }
 }
 
@@ -41,7 +41,7 @@ export const SendShot = async (id: string,
     togglePopup(false)
   } else {
     // server unavailable
-    togglePopup(true, "Server unavailable")
+    togglePopup(true, "error", "Server unavailable")
   }
 }
 
@@ -57,14 +57,13 @@ export const getOpponentID = async (id: string, setOpID: (arg0: string)=>void) =
       opponentID: string;
     }
     setOpID(resp.opponentID)
-    togglePopup(false)
 
     // hide button
-    let getID = document.getElementById('getID')
-    if(getID!==null && resp.opponentID !== "0")
-      getID.style.display = 'none'
+    removeGetOp(resp.opponentID)
+    if(resp.opponentID!=="0")
+      togglePopup(true, "success", "Successfully get ID")
   } else {
     // server unavailable
-    togglePopup(true, "Server unavailable")
+    togglePopup(true, "error", "Server unavailable")
   }
 }

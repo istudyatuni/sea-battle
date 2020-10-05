@@ -82,7 +82,7 @@ const App: React.FC = () => {
       </div>
 
       <div className="popup">
-        <span className="popup-error" id="popup"></span>
+        <span className="popup-box" id="popup"></span>
       </div>
     </div>
   );

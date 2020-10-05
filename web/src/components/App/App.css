@@ -33,12 +33,19 @@ button, input {
   width: 90%;
 }
 
-.popup .popup-error {
-  bottom: 0;
-  visibility: hidden;
-
+.error {
   background-color: #FFBABA;
   color: #D8000C;
+}
+
+.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+
+.popup .popup-box {
+  bottom: 0;
+  visibility: hidden;
 
   border-radius: 6px;
   padding: .7em 0;

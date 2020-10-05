@@ -56,8 +56,8 @@ const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear
         </label>
         <input type="submit" value="Go battle"/>
       </form>
-      <p style={HideOrNot((gameMode+1)%2)}>
-        Good game! Your ID: {ID}</p>
+      <p style={HideOrNot((gameMode+1)%2)} id="yID">
+        Your ID: {ID}</p>
     </div>
   );
 };
