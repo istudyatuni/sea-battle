@@ -33,7 +33,7 @@ button, input {
   width: 90%;
 }
 
-.popup .popuptext {
+.popup .popup-error {
   bottom: 0;
   visibility: hidden;
 

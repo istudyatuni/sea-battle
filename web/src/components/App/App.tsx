@@ -82,8 +82,7 @@ const App: React.FC = () => {
       </div>
 
       <div className="popup">
-        <span className="popuptext" id="serverOffPopup">
-          Server unavailable</span>
+        <span className="popup-error" id="popup"></span>
       </div>
     </div>
   );

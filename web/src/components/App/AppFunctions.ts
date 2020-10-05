@@ -1,13 +1,13 @@
 import { SendShot } from './AppServerAPI'
 
-export const toggleServerPopup = (a: boolean) => {
-  let popup = document.getElementById("serverOffPopup")
-  if(a===true) {
-    if(popup!==null)
+export const togglePopup = (a: boolean, message: string = "") => {
+  let popup = document.getElementById("popup")
+  if(popup!==null) {
+    if(a===true)
       popup.classList.add("show")
-  } else {
-    if(popup!==null)
+    else
       popup.classList.remove("show")
+    popup.innerHTML = message
   }
 }
 
@@ -55,6 +55,4 @@ export const HitOrMiss = async (id: string,
     changeField(x, y, 1)
   else if (type === 'hit')
     changeField(x, y, 2)
-  else
-    toggleServerPopup(true)
 }

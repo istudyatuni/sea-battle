@@ -1,4 +1,4 @@
-import { toggleServerPopup } from './AppFunctions'
+import { togglePopup } from './AppFunctions'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
   opID: string) => {
@@ -14,10 +14,10 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
       opponent: string;
     }
     setID(resp.id)
-    toggleServerPopup(false)
+    togglePopup(false)
   } else {
     // server unavailable
-    toggleServerPopup(true)
+    togglePopup(true, "Server unavailable")
   }
 }
 
@@ -38,10 +38,10 @@ export const SendShot = async (id: string,
       type: string;
     }
     await sendResp(resp)
-    toggleServerPopup(false)
+    togglePopup(false)
   } else {
     // server unavailable
-    toggleServerPopup(true)
+    togglePopup(true, "Server unavailable")
   }
 }
 
@@ -57,7 +57,7 @@ export const getOpponentID = async (id: string, setOpID: (arg0: string)=>void) =
       opponentID: string;
     }
     setOpID(resp.opponentID)
-    toggleServerPopup(false)
+    togglePopup(false)
 
     // hide button
     let getID = document.getElementById('getID')
@@ -65,6 +65,6 @@ export const getOpponentID = async (id: string, setOpID: (arg0: string)=>void) =
       getID.style.display = 'none'
   } else {
     // server unavailable
-    toggleServerPopup(true)
+    togglePopup(true, "Server unavailable")
   }
 }
