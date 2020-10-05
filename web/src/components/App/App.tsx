@@ -50,6 +50,10 @@ const App: React.FC = () => {
     setWTF(wtf+1)
   }
 
+  function copyOpponentID() {
+    navigator.clipboard.writeText(ID)
+  }
+
   // ¯\_(ツ)_/¯
   return (
     <div className="App">
@@ -64,6 +68,7 @@ const App: React.FC = () => {
           setClear={setClear}
           setOpponentID={setOpponentID}
           ID={ID}
+          copyOpID={copyOpponentID}
         />
         <button onClick={()=>{getOpponentID(ID, setOpponentID)}}
                 style={HideOrNot((gameMode+1)%2)}

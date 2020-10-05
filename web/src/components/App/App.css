@@ -25,6 +25,34 @@ button, input {
   margin: 1em;
 }
 
+/* copy ID box*/
+#yID:after {
+  content: " Copy";
+  color: #666;
+  visibility: hidden;
+}
+
+#yID:hover:after {
+  visibility: visible;
+  transition: all .3s ease-in-out;
+}
+
+#yID {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+#yID:hover {
+  background-color: #eee;
+  transition: all .3s ease-in-out;
+}
+
+#yID:active {
+  background-color: #86CA32;
+  transition: all .1s ease-in-out;
+}
+
 /* Popup */
 .popup {
   bottom: 0;

@@ -16,10 +16,12 @@ type ButtonsProps = {
   isClear: boolean,
 
   setOpponentID: (arg0: string) => any,
-  ID: string
+  ID: string,
+
+  copyOpID: () => void
 }
 
-const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear, isClear, setOpponentID, ID }) => {
+const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear, isClear, setOpponentID, ID, copyOpID }) => {
   const [newID, setNewID] = useState("")
 
   function handleChange(event: any) {
@@ -33,6 +35,10 @@ const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear
   function submitID(event: any) {
     goBattle()
     event.preventDefault()
+  }
+
+  function handleClickID() {
+    copyOpID()
   }
 
   return (
@@ -56,8 +62,10 @@ const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear
         </label>
         <input type="submit" value="Go battle"/>
       </form>
-      <p style={HideOrNot((gameMode+1)%2)} id="yID">
-        Your ID: {ID}</p>
+      <span style={HideOrNot((gameMode+1)%2)}
+         id="yID"
+         onClick={handleClickID}
+      >Your ID: {ID}</span>
     </div>
   );
 };
