@@ -1,7 +1,6 @@
 defmodule SeaBattleServer.ShipHandler do
   require Logger
   @all_ships :all_ships
-  @number_battles :number_battles
 
   defmacro __using__(_opts) do
     quote do
@@ -10,11 +9,11 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def insert_new_ships(ships) do
-    id = :ets.lookup(@number_battles, "number")
+    id = :ets.lookup(@all_ships, "number")
     id = Enum.at(id, 0) |> elem(1)
     id = id + 1
 
-    :ets.insert(@number_battles, {"number", id})
+    :ets.insert(@all_ships, {"number", id})
     id = to_string(id)
     opID = ships["opponent"]
 
@@ -36,7 +35,7 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def set_opponent(id, opID) do
-    check = :ets.lookup(@number_battles, "number")
+    check = :ets.lookup(@all_ships, "number")
     check = Enum.at(check, 0) |> elem(1)
 
     # for comparing
@@ -67,7 +66,7 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def getOpponentID(id) do
-    check = :ets.lookup(@number_battles, "number")
+    check = :ets.lookup(@all_ships, "number")
     check = Enum.at(check, 0) |> elem(1)
     {id, ""} = Integer.parse(id)
 
