@@ -15,11 +15,11 @@ defmodule SeaBattleServer.Router do
     conn = fetch_query_params(conn)
     %{"id" => id, "x" => x, "y" => y} = conn.params
 
-    ans = ShipHandler.hitOrMiss(id, x, y)
-    ans = %{"id" => id, "type" => ans}
+    [key, msg, code] = ShipHandler.hitOrMiss(id, x, y)
+    ans = %{"id" => id, key => msg}
 
-    response = Poison.encode!(ans, [])
-    send_resp(conn, 200, response)
+    ans = Poison.encode!(ans, [])
+    send_resp(conn, code, ans)
   end
 
   post "/ships" do

@@ -84,22 +84,32 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def hitOrMiss(id, x, y) do
-    # 1st elem from table's head (hd)
-    ships = hd(:ets.lookup(@all_ships, id))
-    ships = elem(ships, 2)
+    check = :ets.lookup(@all_ships, "number")
+    check = Enum.at(check, 0) |> elem(1)
 
-    {x, ""} = Integer.parse(x)
-    {y, ""} = Integer.parse(y)
+    {id, ""} = Integer.parse(id)
 
-    value = Enum.at(ships, x)
-    value = Enum.at(value, y)
+    if id <= check && id > 0 do
+      id = to_string(id)
+      # 1st elem from table's head (hd)
+      ships = hd(:ets.lookup(@all_ships, id))
+      ships = elem(ships, 2)
 
-    Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
+      {x, ""} = Integer.parse(x)
+      {y, ""} = Integer.parse(y)
 
-    if value == 1 do
-      _ = "hit"
+      value = Enum.at(ships, x)
+      value = Enum.at(value, y)
+
+      Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
+
+      if value == 1 do
+        [_, _, _] = ["type", "hit", 200]
+      else
+        [_, _, _] = ["type", "miss", 200]
+      end
     else
-      _ = "miss"
+      [_, _, _] = ["error", "ID not exist", 404]
     end
   end
 end
