@@ -2,12 +2,6 @@ defmodule SeaBattleServer.ShipHandler do
   require Logger
   @all_ships :all_ships
 
-  defmacro __using__(_opts) do
-    quote do
-      import SeaBattleServer.ShipHandler
-    end
-  end
-
   def insert_new_ships(ships) do
     id = :ets.lookup(@all_ships, "number")
     id = Enum.at(id, 0) |> elem(1)

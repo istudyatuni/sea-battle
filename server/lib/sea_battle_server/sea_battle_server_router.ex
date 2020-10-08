@@ -3,7 +3,6 @@ defmodule SeaBattleServer.Router do
   use Plug.Router
   use Plug.Debugger
 
-  use SeaBattleServer.ShipHandler
   alias SeaBattleServer.ShipHandler
 
   require Logger
