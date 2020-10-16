@@ -11,8 +11,11 @@ defmodule SeaBattleServer.Application do
     children = [
       # Starts a worker by calling: SeaBattleServer.Worker.start_link(arg)
       # {SeaBattleServer.Worker, arg}
-      {Plug.Cowboy, scheme: :http, plug: SeaBattleServer.Router, options: [port: 8080]}
+      {Plug.Cowboy, scheme: :http, plug: SeaBattleServer.Router, options: [port: 8080]}#,
+      #{Plug.Cowboy, scheme: :http, plug: SeaBattleServer.SocketServer, options: [port: 8000]}
     ]
+
+    # SeaBattleServer.SocketServer.start
 
     Logger.debug("Init ships . .")
     all_ships = @all_ships
