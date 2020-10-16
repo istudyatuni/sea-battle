@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './App.css';
 import Buttons from'./Buttons'
@@ -23,6 +23,25 @@ const App: React.FC = () => {
 
   const [opponentID, setOpponentID] = useState("0")
   const [ID, setID] = useState("0")
+
+  const [theme, setTheme] = useState('light')
+
+  function toggleTheme() {
+    if(theme==='light')
+      setTheme('dark')
+    else if(theme==='dark')
+      setTheme('light')
+  }
+
+  useEffect(()=>{
+    let html = document.getElementById('html')
+    if(html!==null) {
+      if(theme==='light')
+        html.classList.remove('dark-mode')
+      else if(theme==='dark')
+        html.classList.add('dark-mode')
+    }
+  }, [theme]);
 
   function changeField(x: number, y: number, new_value: number) {
     let f = field
@@ -57,6 +76,7 @@ const App: React.FC = () => {
   // ¯\_(ツ)_/¯
   return (
     <div className="App">
+      <div className="theme-toggle" onClick={toggleTheme}>🌓</div>
       <div className="inline-board">
         <Scoreboard player1={countPlayer1} player2={countPlayer2}/>
         <Shipsboard/>

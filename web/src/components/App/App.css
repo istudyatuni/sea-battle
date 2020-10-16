@@ -23,12 +23,15 @@ button, input {
   font-size: 1.1em;
   user-select: none;
   margin: 1em;
+
+  background-color: var(--main-bg-color);
+  color: var(--text-color);
 }
 
 /* copy ID box*/
 #yID:after {
   content: " Copy";
-  color: #666;
+  color: var(--text-color);
   visibility: hidden;
 }
 
@@ -40,11 +43,10 @@ button, input {
 #yID {
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: #fff;
 }
 
 #yID:hover {
-  background-color: #eee;
+  background-color: var(--action-bg-color);
   transition: all .3s ease-in-out;
 }
 
@@ -95,4 +97,19 @@ button, input {
   bottom: 5em;
   visibility: visible;
   transition: all .3s ease-in-out;
+}
+
+/* Theme */
+.theme-toggle {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  font-size: 1.5em;
+  padding: 15px;
+  border-radius: 2em;
+}
+
+.theme-toggle:hover {
+  transition: background-color .3s ease-in-out;
+  background-color: var(--action-bg-color);
 }
