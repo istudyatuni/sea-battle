@@ -25,6 +25,7 @@ button, input {
   margin: 1em;
 
   background-color: var(--main-bg-color);
+  border-color: var(--border-color);
   color: var(--text-color);
 }
 
