@@ -18,6 +18,7 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
   } else {
     // server unavailable
     togglePopup(true, "error", "Server unavailable")
+    console.error('Failed, response status: ', response.status)
   }
 }
 
@@ -42,6 +43,7 @@ export const SendShot = async (id: string,
   } else {
     // server unavailable
     togglePopup(true, "error", "Server unavailable")
+    console.error('Failed, response status: ', response.status)
   }
 }
 
@@ -65,5 +67,6 @@ export const getOpponentID = async (id: string, setOpID: (arg0: string)=>void) =
   } else {
     // server unavailable
     togglePopup(true, "error", "Server unavailable")
+    console.error('Failed, response status: ', response.status)
   }
 }
