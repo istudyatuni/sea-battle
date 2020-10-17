@@ -8,10 +8,17 @@ defmodule SeaBattleServer.Application do
   require Logger
 
   def start(_type, _args) do
+    import Supervisor.Spec, warn: false
+
     children = [
       # Starts a worker by calling: SeaBattleServer.Worker.start_link(arg)
       # {SeaBattleServer.Worker, arg}
-      {Plug.Cowboy, scheme: :http, plug: SeaBattleServer.Router, options: [port: 8080]}
+      Plug.Cowboy.child_spec(
+        scheme: :http,
+        plug: Ws.Router,
+        dispatch: dispatch(),
+        options: [port: 4000]
+      )
     ]
 
     Logger.debug("Init ships . .")
@@ -25,5 +32,14 @@ defmodule SeaBattleServer.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: SeaBattleServer.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp dispatch do
+    [
+      {:_, [
+        {"/ws/[...]", SeaBattleServer.SocketHandler, []},
+        {:_, Plug.Cowboy.Handler, {SeaBattleServer.Router, []}}
+      ]}
+    ]
   end
 end
