@@ -1,4 +1,5 @@
 import { SendShot } from './AppServerAPI'
+import { getString } from '../Translation/String'
 
 export const togglePopup = (a: boolean, classColor: string = "", message: string = "") => {
   let popup = document.getElementById("popup")
@@ -35,9 +36,9 @@ export const HideOrNot = (a: number): any => {
 
 export const BoolToOnOff = (a: boolean): string => {
   if(a===true)
-    return 'Enabled'
+    return getString('enabled')
   else
-    return 'Disabled'
+    return getString('disabled')
 }
 
 export const HitOrMiss = async (id: string,

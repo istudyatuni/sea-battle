@@ -12,9 +12,13 @@ import {
   togglePopup
 } from './AppFunctions'
 
+import { initLocale } from '../Translation/String'
+
 import { SendShips, getOpponentID } from './AppServerAPI'
 
 const App: React.FC = () => {
+  initLocale()
+
   const [countPlayer1, setCount1] = useState(0)
   const [countPlayer2, setCount2] = useState(0)
 

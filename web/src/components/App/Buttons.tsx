@@ -6,6 +6,8 @@ import {
   HideOrNot, BoolToOnOff
 } from './AppFunctions'
 
+import { getString } from '../Translation/String'
+
 type ButtonsProps = {
   setMode: (arg0: number) => any,
   gameMode: number,
@@ -43,29 +45,27 @@ const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear
 
   return (
     <div className="Buttons">
-      <span style={HideOrNot(gameMode)}>
-        You can fix ships if place them wrong</span>
-      <button
-          onClick={()=>setClear(!isClear)}
-          style={HideOrNot(gameMode)}>
-        Fix ships</button>
-      <i style={HideOrNot(gameMode)}>
-        {BoolToOnOff(isClear)}</i>
-
       <form onSubmit={submitID} style={HideOrNot(gameMode)} >
         <label>
-          Friend ID: <input
+          {getString('friend_id')}: <input
             type="number"
             value={newID}
             placeholder="0"
             onChange={handleChange} />
         </label>
-        <input type="submit" value="Go battle"/>
+        <input type="submit" value={getString('go_battle')}/>
       </form>
+
+      <button
+          onClick={()=>setClear(!isClear)}
+          style={HideOrNot(gameMode)}>{getString('fix_ships')}</button>
+      <i style={HideOrNot(gameMode)}>
+        {BoolToOnOff(isClear)}</i>
+      <p style={HideOrNot(gameMode)}>{getString('fix_ships_explain')}</p>
       <span style={HideOrNot((gameMode+1)%2)}
          id="yID"
          onClick={handleClickID}
-      >Your ID: {ID}</span>
+      >{getString('your_id')}: {ID}</span>
     </div>
   );
 };

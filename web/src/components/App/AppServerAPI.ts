@@ -1,4 +1,5 @@
 import { togglePopup, removeYID } from './AppFunctions'
+import { getString } from '../Translation/String'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
   opID: string, setOpID: (arg0: string)=>void) => {
@@ -15,12 +16,12 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
     }
     setID(resp.id)
     if(resp.opponentID!=="0")
-      togglePopup(true, "success", "Good game!")
+      togglePopup(true, "success", getString('good_game'))
     else
       getOpponentID(resp.id, setOpID)
   } else {
     // server unavailable
-    togglePopup(true, "error", "Server unavailable")
+    togglePopup(true, "error", getString('server_unavailable'))
     console.error('Failed, response status: ', response.status)
   }
 }
@@ -45,11 +46,11 @@ export const SendShot = async (id: string,
     togglePopup(false)
     removeYID()
   } else if(response.status===404) {
-    togglePopup(true, "info", "Please wait")
+    togglePopup(true, "info", getString('please_wait'))
     console.error('Failed, response status: ', response.status)
   } else {
     // server unavailable
-    togglePopup(true, "error", "Server unavailable")
+    togglePopup(true, "error", getString('server_unavailable'))
     console.error('Failed, response status: ', response.status)
   }
 }
@@ -63,7 +64,7 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void) => {
     let json = JSON.parse(data)
     if(json.opponentID!=="0") {
       setOpID(json.opponentID)
-      togglePopup(true, "success", "Good game!")
+      togglePopup(true, "success", getString('good_game'))
       removeYID()
     }
   }
