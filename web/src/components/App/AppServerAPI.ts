@@ -45,7 +45,7 @@ export const SendShot = async (id: string,
     await sendResp(resp)
     togglePopup(false)
     removeYID()
-  } else if(response.status===404) {
+  } else if(response.status===102) {
     togglePopup(true, "info", getString('please_wait'))
     console.error('Failed, response status: ', response.status)
   } else {
