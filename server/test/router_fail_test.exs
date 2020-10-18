@@ -12,11 +12,7 @@ defmodule SeaBattleServer.RouterFailTest do
   test "Patch opponent ID" do
     conn =
       :patch |> conn("/opponent?id=3&opponentID=3", %{}) |> SeaBattleServer.Router.call(@options)
-    assert conn.status == 400
-  end
 
-  test "Get opponent ID" do
-    conn = :get |> conn("/opponentID?id=3", %{}) |> SeaBattleServer.Router.call(@options)
     assert conn.status == 400
   end
 end

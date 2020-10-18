@@ -59,18 +59,19 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  def getOpponentID(id) do
-    check = :ets.lookup(@all_ships, "number")
-    check = Enum.at(check, 0) |> elem(1)
-    {id, ""} = Integer.parse(id)
+  def getOpponentID(id, count \\ 0) do
+    opID = :ets.lookup(@all_ships, id)
+    opID = Enum.at(opID, 0) |> elem(1)
+    count = count + 1
 
-    if id <= check && id > 0 do
-      id = to_string(id)
-      id = :ets.lookup(@all_ships, id)
-      id = Enum.at(id, 0) |> elem(1)
-      [_, _] = [%{"opponentID" => id}, 200]
-    else
-      [_, _] = [%{"error" => "ID is invalid"}, 400]
+    case opID do
+      # one minute
+      "0" when count < 600 ->
+        :timer.sleep(100)
+        getOpponentID(id, count)
+
+      _ ->
+        opID
     end
   end
 

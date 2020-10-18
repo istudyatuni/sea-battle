@@ -15,9 +15,15 @@ defmodule SeaBattleServer.Application do
       # {SeaBattleServer.Worker, arg}
       Plug.Cowboy.child_spec(
         scheme: :http,
-        plug: Ws.Router,
-        dispatch: dispatch(),
-        options: [port: 4000]
+        plug: SeaBattleServer.Router,
+        options: [
+          dispatch: dispatch(),
+          port: 4000
+        ]
+      ),
+      Registry.child_spec(
+        keys: :duplicate,
+        name: Registry.SeaBattleServer
       )
     ]
 
@@ -36,10 +42,11 @@ defmodule SeaBattleServer.Application do
 
   defp dispatch do
     [
-      {:_, [
-        {"/ws/[...]", SeaBattleServer.SocketHandler, []},
-        {:_, Plug.Cowboy.Handler, {SeaBattleServer.Router, []}}
-      ]}
+      {:_,
+       [
+         {"/ws/[...]", SeaBattleServer.SocketHandler, []},
+         {:_, Plug.Cowboy.Handler, {SeaBattleServer.Router, []}}
+       ]}
     ]
   end
 end

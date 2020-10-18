@@ -42,16 +42,6 @@ defmodule SeaBattleServer.Router do
     send_resp(conn, code, body)
   end
 
-  get "/opponentID" do
-    conn = fetch_query_params(conn)
-    %{"id" => id} = conn.params
-
-    [body, code] = ShipHandler.getOpponentID(id)
-
-    body = Poison.encode!(body)
-    send_resp(conn, code, body)
-  end
-
   # "Default" route that will get called when no other route is matched
   match _ do
     send_resp(conn, 404, "not found")
