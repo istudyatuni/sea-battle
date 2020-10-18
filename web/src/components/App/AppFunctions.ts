@@ -3,12 +3,11 @@ import { SendShot } from './AppServerAPI'
 export const togglePopup = (a: boolean, classColor: string = "", message: string = "") => {
   let popup = document.getElementById("popup")
   if(popup!==null) {
-    popup.classList.remove("success", "error")
+    popup.classList.remove("success", "error", "info", "warn")
     if(a===true) {
       popup.classList.add("show")
       popup.classList.add(classColor)
-    }
-    else {
+    } else {
       popup.classList.remove("show")
     }
     popup.innerHTML = message

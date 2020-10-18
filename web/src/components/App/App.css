@@ -29,6 +29,11 @@ button, input {
   color: var(--text-color);
 }
 
+button:focus, input:focus {
+  border-color: black;
+  outline: none;
+}
+
 /* copy ID box*/
 #yID:after {
   content: " Copy";
@@ -56,17 +61,15 @@ button, input {
   transition: all .1s ease-in-out;
 }
 
-/* Popup */
-.popup {
-  bottom: 0;
-
-  position: absolute;
-  width: 90%;
-}
+/* Colors */
 
 .error {
   background-color: #FFBABA;
   color: #D8000C;
+}
+
+.error:hover {
+  background-color: #FFA4A4;
 }
 
 .warn {
@@ -74,9 +77,17 @@ button, input {
   color: #9F6000;
 }
 
+.warn:hover {
+  background-color: #FED7A0;
+}
+
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;
+}
+
+.success:hover {
+  background-color: #B4F298;
 }
 
 .info {
@@ -84,20 +95,38 @@ button, input {
   color: #31708F;
 }
 
+.info:hover {
+  background-color: #D5D8F7;
+}
+
+/* Popup */
+
+.popup {
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .popup .popup-box {
   bottom: 0;
   visibility: hidden;
 
   border-radius: 6px;
-  padding: .7em 0;
-  position: absolute;
-  width: 11em;
+  padding: .7em 1.5em;
+  position: fixed;
+  resize: width;
 }
 
 .popup .show {
   bottom: 5em;
   visibility: visible;
   transition: all .3s ease-in-out;
+}
+
+.popup .show:hover {
+  cursor: pointer;
 }
 
 /* Theme */
@@ -107,7 +136,7 @@ button, input {
   right: 1em;
   font-size: 1.5em;
   padding: 15px;
-  border-radius: 2em;
+  border-radius: 0.5em;
 }
 
 .theme-toggle:hover {

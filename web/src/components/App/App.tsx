@@ -8,7 +8,8 @@ import Battlefield from '../Battlefield/Battlefield'
 
 import {
   FieldInit, HideOrNot,
-  BoolToOnOff, HitOrMiss
+  BoolToOnOff, HitOrMiss,
+  togglePopup
 } from './AppFunctions'
 
 import { SendShips, getOpponentID } from './AppServerAPI'
@@ -50,7 +51,7 @@ const App: React.FC = () => {
   }
 
   const goBattle = async () => {
-    await SendShips(field, setID, opponentID)
+    await SendShips(field, setID, opponentID, setOpponentID)
 
     setField(FieldInit())
     setMode(1)
@@ -90,10 +91,6 @@ const App: React.FC = () => {
           ID={ID}
           copyOpID={copyOpponentID}
         />
-        <button onClick={()=>{getOpponentID(ID, setOpponentID)}}
-                style={HideOrNot((gameMode+1)%2)}
-                id="getID"
-        >Get opponent ID</button>
       </div>
 
       <div className="inline-field">
@@ -107,7 +104,7 @@ const App: React.FC = () => {
       </div>
 
       <div className="popup">
-        <span className="popup-box" id="popup"></span>
+        <div className="popup-box" id="popup" onClick={()=>togglePopup(false)}></div>
       </div>
     </div>
   );
