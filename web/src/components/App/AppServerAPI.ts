@@ -2,7 +2,7 @@ import { togglePopup, removeYID } from './AppFunctions'
 import { getString } from '../Translation/String'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
-  opID: string, setOpID: (arg0: string)=>void) => {
+  opID: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
   const response = await fetch('/ships', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -15,10 +15,13 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
       opponentID: string;
     }
     setID(resp.id)
-    if(resp.opponentID!=="0")
+    if(resp.opponentID!=="0") {
       togglePopup(true, "success", getString('good_game'))
-    else
-      getOpponentID(resp.id, setOpID)
+      setTimeout(function(){ removeYID() }, 30)
+    } else {
+      togglePopup(true, "info", getString('please_wait'))
+      getOpponentID(resp.id, setOpID, refresh)
+    }
   } else {
     // server unavailable
     togglePopup(true, "error", getString('server_unavailable'))
@@ -37,17 +40,18 @@ export const SendShot = async (id: string,
     headers: { 'Content-Type': 'application/json' }
   });
 
-  if(response.ok) {
+  if(response.status===202) {
+    // need wait for set opponent id by other player
+    togglePopup(true, "info", getString('please_wait'))
+    console.error('Failed, response status: ', response.status)
+  } else if(response.ok) {
+    // everything ok, handle response
     let resp = await response.json() as {
       id: string;
       type: string;
     }
     await sendResp(resp)
     togglePopup(false)
-    removeYID()
-  } else if(response.status===102) {
-    togglePopup(true, "info", getString('please_wait'))
-    console.error('Failed, response status: ', response.status)
   } else {
     // server unavailable
     togglePopup(true, "error", getString('server_unavailable'))
@@ -55,7 +59,7 @@ export const SendShot = async (id: string,
   }
 }
 
-export const getOpponentID = (id: string, setOpID: (arg0: string)=>void) => {
+export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
   let ws = new WebSocket('ws://localhost:4000/ws/' + id)
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
@@ -66,6 +70,11 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void) => {
       setOpID(json.opponentID)
       togglePopup(true, "success", getString('good_game'))
       removeYID()
+    } else {
+      // one minute server timeout
+      togglePopup(true, "warn", getString('one_minute_timeout'))
+      ws.close(1000, 'Timeout by server')
+      setTimeout(function(){ refresh(0); togglePopup(false) }, 10 * 1000)
     }
   }
   ws.onerror = (e) => {

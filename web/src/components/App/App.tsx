@@ -55,7 +55,7 @@ const App: React.FC = () => {
   }
 
   const goBattle = async () => {
-    await SendShips(field, setID, opponentID, setOpponentID)
+    await SendShips(field, setID, opponentID, setOpponentID, setMode)
 
     setField(FieldInit())
     setMode(1)
