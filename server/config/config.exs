@@ -12,3 +12,5 @@ config :logger, :console,
   format: "\n>>  UTC $time [$level] $levelpad$message\n$metadata\n",
   metadata: :all,
   level: :debug
+
+import_config "#{Mix.env()}.exs"

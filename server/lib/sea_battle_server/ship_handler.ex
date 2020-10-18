@@ -66,7 +66,7 @@ defmodule SeaBattleServer.ShipHandler do
 
     case opID do
       # one minute
-      "0" when count < 600 ->
+      "0" when count < 60 * 10 ->
         :timer.sleep(100)
         getOpponentID(id, count)
 
@@ -110,7 +110,7 @@ defmodule SeaBattleServer.ShipHandler do
         [_, _, _] = ["type", "miss", 200]
       end
     else
-      [_, _, _] = ["error", "ID not exist", 102]
+      [_, _, _] = ["error", "ID not exist", 202]
     end
   end
 end

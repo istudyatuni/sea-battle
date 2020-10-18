@@ -43,7 +43,11 @@ defmodule SeaBattleServer.SocketHandler do
     {:reply, state}
   end
 
-  def terminate(_reason, _req, _state) do
+  def terminate(reason, request, _state) do
+    Logger.debug(
+      "Close socket connection, reason: #{inspect(reason)}, request: #{inspect(request)}"
+    )
+
     :ok
   end
 end

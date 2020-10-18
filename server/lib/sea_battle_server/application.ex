@@ -9,6 +9,8 @@ defmodule SeaBattleServer.Application do
 
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
+    port = Application.get_env(:sea_battle_server, :port)
+    Logger.debug("Set port #{port}")
 
     children = [
       # Starts a worker by calling: SeaBattleServer.Worker.start_link(arg)
@@ -18,7 +20,7 @@ defmodule SeaBattleServer.Application do
         plug: SeaBattleServer.Router,
         options: [
           dispatch: dispatch(),
-          port: 4000
+          port: port
         ]
       ),
       Registry.child_spec(
