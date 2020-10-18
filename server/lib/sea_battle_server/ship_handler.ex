@@ -110,7 +110,7 @@ defmodule SeaBattleServer.ShipHandler do
         [_, _, _] = ["type", "miss", 200]
       end
     else
-      [_, _, _] = ["error", "ID not exist", 404]
+      [_, _, _] = ["error", "ID not exist", 102]
     end
   end
 end

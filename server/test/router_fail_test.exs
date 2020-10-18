@@ -6,7 +6,7 @@ defmodule SeaBattleServer.RouterFailTest do
 
   test "ID on shot not exist" do
     conn = :get |> conn("/shot?id=3&x=0&y=0", %{}) |> SeaBattleServer.Router.call(@options)
-    assert conn.status == 404
+    assert conn.status == 102
   end
 
   test "Patch opponent ID" do
