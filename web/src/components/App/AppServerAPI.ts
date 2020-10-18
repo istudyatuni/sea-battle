@@ -1,4 +1,4 @@
-import { togglePopup, removeGetOp } from './AppFunctions'
+import { togglePopup, removeYID } from './AppFunctions'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
   opID: string, setOpID: (arg0: string)=>void) => {
@@ -17,7 +17,7 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
     if(resp.opponentID!=="0")
       togglePopup(true, "success", "Good game!")
     else
-      await getOpponentID(resp.id, setOpID)
+      getOpponentID(resp.id, setOpID)
   } else {
     // server unavailable
     togglePopup(true, "error", "Server unavailable")
@@ -43,6 +43,7 @@ export const SendShot = async (id: string,
     }
     await sendResp(resp)
     togglePopup(false)
+    removeYID()
   } else if(response.status===404) {
     togglePopup(true, "info", "Please wait")
     console.error('Failed, response status: ', response.status)
@@ -53,17 +54,18 @@ export const SendShot = async (id: string,
   }
 }
 
-export const getOpponentID = async (id: string, setOpID: (arg0: string)=>void) => {
+export const getOpponentID = (id: string, setOpID: (arg0: string)=>void) => {
   let ws = new WebSocket('ws://localhost:4000/ws/' + id)
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
   }
   ws.onmessage = ({data}) => {
     let json = JSON.parse(data)
-    togglePopup(true, "info", 'WebSocket says: opponentID=' + json.opponentID)
-    if(json.opponentID!=="0")
+    if(json.opponentID!=="0") {
+      setOpID(json.opponentID)
       togglePopup(true, "success", "Good game!")
-    setOpID(json.opponentID)
+      removeYID()
+    }
   }
   ws.onerror = (e) => {
     togglePopup(true, "error", 'Error: ' + e)

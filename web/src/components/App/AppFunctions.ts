@@ -60,11 +60,9 @@ export const HitOrMiss = async (id: string,
     changeField(x, y, 2)
 }
 
-export const removeGetOp = (opID: string): void => {
-  let getID = document.getElementById('getID')
+export const removeYID = (): void => {
   let yID = document.getElementById('yID')
-  if(getID!==null && yID!==null && opID !== "0") {
-    getID.style.display = 'none'
+  if(yID!==null) {
     yID.style.display = 'none'
   }
 }
