@@ -20,7 +20,7 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
       setTimeout(function(){ removeYID() }, 30)
     } else {
       togglePopup(true, "info", getString('please_wait'))
-      // getOpponentID(resp.id, setOpID, refresh)
+      getOpponentID(resp.id, setOpID, refresh)
     }
   } else {
     // server unavailable
@@ -60,7 +60,7 @@ export const SendShot = async (id: string,
 }
 
 export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
-  /*let ws = new WebSocket('ws://localhost:4000/ws/' + id)
+  let ws = new WebSocket('ws://localhost:4000/ws/' + id)
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
   }
@@ -81,5 +81,5 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
     togglePopup(true, "error", 'Error: ' + e)
     alert('WebSocket error: ' + e)
     console.error('Failed: ', e)
-  }*/
+  }
 }
