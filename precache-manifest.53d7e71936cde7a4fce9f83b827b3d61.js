@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "58c6baa94a6814b76cf9678f7eacd18d",
+    "revision": "528c7db77bd4a4f93316ef4b6bb15094",
     "url": "/sea-battle-deploy/index.html"
   },
   {
-    "revision": "a51dc7fa0b361347d40d",
-    "url": "/sea-battle-deploy/static/css/main.92ad5aaf.chunk.css"
+    "revision": "cec166ba687e814a4740",
+    "url": "/sea-battle-deploy/static/css/main.0f9ac552.chunk.css"
   },
   {
     "revision": "1793f3fd684adad621c4",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/sea-battle-deploy/static/js/2.fc425d3f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a51dc7fa0b361347d40d",
-    "url": "/sea-battle-deploy/static/js/main.12b0ccce.chunk.js"
+    "revision": "cec166ba687e814a4740",
+    "url": "/sea-battle-deploy/static/js/main.7e450fb8.chunk.js"
   },
   {
     "revision": "616afa66a14ff9060c94",
