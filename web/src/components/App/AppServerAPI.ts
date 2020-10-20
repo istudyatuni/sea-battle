@@ -79,6 +79,7 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
   }
   ws.onerror = (e) => {
     togglePopup(true, "error", 'Error: ' + e)
+    alert('WebSocket error: ' + e)
     console.error('Failed: ', e)
   }
 }

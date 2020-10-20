@@ -116,17 +116,21 @@ button:focus, input:focus {
   border-radius: 6px;
   padding: .7em 1.5em;
   position: fixed;
-  resize: width;
+  resize: both;
 }
 
 .popup .show {
   bottom: 5em;
   visibility: visible;
-  transition: all .3s ease-in-out;
+  transition: all .3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 .popup .show:hover {
   cursor: pointer;
+}
+
+.popup-box > span {
+  margin: 0 0 0 15px;
 }
 
 /* Theme */

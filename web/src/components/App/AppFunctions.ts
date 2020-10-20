@@ -11,7 +11,7 @@ export const togglePopup = (a: boolean, classColor: string = "", message: string
     } else {
       popup.classList.remove("show")
     }
-    popup.innerHTML = message
+    popup.innerHTML = message + '<span>×</span>'
   }
 }
 
