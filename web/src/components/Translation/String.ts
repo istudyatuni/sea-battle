@@ -1,7 +1,10 @@
 let json: any
 
 export const initLocale = (locale?: string): void => {
-  locale = locale || navigator.language || 'en'
+  let allow = require('./allow.json')
+  locale = locale || navigator.language
+  if(allow[locale]!==true)
+    locale = 'en'
   json = require('./' + locale + '.json')
   let html = document.getElementById('html')
   if(html!==null)
