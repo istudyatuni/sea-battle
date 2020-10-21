@@ -42,6 +42,15 @@ defmodule SeaBattleServer.Router do
     send_resp(conn, code, body)
   end
 
+  post "/log" do
+    {:ok, body, conn} = read_body(conn)
+    body = Poison.decode!(body)
+
+    Logger.warn("Client error: #{inspect(body)}")
+
+    send_resp(conn, 204, "")
+  end
+
   # "Default" route that will get called when no other route is matched
   match _ do
     send_resp(conn, 404, "not found")
