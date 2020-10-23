@@ -82,12 +82,13 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
     sendLog('WebSocket error, id=' + id + ', downgrade to polling', e)
     console.error('WebSocket failed: ', e, 'downgrade to polling')
     getOpponentIDpoll(id, setOpID)
+    // it not by server, but we need handle it
+    byServer = true
   }
   ws.onclose = () => {
     if(byServer===false)
       // server unavailable
       togglePopup(true, 'error', getString('server_unavailable'))
-    setTimeout(function(){ refresh(0); togglePopup(false) }, 10 * 1000)
   }
 }
 
