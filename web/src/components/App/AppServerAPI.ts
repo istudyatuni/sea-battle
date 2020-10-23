@@ -81,16 +81,16 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
     setTimeout(function(){ refresh(0); togglePopup(false) }, 4 * 1000)
     sendLog('WebSocket error, id=' + id, e)
     togglePopup(true, "warn", getString('refresh'))
-    alert('WebSocket error')
+    // alert('WebSocket error')
     console.error('Failed: ', e)
   }
 }
 
-export const sendLog = async (message: string, e: any) => {
+export const sendLog = async (message: string, e: any = '') => {
   let url = '/log'
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: message, error: e }),
+    body: JSON.stringify(e, ["message", "arguments", "type", "name"]),
   });
 }
