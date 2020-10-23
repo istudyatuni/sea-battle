@@ -1,13 +1,10 @@
 .Battlefield {
   width: 100%;
-  /*display: flex;
-  flex-wrap: wrap;*/
 }
 
 .CellRow {
   display: flex;
   justify-content: center;
-  /*width: 100%;*/
 }
 
 .Cell {
@@ -21,32 +18,4 @@
 
 .Cell:active {
   background-color: #B897DF;
-}
-
-@media screen and (max-width: 800px) {
-  .Cell {
-    height: 60px;
-    width: 60px;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .Cell {
-    height: 50px;
-    width: 50px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .Cell {
-    height: 40px;
-    width: 40px;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .Cell {
-    height: 40px;
-    width: 40px;
-  }
 }
