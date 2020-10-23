@@ -42,6 +42,14 @@ defmodule SeaBattleServer.RouterSuccessTest do
     assert conn.status == 200
   end
 
+  test "Get opponent ID" do
+    conn = :get |> conn("/opponent?id=1", %{}) |> SeaBattleServer.Router.call(@options)
+    body = Poison.decode!(conn.resp_body)
+
+    assert body == %{"opponentID" => "1"}
+    assert conn.status == 200
+  end
+
   test "Patch opponent ID" do
     conn =
       :patch |> conn("/opponent?id=1&opponentID=1", %{}) |> SeaBattleServer.Router.call(@options)

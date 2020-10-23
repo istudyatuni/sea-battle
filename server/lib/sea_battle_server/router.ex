@@ -32,6 +32,16 @@ defmodule SeaBattleServer.Router do
     send_resp(conn, code, body)
   end
 
+  get "/opponent" do
+    conn = fetch_query_params(conn)
+    %{"id" => id} = conn.params
+
+    [body, code] = ShipHandler.getOpponentID(id)
+
+    body = Poison.encode!(body)
+    send_resp(conn, code, body)
+  end
+
   patch "/opponent" do
     conn = fetch_query_params(conn)
     %{"id" => id, "opponentID" => opponentID} = conn.params
@@ -46,7 +56,7 @@ defmodule SeaBattleServer.Router do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body)
 
-    Logger.warn("Client error: #{inspect(body)}")
+    Logger.info("Client error: #{inspect(body)}")
 
     send_resp(conn, 204, "")
   end

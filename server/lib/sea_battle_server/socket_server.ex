@@ -20,7 +20,7 @@ defmodule SeaBattleServer.SocketHandler do
     Logger.debug("Get WebSocket message #{inspect(payload)}")
     id = payload["id"]
 
-    id = SeaBattleServer.ShipHandler.getOpponentID(id)
+    id = SeaBattleServer.ShipHandler.onChangeOpponentID(id)
 
     websocket_send_msg(id, state)
     message = Poison.encode!(%{"opponentID" => id})
