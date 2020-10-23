@@ -61,6 +61,7 @@ export const SendShot = async (id: string,
 
 export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
   let ws = new WebSocket('ws://localhost:4000/ws/' + id)
+  let byServer = false
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
   }
@@ -74,16 +75,59 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
       // one minute server timeout
       togglePopup(true, "warn", getString('one_minute_timeout'))
       ws.close(1000, 'Timeout by server')
-      setTimeout(function(){ refresh(0); togglePopup(false) }, 10 * 1000)
+      byServer = true
     }
   }
   ws.onerror = (e) => {
-    // setTimeout(function(){ refresh(0); togglePopup(false) }, 4 * 1000)
-    sendLog('WebSocket error, id=' + id, e)
-    togglePopup(true, "warn", getString('refresh'))
-    // alert('WebSocket error')
-    console.error('Failed: ', e)
+    sendLog('WebSocket error, id=' + id + ', downgrade to polling', e)
+    console.error('WebSocket failed: ', e, 'downgrade to polling')
+    getOpponentIDpoll(id, setOpID)
   }
+  ws.onclose = () => {
+    if(byServer===false)
+      // server unavailable
+      togglePopup(true, 'error', getString('server_unavailable'))
+    setTimeout(function(){ refresh(0); togglePopup(false) }, 10 * 1000)
+  }
+}
+
+export const getOpponentIDpoll = async (id: string, setOpID: (arg0: string)=>void) => {
+  let timeout = 60
+  let timer = 0
+  let setID = '0'
+  let url = '/opponent?id=' + id
+  while(timer<timeout) {
+    timer++
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if(response.status===200) {
+      // get response, handle
+      let resp = await response.json() as {
+        opponentID: string;
+      }
+      setID = resp.opponentID
+      if(setID!=='0') {
+        // opponent ID is correct
+        timer = timeout
+        setOpID(setID)
+      } else {
+        // incorrect, wait 1 sec
+        await delay(1000)
+      }
+    } else {
+      // server unavailable
+      timer = timeout
+      togglePopup(true, 'error', getString('server_unavailable'))
+      console.log('Failed to polling, response status: ', response.status)
+      return
+    }
+  }
+  if(setID!=='0')
+    togglePopup(true, 'success', getString('good_game'))
+  else
+    togglePopup(true, 'warn', getString('one_minute_timeout'))
 }
 
 export const sendLog = async (message: string, e: any = '') => {
@@ -102,4 +146,8 @@ export const sendLog = async (message: string, e: any = '') => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
+}
+
+export const delay = (ms: number) => {
+    return new Promise( resolve => setTimeout(resolve, ms) );
 }
