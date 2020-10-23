@@ -78,7 +78,7 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
     }
   }
   ws.onerror = (e) => {
-    setTimeout(function(){ refresh(0); togglePopup(false) }, 4 * 1000)
+    // setTimeout(function(){ refresh(0); togglePopup(false) }, 4 * 1000)
     sendLog('WebSocket error, id=' + id, e)
     togglePopup(true, "warn", getString('refresh'))
     // alert('WebSocket error')
@@ -87,10 +87,19 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
 }
 
 export const sendLog = async (message: string, e: any = '') => {
+  let data = {
+    message: message,
+    error: {
+      message: e['message'],
+      arguments: e['arguments'],
+      type: e['type'],
+      name: e['name'],
+    },
+  }
   let url = '/log'
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(e, ["message", "arguments", "type", "name"]),
+    body: JSON.stringify(data),
   });
 }
