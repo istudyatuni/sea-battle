@@ -60,7 +60,7 @@ export const SendShot = async (id: string,
 }
 
 export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
-  let ws = new WebSocket('ws://localhost:4000/ws/' + id)
+  let ws = new WebSocket('ws://localhost:4000/ws/opponent' + id)
   let byServer = false
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))

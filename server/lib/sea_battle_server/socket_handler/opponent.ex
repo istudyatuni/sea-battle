@@ -1,4 +1,4 @@
-defmodule SeaBattleServer.SocketHandler do
+defmodule SeaBattleServer.SocketHandler.Opponent do
   require Logger
   @behaviour :cowboy_websocket
 
