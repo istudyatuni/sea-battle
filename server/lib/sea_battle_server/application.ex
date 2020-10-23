@@ -46,8 +46,8 @@ defmodule SeaBattleServer.Application do
     [
       {:_,
        [
-         {"/ws/opponent", SeaBattleServer.SocketHandler.Opponent, []},
-         # {"/ws/moves", SeaBattleServer.SocketHandler.Moves, []},
+         {"/ws/opponent/[...]", SeaBattleServer.SocketHandler.Opponent, []},
+         {"/ws/moves/[...]", SeaBattleServer.SocketHandler.Moves, []},
          {:_, Plug.Cowboy.Handler, {SeaBattleServer.Router, []}}
        ]}
     ]

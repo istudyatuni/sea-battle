@@ -67,3 +67,7 @@ export const removeYID = (): void => {
     yID.style.display = 'none'
   }
 }
+
+export const delay = (ms: number) => {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}

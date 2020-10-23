@@ -18,14 +18,11 @@ defmodule SeaBattleServer.SocketHandler.Moves do
   def websocket_handle({:text, json}, state) do
     payload = Poison.decode!(json)
     Logger.debug("Get WebSocket message #{inspect(payload)}")
-    id = payload["id"]
 
-    id = SeaBattleServer.ShipHandler.onChangeOpponentID(id)
+    # TODO add logic
 
-    websocket_send_msg(id, state)
-    message = Poison.encode!(%{"opponentID" => id})
-    Logger.debug("Sending to client #{inspect(message)}")
-    {:reply, {:text, message}, state}
+    Logger.debug("Sending to client #{inspect("message")}")
+    {:reply, {:text, "message"}, state}
   end
 
   def websocket_send_msg(message, state) do

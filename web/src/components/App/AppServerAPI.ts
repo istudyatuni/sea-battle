@@ -1,4 +1,4 @@
-import { togglePopup, removeYID } from './AppFunctions'
+import { delay, togglePopup, removeYID } from './AppFunctions'
 import { getString } from '../Translation/String'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
@@ -60,7 +60,7 @@ export const SendShot = async (id: string,
 }
 
 export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
-  let ws = new WebSocket('ws://localhost:4000/ws/opponent' + id)
+  let ws = new WebSocket('ws://localhost:4000/ws/opponent/' + id)
   let byServer = false
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
@@ -69,14 +69,15 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
     let json = JSON.parse(data)
     if(json.opponentID!=="0") {
       setOpID(json.opponentID)
+      ws.close(1000, 'No need more')
       togglePopup(true, "success", getString('good_game'))
       removeYID()
     } else {
       // one minute server timeout
       togglePopup(true, "warn", getString('one_minute_timeout'))
       ws.close(1000, 'Timeout by server')
-      byServer = true
     }
+    byServer = true
   }
   ws.onerror = (e) => {
     sendLog('WebSocket error, id=' + id + ', downgrade to polling', e)
@@ -85,10 +86,12 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
     // it not by server, but we need handle it
     byServer = true
   }
-  ws.onclose = () => {
-    if(byServer===false)
+  ws.onclose = (e) => {
+    if(byServer===false) {
       // server unavailable
-      togglePopup(true, 'error', getString('server_unavailable'))
+      togglePopup(true, 'error', getString('ws_closed'))
+      console.error('WebSocket closed', e)
+    }
   }
 }
 
@@ -147,8 +150,4 @@ export const sendLog = async (message: string, e: any = '') => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
-}
-
-export const delay = (ms: number) => {
-    return new Promise( resolve => setTimeout(resolve, ms) );
 }
