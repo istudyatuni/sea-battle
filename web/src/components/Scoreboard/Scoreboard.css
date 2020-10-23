@@ -1,6 +1,7 @@
 .Scoreboard {
   display: flex;
   flex-wrap: nowrap;
+  justify-content: space-around;
   max-width: 30em;
   margin: auto;
 }
@@ -11,4 +12,18 @@
   border-radius: 6px;
   border: 1px solid var(--border-color);
   color: var(--text-color);
+}
+
+@media screen and (max-width: 800px) {
+
+}
+
+@media screen and (max-width: 700px) {
+  .Scoreboard {
+    /*width: 100%;*/
+  }
+
+  .CounterTab {
+    margin: 1em .2em;
+  }
 }

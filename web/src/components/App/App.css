@@ -6,8 +6,22 @@
   user-select: none;
 }
 
+@media screen and (min-width: 1400px) {
+  .App {
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .App {
+    padding: 2em 0;
+  }
+}
+
 .inline-board {
   flex-grow: 1;
+  /*display: flex;
+  justify-content: column;*/
 }
 
 .inline-field {
