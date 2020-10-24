@@ -4,6 +4,7 @@ defmodule SeaBattleServer.SocketHandler.Moves do
 
   def init(request, _state) do
     state = %{registry_key: request.path}
+    Logger.debug("Init WebSocket connection, state: #{inspect(state)}")
 
     {:cowboy_websocket, request, state}
   end
@@ -12,12 +13,14 @@ defmodule SeaBattleServer.SocketHandler.Moves do
     Registry.SeaBattleServer
     |> Registry.register(state.registry_key, {})
 
+    Logger.debug("Subscrube to WebSocket \"moves\"")
+
     {:ok, state}
   end
 
   def websocket_handle({:text, json}, state) do
-    payload = Poison.decode!(json)
-    Logger.debug("Get WebSocket message #{inspect(payload)}")
+    json = Poison.decode!(json)
+    Logger.debug("Get WebSocket message #{inspect(json)}")
 
     # TODO add logic
 

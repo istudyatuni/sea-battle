@@ -1,4 +1,4 @@
-import { SendShot } from './AppServerAPI'
+import { SendShot } from './api/BattleAPI'
 import { getString } from '../Translation/String'
 
 export const togglePopup = (a: boolean, classColor: string = "", message: string = "") => {

@@ -14,7 +14,7 @@ import {
 
 import { initLocale } from '../Translation/String'
 
-import { SendShips, getOpponentID } from './AppServerAPI'
+import { SendShips, getOpponentID } from './api/MainServerAPI'
 
 const App: React.FC = () => {
   initLocale()

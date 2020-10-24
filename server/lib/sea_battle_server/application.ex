@@ -33,6 +33,9 @@ defmodule SeaBattleServer.Application do
     all_ships = @all_ships
     ^all_ships = :ets.new(all_ships, [:public, :named_table, read_concurrency: true])
 
+    # in this table - can I shoot to player['id']?
+    :ets.new(:can_move, [:public, :named_table, read_concurrency: true])
+
     # for counting, how many tables with battles already exist
     :ets.insert_new(@all_ships, {"number", 0})
 

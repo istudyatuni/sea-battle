@@ -1,10 +1,14 @@
 defmodule SeaBattleServer.ShipHandler do
   require Logger
   @all_ships :all_ships
+  @can_move :can_move
 
   def insert_new_ships(ships) do
-    id = :ets.lookup(@all_ships, "number")
-    id = Enum.at(id, 0) |> elem(1)
+    id =
+      :ets.lookup(@all_ships, "number")
+      |> Enum.at(0)
+      |> elem(1)
+
     id = id + 1
 
     :ets.insert(@all_ships, {"number", id})
@@ -12,6 +16,8 @@ defmodule SeaBattleServer.ShipHandler do
     opID = ships["opponent"]
 
     existance = :ets.insert_new(@all_ships, {id, opID, ships["ships"]})
+
+    :ets.insert(@can_move, {id, false})
 
     if opID !== "0" do
       set_opponent(opID, id)
@@ -29,8 +35,13 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def set_opponent(id, opID) do
-    check = :ets.lookup(@all_ships, "number")
-    check = Enum.at(check, 0) |> elem(1)
+    # 1st player can shoot the 2nd
+    :ets.insert(@can_move, {opID, true})
+
+    check =
+      :ets.lookup(@all_ships, "number")
+      |> Enum.at(0)
+      |> elem(1)
 
     # for comparing
     {id, ""} = Integer.parse(id)
@@ -41,8 +52,10 @@ defmodule SeaBattleServer.ShipHandler do
       opID = to_string(opID)
 
       # save ships
-      ships = :ets.lookup(@all_ships, id)
-      ships = Enum.at(ships, 0) |> elem(2)
+      ships =
+        :ets.lookup(@all_ships, id)
+        |> Enum.at(0)
+        |> elem(2)
 
       existance = :ets.insert(@all_ships, {id, opID, ships})
 
@@ -64,8 +77,12 @@ defmodule SeaBattleServer.ShipHandler do
 
     if id > 0 do
       id = to_string(id)
-      id = :ets.lookup(@all_ships, id)
-      id = Enum.at(id, 0) |> elem(1)
+
+      id =
+        :ets.lookup(@all_ships, id)
+        |> Enum.at(0)
+        |> elem(1)
+
       [_, _] = [%{"opponentID" => id}, 200]
     else
       [_, _] = [%{"error" => "ID is invalid"}, 400]
@@ -73,8 +90,11 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def onChangeOpponentID(id, count \\ 0) do
-    opID = :ets.lookup(@all_ships, id)
-    opID = Enum.at(opID, 0) |> elem(1)
+    opID =
+      :ets.lookup(@all_ships, id)
+      |> Enum.at(0)
+      |> elem(1)
+
     count = count + 1
 
     case opID do
@@ -88,39 +108,61 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  def show_ships(id) do
-    IO.puts("show ships, id=#{id}")
-    # if table not exist
-    case :ets.whereis(@all_ships) do
-      :undefined -> Logger.warn("ships is undefined")
-      _ -> IO.inspect(:ets.lookup(@all_ships, id))
+  defp swapCanMove(cant) do
+    # opponent ID
+    can =
+      :ets.lookup(@all_ships, cant)
+      |> Enum.at(0)
+      |> elem(1)
+
+    :ets.insert(@can_move, {can, true})
+    :ets.insert(@can_move, {cant, false})
+  end
+
+  defp shotResult(id, x, y) do
+    # 1st elem from table's head (hd)
+    ships =
+      hd(:ets.lookup(@all_ships, id))
+      |> elem(2)
+
+    {x, ""} = Integer.parse(x)
+    {y, ""} = Integer.parse(y)
+
+    value =
+      Enum.at(ships, x)
+      |> Enum.at(y)
+
+    Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
+    swapCanMove(id)
+
+    if value == 1 do
+      [_, _, _] = ["type", "hit", 200]
+    else
+      [_, _, _] = ["type", "miss", 200]
     end
   end
 
   def hitOrMiss(id, x, y) do
-    check = :ets.lookup(@all_ships, "number")
-    check = Enum.at(check, 0) |> elem(1)
+    check =
+      :ets.lookup(@all_ships, "number")
+      |> Enum.at(0)
+      |> elem(1)
 
     {id, ""} = Integer.parse(id)
 
     if id <= check && id > 0 do
       id = to_string(id)
-      # 1st elem from table's head (hd)
-      ships = hd(:ets.lookup(@all_ships, id))
-      ships = elem(ships, 2)
 
-      {x, ""} = Integer.parse(x)
-      {y, ""} = Integer.parse(y)
+      # :true or :false
+      can =
+        :ets.lookup(@can_move, id)
+        |> Enum.at(0)
+        |> elem(1)
 
-      value = Enum.at(ships, x)
-      value = Enum.at(value, y)
-
-      Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
-
-      if value == 1 do
-        [_, _, _] = ["type", "hit", 200]
+      if can === true do
+        shotResult(id, x, y)
       else
-        [_, _, _] = ["type", "miss", 200]
+        [_, _, _] = ["error", "Please wait", 202]
       end
     else
       [_, _, _] = ["error", "ID not exist", 202]

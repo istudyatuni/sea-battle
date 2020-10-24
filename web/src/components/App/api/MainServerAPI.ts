@@ -1,5 +1,5 @@
-import { delay, togglePopup, removeYID } from './AppFunctions'
-import { getString } from '../Translation/String'
+import { delay, togglePopup, removeYID } from '../AppFunctions'
+import { getString } from '../../Translation/String'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
   opID: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
@@ -16,42 +16,13 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
     }
     setID(resp.id)
     if(resp.opponentID!=="0") {
+      // successfully start game
       togglePopup(true, "success", getString('good_game'))
       setTimeout(function(){ removeYID() }, 30)
     } else {
       togglePopup(true, "info", getString('please_wait'))
       getOpponentID(resp.id, setOpID, refresh)
     }
-  } else {
-    // server unavailable
-    togglePopup(true, "error", getString('server_unavailable'))
-    console.error('Failed, response status: ', response.status)
-  }
-}
-
-export const SendShot = async (id: string,
-                                x: number,
-                                y: number,
-                                sendResp: (arg0: any)=>any
-                              ) => {
-  let url = '/shot?id=' + id + '&x=' + x + '&y=' + y
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
-  });
-
-  if(response.status===202) {
-    // need wait for set opponent id by other player
-    togglePopup(true, "info", getString('please_wait'))
-    console.error('Failed, response status: ', response.status)
-  } else if(response.ok) {
-    // everything ok, handle response
-    let resp = await response.json() as {
-      id: string;
-      type: string;
-    }
-    await sendResp(resp)
-    togglePopup(false)
   } else {
     // server unavailable
     togglePopup(true, "error", getString('server_unavailable'))
