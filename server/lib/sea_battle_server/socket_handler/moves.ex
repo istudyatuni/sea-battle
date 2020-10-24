@@ -22,10 +22,11 @@ defmodule SeaBattleServer.SocketHandler.Moves do
     json = Poison.decode!(json)
     Logger.debug("Get WebSocket message #{inspect(json)}")
 
-    # TODO add logic
+    message = SeaBattleServer.ShipHandler.onEnableMove(json["id"])
 
-    Logger.debug("Sending to client #{inspect("message")}")
-    {:reply, {:text, "message"}, state}
+    message = Poison.encode!(%{"action" => message})
+    Logger.debug("Sending to client #{message}")
+    {:reply, {:text, message}, state}
   end
 
   def websocket_send_msg(message, state) do

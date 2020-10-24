@@ -1,5 +1,6 @@
 import { delay, togglePopup, removeYID } from '../AppFunctions'
 import { getString } from '../../Translation/String'
+import { handleMovesWS } from './BattleAPI'
 
 export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
   opID: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
@@ -19,6 +20,7 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
       // successfully start game
       togglePopup(true, "success", getString('good_game'))
       setTimeout(function(){ removeYID() }, 30)
+      handleMovesWS(resp.id)
     } else {
       togglePopup(true, "info", getString('please_wait'))
       getOpponentID(resp.id, setOpID, refresh)
@@ -43,6 +45,7 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
       ws.close(1000, 'No need more')
       togglePopup(true, "success", getString('good_game'))
       setTimeout(function(){ togglePopup(true, "success", getString('your_move')) }, 1000)
+      handleMovesWS(id)
       removeYID()
     } else {
       // one minute server timeout
@@ -103,6 +106,7 @@ export const getOpponentIDpoll = async (id: string, setOpID: (arg0: string)=>voi
   if(setID!=='0') {
     togglePopup(true, 'success', getString('good_game'))
     setTimeout(function(){ togglePopup(true, "success", getString('your_move')) }, 1000)
+    handleMovesWS(id)
   }
   else
     togglePopup(true, 'warn', getString('one_minute_timeout'))

@@ -1,5 +1,6 @@
 import { togglePopup } from '../AppFunctions'
 import { getString } from '../../Translation/String'
+import { sendLog } from './MainServerAPI'
 
 export const SendShot = async (id: string,
                                 x: number,
@@ -28,5 +29,31 @@ export const SendShot = async (id: string,
     // server unavailable
     togglePopup(true, "error", getString('server_unavailable'))
     console.error('Failed, response status: ', response.status)
+  }
+}
+
+export const handleMovesWS = async (id: string) => {
+  let ws = new WebSocket('ws://localhost:4000/ws/moves/' + id)
+  let id_message = JSON.stringify({ "id": id })
+  ws.onopen = () => {
+    ws.send(id_message)
+  }
+  ws.onmessage = ({data}) => {
+    let json = JSON.parse(data)
+    if(json.action==='move') {
+      togglePopup(true, 'success', getString('your_move'))
+      ws.send(id_message)
+    } else {
+      // maybe here server timeout
+      togglePopup(true, 'warn', 'action != move')
+    }
+  }
+  ws.onerror = (e) => {
+    // here polling
+    sendLog('WebSocket error, id=' + id, e)
+    console.error('WebSocket error', e)
+  }
+  ws.onclose = (e) => {
+    togglePopup(true, 'info', getString('ws_closed'))
   }
 }

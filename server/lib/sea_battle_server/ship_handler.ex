@@ -108,6 +108,23 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
+  def onEnableMove(id, count \\ 0) do
+    can =
+      :ets.lookup(@can_move, id)
+      |> Enum.at(0)
+      |> elem(1)
+
+    count = count + 1
+
+    case can do
+      true when count < 60 * 10 ->
+        :timer.sleep(100)
+        onEnableMove(id, count)
+      false ->
+        "move"
+    end
+  end
+
   defp swapCanMove(cant) do
     # opponent ID
     can =
