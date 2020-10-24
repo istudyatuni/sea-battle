@@ -42,6 +42,7 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
       setOpID(json.opponentID)
       ws.close(1000, 'No need more')
       togglePopup(true, "success", getString('good_game'))
+      setTimeout(function(){ togglePopup(true, "success", getString('your_move')) }, 1000)
       removeYID()
     } else {
       // one minute server timeout
@@ -99,8 +100,10 @@ export const getOpponentIDpoll = async (id: string, setOpID: (arg0: string)=>voi
       return
     }
   }
-  if(setID!=='0')
+  if(setID!=='0') {
     togglePopup(true, 'success', getString('good_game'))
+    setTimeout(function(){ togglePopup(true, "success", getString('your_move')) }, 1000)
+  }
   else
     togglePopup(true, 'warn', getString('one_minute_timeout'))
 }

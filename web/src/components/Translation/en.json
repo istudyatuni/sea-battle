@@ -12,5 +12,6 @@
   "refresh": "Refresh",
   "server_unavailable": "Server unavailable",
   "ws_closed": "WebSocket is down",
-  "your_id": "Your ID"
+  "your_id": "Your ID",
+  "your_move": "Your move"
 }

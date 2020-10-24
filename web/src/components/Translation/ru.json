@@ -12,5 +12,6 @@
   "refresh": "Перезагрузка",
   "server_unavailable": "Сервер недоступен",
   "ws_closed": "Веб-сокет канал оборван",
-  "your_id": "Ваш ID"
+  "your_id": "Ваш ID",
+  "your_move": "Ваш ход"
 }
