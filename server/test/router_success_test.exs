@@ -59,4 +59,17 @@ defmodule SeaBattleServer.RouterSuccessTest do
     assert body == %{"opponent" => "1", "id" => "1"}
     assert conn.status == 201
   end
+
+  test "Send log" do
+    body = Poison.encode!(%{"error" => "Test error"})
+    conn = :post |> conn("/log", body) |> SeaBattleServer.Router.call(@options)
+
+    assert conn.status == 204
+  end
+
+  test "Other routes" do
+    conn = :get |> conn("/definitlynotworkingroute", %{}) |> SeaBattleServer.Router.call(@options)
+
+    assert conn.status == 404
+  end
 end
