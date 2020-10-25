@@ -16,7 +16,7 @@ export const SendShot = async (id: string,
   if(response.status===202) {
     // need wait for set opponent id by other player
     togglePopup(true, "info", getString('please_wait'))
-    console.error('Failed, response status: ', response.status)
+    console.info('Failed, response status: ', response.status)
   } else if(response.ok) {
     // everything ok, handle response
     let resp = await response.json() as {
@@ -35,6 +35,7 @@ export const SendShot = async (id: string,
 export const handleMovesWS = async (id: string) => {
   let ws = new WebSocket('ws://localhost:4000/ws/moves/' + id)
   let id_message = JSON.stringify({ "id": id })
+  let byServer = false
   ws.onopen = () => {
     ws.send(id_message)
   }
@@ -43,20 +44,23 @@ export const handleMovesWS = async (id: string) => {
     if(json.action==='move') {
       togglePopup(true, 'success', getString('your_move'))
       ws.send(id_message)
-    } else if(json.action==='wait') {
-      togglePopup(true, 'success', getString('your_move'))
-      setTimeout(function(){ ws.send(id_message) }, 700)
-    } else {
-      // maybe here server timeout
-      togglePopup(true, 'warn', 'action != move')
+    } else if(json.action==='close') {
+      // one minute server timeout
+      togglePopup(true, 'warn', getString('move_timeout'))
+      setTimeout(function(){ togglePopup(true, 'warn', getString('ws_closed')) }, 3000)
+      ws.close(1000, 'Timeout by server')
     }
+    byServer = true
   }
   ws.onerror = (e) => {
     // here polling
     sendLog('WebSocket error, id=' + id, e)
     console.error('WebSocket error', e)
+    byServer = true
   }
   ws.onclose = (e) => {
-    togglePopup(true, 'info', getString('ws_closed'))
+    if(byServer===false) {
+      togglePopup(true, 'info', getString('ws_closed'))
+    }
   }
 }
