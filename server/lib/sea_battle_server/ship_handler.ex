@@ -26,11 +26,11 @@ defmodule SeaBattleServer.ShipHandler do
     if existance == true do
       # created
       Logger.debug("inserting, id=#{id}")
-      [_, _] = [%{"id" => id, "opponentID" => opID}, 201]
+      [%{"id" => id, "opponentID" => opID}, 201]
     else
       # AHAHA INTERNAL SERVER ERROR and I don't know why
       Logger.error("server error, cannot insert_new in ETS")
-      [_, _] = ["", 500]
+      ["", 500]
     end
   end
 
@@ -61,14 +61,14 @@ defmodule SeaBattleServer.ShipHandler do
 
       if existance == true do
         Logger.debug("set opponent, id=#{id}, opID=#{opID}")
-        [_, _] = [%{"id" => id, "opponent" => opID}, 201]
+        [%{"id" => id, "opponent" => opID}, 201]
       else
-        [_, _] = ["", 500]
+        ["", 500]
       end
     else
       # if id or opID is invalid
       Logger.warn("id is invalid, id=#{id}, opID=#{opID}, number of all_ships=#{check}")
-      [_, _] = [%{"error" => "some IDs not exist", "maxID" => check}, 400]
+      [%{"error" => "some IDs not exist", "maxID" => check}, 400]
     end
   end
 
@@ -83,14 +83,14 @@ defmodule SeaBattleServer.ShipHandler do
         |> Enum.at(0)
         |> elem(1)
 
-      [_, _] = [%{"opponentID" => id}, 200]
+      [%{"opponentID" => id}, 200]
     else
-      [_, _] = [%{"error" => "ID is invalid"}, 400]
+      [%{"error" => "ID is invalid"}, 400]
     end
   end
 
   # one minute
-  @timeout 60 * 10
+  @timeout 20 * 10
 
   def onChangeOpponentID(id, count \\ 0) do
     opID =
@@ -110,7 +110,8 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  def onEnableMove(id, count \\ 0, prev \\ nil) do
+  # wait when can_move: true -> false
+  def onEnableMove(id, count \\ 0) do
     can =
       :ets.lookup(@can_move, id)
       |> Enum.at(0)
@@ -122,12 +123,9 @@ defmodule SeaBattleServer.ShipHandler do
       true when count < @timeout ->
         # wait for opponent
         :timer.sleep(100)
-        onEnableMove(id, count, can)
+        onEnableMove(id, count)
       true when count >= @timeout ->
         # opponent can't move by some reason (can't tap to cell maybe)
-        "close"
-      false when prev === false and count >= @timeout ->
-        # player didn't shoot in one minute
         "close"
       false ->
         # opponent made shot
@@ -162,10 +160,10 @@ defmodule SeaBattleServer.ShipHandler do
     Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
 
     if value == 1 do
-      [_, _, _] = ["type", "hit", 200]
+      ["type", "hit", 200]
     else
       swapCanMove(id)
-      [_, _, _] = ["type", "miss", 200]
+      ["type", "miss", 200]
     end
   end
 
@@ -189,10 +187,10 @@ defmodule SeaBattleServer.ShipHandler do
       if can === true do
         shotResult(id, x, y)
       else
-        [_, _, _] = ["error", "Please wait", 202]
+        ["error", "Please wait", 202]
       end
     else
-      [_, _, _] = ["error", "ID not exist", 202]
+      ["error", "ID not exist", 202]
     end
   end
 end
