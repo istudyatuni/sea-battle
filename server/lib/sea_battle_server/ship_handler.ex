@@ -89,6 +89,9 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
+  # one minute
+  @timeout 60 * 10
+
   def onChangeOpponentID(id, count \\ 0) do
     opID =
       :ets.lookup(@all_ships, id)
@@ -98,8 +101,7 @@ defmodule SeaBattleServer.ShipHandler do
     count = count + 1
 
     case opID do
-      # one minute
-      "0" when count < 60 * 10 ->
+      "0" when count < @timeout ->
         :timer.sleep(100)
         onChangeOpponentID(id, count)
 
@@ -108,28 +110,23 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  def onEnableMove(id, count \\ 0, prev \\ false) do
+  def onEnableMove(id, count \\ 0, prev \\ nil) do
     can =
       :ets.lookup(@can_move, id)
       |> Enum.at(0)
       |> elem(1)
 
     count = count + 1
-    timeout = 60 * 10
 
     case can do
-      true when count < timeout ->
+      true when count < @timeout ->
         # wait for opponent
         :timer.sleep(100)
-        onEnableMove(id, count)
-      true when count >= timeout ->
+        onEnableMove(id, count, can)
+      true when count >= @timeout ->
         # opponent can't move by some reason (can't tap to cell maybe)
         "close"
-      false when prev === false and count < timeout ->
-        # wait for player
-        :timer.sleep(100)
-        onEnableMove(id, count)
-      false when prev === false ->
+      false when prev === false and count >= @timeout ->
         # player didn't shoot in one minute
         "close"
       false ->

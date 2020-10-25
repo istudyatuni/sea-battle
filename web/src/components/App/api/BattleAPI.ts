@@ -34,16 +34,16 @@ export const SendShot = async (id: string,
 
 export const handleMovesWS = async (id: string) => {
   let ws = new WebSocket('ws://localhost:4000/ws/moves/' + id)
-  let id_message = JSON.stringify({ "id": id })
+  let message = JSON.stringify({ "id": id })
   let byServer = false
   ws.onopen = () => {
-    ws.send(id_message)
+    ws.send(message)
   }
   ws.onmessage = ({data}) => {
     let json = JSON.parse(data)
     if(json.action==='move') {
       togglePopup(true, 'success', getString('your_move'))
-      ws.send(id_message)
+      ws.send(message)
     } else if(json.action==='close') {
       // one minute server timeout
       togglePopup(true, 'warn', getString('move_timeout'))
