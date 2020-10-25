@@ -120,6 +120,8 @@ defmodule SeaBattleServer.ShipHandler do
       true when count < 60 * 10 ->
         :timer.sleep(100)
         onEnableMove(id, count)
+      false when count === 1 ->
+        "wait"
       false ->
         "move"
     end
@@ -150,11 +152,11 @@ defmodule SeaBattleServer.ShipHandler do
       |> Enum.at(y)
 
     Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
-    swapCanMove(id)
 
     if value == 1 do
       [_, _, _] = ["type", "hit", 200]
     else
+      swapCanMove(id)
       [_, _, _] = ["type", "miss", 200]
     end
   end

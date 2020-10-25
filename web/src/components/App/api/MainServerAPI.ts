@@ -21,6 +21,7 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
       togglePopup(true, "success", getString('good_game'))
       setTimeout(function(){ removeYID() }, 30)
       handleMovesWS(resp.id)
+      scrollTop()
     } else {
       togglePopup(true, "info", getString('please_wait'))
       getOpponentID(resp.id, setOpID, refresh)
@@ -47,6 +48,7 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
       setTimeout(function(){ togglePopup(true, "success", getString('your_move')) }, 1000)
       handleMovesWS(id)
       removeYID()
+      scrollTop()
     } else {
       // one minute server timeout
       togglePopup(true, "warn", getString('one_minute_timeout'))
@@ -107,6 +109,7 @@ export const getOpponentIDpoll = async (id: string, setOpID: (arg0: string)=>voi
     togglePopup(true, 'success', getString('good_game'))
     setTimeout(function(){ togglePopup(true, "success", getString('your_move')) }, 1000)
     handleMovesWS(id)
+    scrollTop()
   }
   else
     togglePopup(true, 'warn', getString('one_minute_timeout'))
@@ -128,4 +131,8 @@ export const sendLog = async (message: string, e: any = '') => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
+}
+
+export const scrollTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }

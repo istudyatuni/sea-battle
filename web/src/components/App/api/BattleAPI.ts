@@ -43,6 +43,9 @@ export const handleMovesWS = async (id: string) => {
     if(json.action==='move') {
       togglePopup(true, 'success', getString('your_move'))
       ws.send(id_message)
+    } else if(json.action==='wait') {
+      togglePopup(true, 'success', getString('your_move'))
+      setTimeout(function(){ ws.send(id_message) }, 700)
     } else {
       // maybe here server timeout
       togglePopup(true, 'warn', 'action != move')
