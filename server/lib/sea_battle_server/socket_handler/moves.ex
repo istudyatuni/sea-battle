@@ -10,7 +10,9 @@ defmodule SeaBattleServer.SocketHandler.Moves do
     state = %{registry_key: request.path, id: id}
     Logger.debug("Init WebSocket connection, state: #{inspect(state)}")
 
-    {:cowboy_websocket, request, state}
+    # 3 minutes
+    opts = %{:idle_timeout => 3 * 60 * 1000}
+    {:cowboy_websocket, request, state, opts}
   end
 
   def websocket_init(state) do
@@ -25,8 +27,7 @@ defmodule SeaBattleServer.SocketHandler.Moves do
   end
 
   def websocket_handle({:text, json}, state) do
-    json = Poison.decode!(json)
-    Logger.debug("Get WebSocket message #{inspect(json)}")
+    Logger.debug("Get WebSocket message #{json}")
 
     message = Poison.encode!(%{"action" => "wait"})
     Logger.debug("Sending to client #{message}")
