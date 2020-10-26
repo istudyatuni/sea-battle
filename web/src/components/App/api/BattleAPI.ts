@@ -1,4 +1,4 @@
-import { togglePopup } from '../AppFunctions'
+import { delay, togglePopup } from '../AppFunctions'
 import { getString } from '../../Translation/String'
 import { sendLog } from './MainServerAPI'
 
@@ -52,11 +52,39 @@ export const handleMovesWS = async (id: string) => {
     }
   }
   ws.onerror = (e) => {
-    // here polling
-    sendLog('WebSocket error, id=' + id, e)
-    console.error('WebSocket error', e)
+    sendLog('WebSocket error, id=' + id + ', downgrade to polling', e)
+    console.error('WebSocket failed: ', e, 'downgrade to polling')
+    handleMovesPoll(id)
   }
   ws.onclose = (e) => {
+    togglePopup(true, 'warn', getString('move_timeout'))
+  }
+}
+
+export const handleMovesPoll = async (id: string) => {
+  let timeout = 10//60 * 3
+  let timer = 0
+  let url = '/move?id=' + id
+  while(timer<timeout) {
+    timer++
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if(response.status===200) {
+      // handle response
+      let resp = await response.json() as {
+        can: boolean
+      }
+      if(resp.can===true) {
+        togglePopup(true, 'success', getString('your_move'))
+        // again
+        timer = 0
+      }
+      await delay(1000)
+    }
+  }
+  if(timer>=timeout) {
     togglePopup(true, 'warn', getString('move_timeout'))
   }
 }

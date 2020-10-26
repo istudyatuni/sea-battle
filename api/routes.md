@@ -94,6 +94,8 @@ Returned if ID isn't invalid:
   "can": true
 }
 ```
+`can == [true, false]`
+
 Code `200`
 
 If ID is invalid code `400`
