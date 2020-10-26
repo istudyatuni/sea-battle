@@ -3,7 +3,11 @@ defmodule SeaBattleServer.SocketHandler.Moves do
   @behaviour :cowboy_websocket
 
   def init(request, _state) do
-    state = %{registry_key: request.path}
+    id =
+      request.path_info
+      |> Enum.at(0)
+
+    state = %{registry_key: request.path, id: id}
     Logger.debug("Init WebSocket connection, state: #{inspect(state)}")
 
     {:cowboy_websocket, request, state}
@@ -12,6 +16,8 @@ defmodule SeaBattleServer.SocketHandler.Moves do
   def websocket_init(state) do
     Registry.SeaBattleServer
     |> Registry.register(state.registry_key, {})
+
+    :ets.insert_new(:ws, {state.id, self()})
 
     Logger.debug("Subscrube to WebSocket \"moves\"")
 
@@ -22,26 +28,14 @@ defmodule SeaBattleServer.SocketHandler.Moves do
     json = Poison.decode!(json)
     Logger.debug("Get WebSocket message #{inspect(json)}")
 
-    message = SeaBattleServer.ShipHandler.onEnableMove(json["id"])
-
-    message = Poison.encode!(%{"action" => message})
+    message = Poison.encode!(%{"action" => "wait"})
     Logger.debug("Sending to client #{message}")
     {:reply, {:text, message}, state}
   end
 
-  def websocket_send_msg(message, state) do
-    Registry.SeaBattleServer
-    |> Registry.dispatch(state.registry_key, fn entries ->
-      for {pid, _} <- entries do
-        if pid != self() do
-          Process.send(pid, message, [])
-        end
-      end
-    end)
-  end
-
-  def websocket_info(_info, state) do
-    {:reply, state}
+  def websocket_info(message, state) when is_bitstring(message) do
+    message = Poison.encode!(%{"action" => message})
+    {:reply, {:text, message}, state}
   end
 
   def terminate(reason, request, _state) do

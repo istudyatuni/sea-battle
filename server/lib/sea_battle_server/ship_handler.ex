@@ -52,10 +52,7 @@ defmodule SeaBattleServer.ShipHandler do
       opID = to_string(opID)
 
       # save ships
-      ships =
-        :ets.lookup(@all_ships, id)
-        |> Enum.at(0)
-        |> elem(2)
+      ships = ships?(id)
 
       existance = :ets.insert(@all_ships, {id, opID, ships})
 
@@ -72,16 +69,25 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
+  defp opponentID?(id) do
+    :ets.lookup(@all_ships, id)
+    |> Enum.at(0)
+    |> elem(1)
+  end
+
+  defp ships?(id) do
+    :ets.lookup(@all_ships, id)
+    |> Enum.at(0)
+    |> elem(2)
+  end
+
   def getOpponentID(id) do
     {id, ""} = Integer.parse(id)
 
     if id > 0 do
-      id = to_string(id)
-
       id =
-        :ets.lookup(@all_ships, id)
-        |> Enum.at(0)
-        |> elem(1)
+        to_string(id)
+        |> opponentID?
 
       [%{"opponentID" => id}, 200]
     else
@@ -93,10 +99,7 @@ defmodule SeaBattleServer.ShipHandler do
   @timeout 20 * 10
 
   def onChangeOpponentID(id, count \\ 0) do
-    opID =
-      :ets.lookup(@all_ships, id)
-      |> Enum.at(0)
-      |> elem(1)
+    opID = opponentID?(id)
 
     count = count + 1
 
@@ -110,69 +113,62 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  # wait when can_move: true -> false
-  def onEnableMove(id, count \\ 0) do
-    can =
-      :ets.lookup(@can_move, id)
-      |> Enum.at(0)
-      |> elem(1)
-
-    count = count + 1
-
-    case can do
-      true when count < @timeout ->
-        # wait for opponent
-        :timer.sleep(100)
-        onEnableMove(id, count)
-
-      true when count >= @timeout ->
-        # opponent can't move by some reason (can't tap to cell maybe)
-        "close"
-
-      false when can === false ->
-        # when player shoot, hit and should make move again
-        # or opponent shoot, and now player's move
-        onContinueMove(id)
-
-      false ->
-        # opponent made shot
-        "move"
-    end
-  end
-
-  def onContinueMove(_id) do
-    "move"
-  end
-
   defp swapCanMove(cant) do
-    # opponent ID
-    can =
-      :ets.lookup(@all_ships, cant)
-      |> Enum.at(0)
-      |> elem(1)
+    can = opponentID?(cant)
 
     :ets.insert(@can_move, {can, true})
     :ets.insert(@can_move, {cant, false})
   end
 
-  defp shotResult(id, x, y) do
-    # 1st elem from table's head (hd)
-    ships =
-      hd(:ets.lookup(@all_ships, id))
-      |> elem(2)
+  defp sendMove(pid) do
+    Process.send(pid, "move", [])
+  end
 
+  defp wspid?(id) do
+    pid =
+      :ets.lookup(:ws, id)
+      |> Enum.at(0)
+
+    if pid != nil do
+      elem(pid, 1)
+    else
+      nil
+    end
+  end
+
+  defp shotResult(id, x, y) do
     {x, ""} = Integer.parse(x)
     {y, ""} = Integer.parse(y)
 
+    # ships
     value =
-      Enum.at(ships, x)
+      hd(:ets.lookup(@all_ships, id))
+      |> elem(2)
+      # position
+      |> Enum.at(x)
       |> Enum.at(y)
 
     Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
 
     if value == 1 do
+      pid =
+        opponentID?(id)
+        |> wspid?
+
+      if pid != nil and Process.alive?(pid) do
+        Logger.debug("Sending move after hit, id=#{opponentID?(id)}")
+        sendMove(pid)
+      end
+
       ["type", "hit", 200]
     else
+      pid = wspid?(id)
+
+      if pid != nil and Process.alive?(pid) do
+        Logger.debug("Sending move after miss, id=#{id}")
+        sendMove(pid)
+      end
+
       swapCanMove(id)
       ["type", "miss", 200]
     end

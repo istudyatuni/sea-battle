@@ -35,7 +35,6 @@ export const SendShot = async (id: string,
 export const handleMovesWS = async (id: string) => {
   let ws = new WebSocket('ws://localhost:4000/ws/moves/' + id)
   let message = JSON.stringify({ "id": id })
-  let byServer = false
   ws.onopen = () => {
     ws.send(message)
   }
@@ -43,24 +42,14 @@ export const handleMovesWS = async (id: string) => {
     let json = JSON.parse(data)
     if(json.action==='move') {
       togglePopup(true, 'success', getString('your_move'))
-      setTimeout(function(){ ws.send(message) }, 700)
-    } else if(json.action==='close') {
-      // one minute server timeout
-      togglePopup(true, 'warn', getString('move_timeout'))
-      setTimeout(function(){ togglePopup(true, 'warn', getString('ws_closed')) }, 3000)
-      ws.close(1000, 'Timeout by server')
     }
-    byServer = true
   }
   ws.onerror = (e) => {
     // here polling
     sendLog('WebSocket error, id=' + id, e)
     console.error('WebSocket error', e)
-    byServer = true
   }
   ws.onclose = (e) => {
-    if(byServer===false) {
-      togglePopup(true, 'info', getString('ws_closed'))
-    }
+    togglePopup(true, 'warn', getString('move_timeout'))
   }
 }

@@ -111,8 +111,9 @@ export const getOpponentIDpoll = async (id: string, setOpID: (arg0: string)=>voi
     handleMovesWS(id)
     scrollTop()
   }
-  else
+  else {
     togglePopup(true, 'warn', getString('one_minute_timeout'))
+  }
 }
 
 export const sendLog = async (message: string, e: any = '') => {
@@ -126,7 +127,7 @@ export const sendLog = async (message: string, e: any = '') => {
     },
   }
   let url = '/log'
-  const response = await fetch(url, {
+  await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),

@@ -7,14 +7,13 @@ import Shipsboard from '../Ships/Shipsboard'
 import Battlefield from '../Battlefield/Battlefield'
 
 import {
-  FieldInit, HideOrNot,
-  BoolToOnOff, HitOrMiss,
+  FieldInit, HitOrMiss,
   togglePopup
 } from './AppFunctions'
 
 import { initLocale } from '../Translation/String'
 
-import { SendShips, getOpponentID } from './api/MainServerAPI'
+import { SendShips } from './api/MainServerAPI'
 
 const App: React.FC = () => {
   initLocale()

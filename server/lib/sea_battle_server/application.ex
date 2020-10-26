@@ -31,10 +31,13 @@ defmodule SeaBattleServer.Application do
 
     Logger.debug("Init ships . .")
     all_ships = @all_ships
-    ^all_ships = :ets.new(all_ships, [:public, :named_table, read_concurrency: true])
+    ^all_ships = :ets.new(all_ships, [:public, :named_table])
 
     # in this table - can I shoot to player['id']?
     :ets.new(:can_move, [:public, :named_table, read_concurrency: true])
+
+    # PID of WebSocket room moves
+    :ets.new(:ws, [:public, :named_table])
 
     # for counting, how many tables with battles already exist
     :ets.insert_new(@all_ships, {"number", 0})
