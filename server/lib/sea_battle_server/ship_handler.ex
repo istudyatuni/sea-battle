@@ -124,13 +124,24 @@ defmodule SeaBattleServer.ShipHandler do
         # wait for opponent
         :timer.sleep(100)
         onEnableMove(id, count)
+
       true when count >= @timeout ->
         # opponent can't move by some reason (can't tap to cell maybe)
         "close"
+
+      false when can === false ->
+        # when player shoot, hit and should make move again
+        # or opponent shoot, and now player's move
+        onContinueMove(id)
+
       false ->
         # opponent made shot
         "move"
     end
+  end
+
+  def onContinueMove(_id) do
+    "move"
   end
 
   defp swapCanMove(cant) do
