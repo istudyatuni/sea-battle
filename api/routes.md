@@ -83,3 +83,17 @@ Returned if success:
 Code `200`
 
 If ID is invalid, code `400`
+
+
+## GET `/move?id={id}`
+
+Returned if ID isn't invalid:
+```json
+{
+  "id": "id",
+  "can": true
+}
+```
+Code `200`
+
+If ID is invalid code `400`

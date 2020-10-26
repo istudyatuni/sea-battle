@@ -42,6 +42,16 @@ defmodule SeaBattleServer.Router do
     send_resp(conn, code, body)
   end
 
+  get "/move" do
+    conn = fetch_query_params(conn)
+    %{"id" => id} = conn.params
+
+    [body, code] = ShipHandler.can_move?(id)
+
+    body = Poison.encode!(body)
+    send_resp(conn, code, body)
+  end
+
   patch "/opponent" do
     conn = fetch_query_params(conn)
     %{"id" => id, "opponentID" => opponentID} = conn.params

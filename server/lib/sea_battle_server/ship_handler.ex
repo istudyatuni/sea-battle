@@ -3,12 +3,14 @@ defmodule SeaBattleServer.ShipHandler do
   @all_ships :all_ships
   @can_move :can_move
 
-  def insert_new_ships(ships) do
-    id =
-      :ets.lookup(@all_ships, "number")
-      |> Enum.at(0)
-      |> elem(1)
+  defp number? do
+    :ets.lookup(@all_ships, "number")
+    |> Enum.at(0)
+    |> elem(1)
+  end
 
+  def insert_new_ships(ships) do
+    id = number?()
     id = id + 1
 
     :ets.insert(@all_ships, {"number", id})
@@ -55,10 +57,7 @@ defmodule SeaBattleServer.ShipHandler do
     # 1st player can shoot the 2nd
     :ets.insert(@can_move, {opID, true})
 
-    check =
-      :ets.lookup(@all_ships, "number")
-      |> Enum.at(0)
-      |> elem(1)
+    check = number?()
 
     # for comparing
     {id, ""} = Integer.parse(id)
@@ -96,6 +95,29 @@ defmodule SeaBattleServer.ShipHandler do
     :ets.lookup(@all_ships, id)
     |> Enum.at(0)
     |> elem(2)
+  end
+
+  defp move?(id) do
+    :ets.lookup(@can_move, id)
+    |> Enum.at(0)
+    |> elem(1)
+  end
+
+  def can_move?(id) do
+    check = number?()
+    {id, ""} = Integer.parse(id)
+
+    if id <= check do
+      id = to_string(id)
+
+      can =
+        opponentID?(id)
+        |> move?
+
+      [%{"id" => id, "can" => can}, 200]
+    else
+      [%{}, 400]
+    end
   end
 
   def getOpponentID(id) do
@@ -171,10 +193,7 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def hitOrMiss(id, x, y) do
-    check =
-      :ets.lookup(@all_ships, "number")
-      |> Enum.at(0)
-      |> elem(1)
+    check = number?()
 
     {id, ""} = Integer.parse(id)
 
@@ -182,10 +201,7 @@ defmodule SeaBattleServer.ShipHandler do
       id = to_string(id)
 
       # :true or :false
-      can =
-        :ets.lookup(@can_move, id)
-        |> Enum.at(0)
-        |> elem(1)
+      can = move?(id)
 
       if can === true do
         shotResult(id, x, y)
