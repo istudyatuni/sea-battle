@@ -1,0 +1,36 @@
+## Opponent `/ws/opponent/{id}`
+Timeout - 1 minute
+
+**On message** reply message back
+
+**When opponent ID has changed**, sending:
+```json
+{
+  "opponentID": "opponent's ID"
+}
+```
+Need closing chanel manually after getting correct ID
+
+## Moves `/ws/moves/{id}`
+Timeout - 3 minutes
+
+**On message** sending:
+```json
+{
+  "action": "wait"
+}
+```
+
+**When time for player's move**, sending:
+```json
+{
+  "action": "move"
+}
+```
+
+**When opponent hitting** the cell of player's ships, sending:
+```json
+{
+  "action": "opponent_hit"
+}
+```

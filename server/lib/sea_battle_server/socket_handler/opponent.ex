@@ -28,7 +28,6 @@ defmodule SeaBattleServer.SocketHandler.Opponent do
 
   def websocket_info(message, state) when is_bitstring(message) do
     message = Poison.encode!(%{"opponentID" => message})
-    IO.inspect(message)
     {:reply, {:text, message}, state}
   end
 
