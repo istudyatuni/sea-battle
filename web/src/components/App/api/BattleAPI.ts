@@ -44,6 +44,11 @@ export const handleMovesWS = async (id: string) => {
       setTimeout(function(){
         togglePopup(true, 'success', getString('your_move'))
       }, 5)
+    } else if(json.action==='opponent_hit') {
+      togglePopup(false)
+      setTimeout(function(){
+        togglePopup(true, 'warn', getString('opponent_hit'))
+      }, 5)
     }
   }
   ws.onerror = (e) => {

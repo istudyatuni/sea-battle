@@ -8,6 +8,7 @@
   "good_game": "Good game!",
   "move_timeout": "The move takes to long...",
   "one_minute_timeout": "We waited for your opponent for a minute...",
+  "opponent_hit": "Your opponent is hit to your ship",
   "player": "Player",
   "please_wait": "Please wait",
   "refresh": "Refresh",

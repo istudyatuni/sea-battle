@@ -123,15 +123,17 @@ defmodule SeaBattleServer.ShipHandler do
     Process.send(pid, "move", [])
   end
 
+  defp sendHit(pid) do
+    Process.send(pid, "opponent_hit", [])
+  end
+
   defp shotResult(id, x, y) do
     {x, ""} = Integer.parse(x)
     {y, ""} = Integer.parse(y)
 
-    # ships
+    # position
     value =
-      hd(:ets.lookup(@all_ships, id))
-      |> elem(2)
-      # position
+      ships?(id)
       |> Enum.at(x)
       |> Enum.at(y)
 
@@ -145,6 +147,13 @@ defmodule SeaBattleServer.ShipHandler do
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending move after hit, id=#{opponentID?(id)}")
         sendMove(pid)
+      end
+
+      pid = wspid?(id)
+
+      if pid != nil and Process.alive?(pid) do
+        Logger.debug("Sending info about hitting, id=#{id}")
+        sendHit(pid)
       end
 
       ["type", "hit", 200]
