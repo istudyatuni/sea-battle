@@ -41,7 +41,9 @@ export const handleMovesWS = async (id: string) => {
   ws.onmessage = ({data}) => {
     let json = JSON.parse(data)
     if(json.action==='move') {
-      togglePopup(true, 'success', getString('your_move'))
+      setTimeout(function(){
+        togglePopup(true, 'success', getString('your_move'))
+      }, 5)
     }
   }
   ws.onerror = (e) => {
