@@ -21,6 +21,11 @@ defmodule SeaBattleServer.ShipHandler do
 
     if opID !== "0" do
       set_opponent(opID, id)
+      pid = wspid?(opID)
+
+      if pid != nil and Process.alive?(pid) do
+        Process.send(pid, id, [])
+      end
     end
 
     if existance == true do
@@ -31,6 +36,18 @@ defmodule SeaBattleServer.ShipHandler do
       # AHAHA INTERNAL SERVER ERROR and I don't know why
       Logger.error("server error, cannot insert_new in ETS")
       ["", 500]
+    end
+  end
+
+  defp wspid?(id) do
+    pid =
+      :ets.lookup(:ws, id)
+      |> Enum.at(0)
+
+    if pid != nil do
+      elem(pid, 1)
+    else
+      nil
     end
   end
 
@@ -95,24 +112,6 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  # one minute
-  @timeout 20 * 10
-
-  def onChangeOpponentID(id, count \\ 0) do
-    opID = opponentID?(id)
-
-    count = count + 1
-
-    case opID do
-      "0" when count < @timeout ->
-        :timer.sleep(100)
-        onChangeOpponentID(id, count)
-
-      _ ->
-        opID
-    end
-  end
-
   defp swapCanMove(cant) do
     can = opponentID?(cant)
 
@@ -122,18 +121,6 @@ defmodule SeaBattleServer.ShipHandler do
 
   defp sendMove(pid) do
     Process.send(pid, "move", [])
-  end
-
-  defp wspid?(id) do
-    pid =
-      :ets.lookup(:ws, id)
-      |> Enum.at(0)
-
-    if pid != nil do
-      elem(pid, 1)
-    else
-      nil
-    end
   end
 
   defp shotResult(id, x, y) do

@@ -17,7 +17,7 @@ defmodule SeaBattleServer.SocketHandler.Moves do
     Registry.SeaBattleServer
     |> Registry.register(state.registry_key, {})
 
-    :ets.insert_new(:ws, {state.id, self()})
+    :ets.insert(:ws, {state.id, self()})
 
     Logger.debug("Subscrube to WebSocket \"moves\"")
 

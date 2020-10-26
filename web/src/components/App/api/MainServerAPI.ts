@@ -35,37 +35,32 @@ export const SendShips = async (ships: number[][], setID: (arg0: string)=>void,
 
 export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
   let ws = new WebSocket('ws://localhost:4000/ws/opponent/' + id)
-  let byServer = false
-  ws.onopen = () => {
-    ws.send(JSON.stringify({ "id": id }))
-  }
+  let byClient = false
   ws.onmessage = ({data}) => {
     let json = JSON.parse(data)
     if(json.opponentID!=="0") {
       setOpID(json.opponentID)
+      byClient = true
       ws.close(1000, 'No need more')
-      togglePopup(true, "success", getString('good_game'))
-      setTimeout(function(){ togglePopup(true, "success", getString('your_move')) }, 1000)
+
+      togglePopup(true, 'success', getString('good_game'))
+      setTimeout(function(){ togglePopup(true, 'success', getString('your_move')) }, 1000)
+
       handleMovesWS(id)
       removeYID()
       scrollTop()
-    } else {
-      // one minute server timeout
-      togglePopup(true, "warn", getString('one_minute_timeout'))
-      ws.close(1000, 'Timeout by server')
     }
-    byServer = true
   }
   ws.onerror = (e) => {
     sendLog('WebSocket error, id=' + id + ', downgrade to polling', e)
     console.error('WebSocket failed: ', e, 'downgrade to polling')
     getOpponentIDpoll(id, setOpID)
-    // it not by server, but we need handle it
-    byServer = true
+    // it not by client, but we need handle it
+    byClient = true
   }
   ws.onclose = (e) => {
-    if(byServer===false) {
-      // server unavailable
+    if(byClient===false) {
+      togglePopup(true, 'warn', getString('one_minute_timeout'))
       togglePopup(true, 'error', getString('ws_closed'))
       console.error('WebSocket closed', e)
     }

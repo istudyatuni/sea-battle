@@ -74,7 +74,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
 
     body = Poison.decode!(conn.resp_body)
 
-    assert body == %{"opponent" => "1", "id" => "1"}
+    assert body == %{"opponentID" => "1", "id" => "1"}
     assert conn.status == 201
   end
 
