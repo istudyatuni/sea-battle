@@ -18,13 +18,14 @@ Sending info about ships on battlefield as:
   ]
 }
 ```
-Returned:
+Returned if success:
 ```json
 {
   "id": "battle's id",
   "opponentID": "opponent's ID (or 0)"
 }
 ```
+Code `201`
 
 ## PATCH `/opponent?id={id}&opponentID={opponentID}`
 
@@ -34,13 +35,14 @@ Sending, who is opponent (his ID)
 - `id` - player's id
 - `opponentID` - his opponent's ID
 
-Returned:
+Returned if success:
 ```json
 {
   "id":       "player's id",
-  "opponent": "opponent's ID"
+  "opponentID": "opponent's ID"
 }
 ```
+Code `201`
 
 ## GET `/shot?id={id}&x={x}&y={y}`
 You need send as id - opponent's ID
@@ -49,7 +51,7 @@ Where player make shot
 
 `x,y = [0..9]`, x - vertical (row), y - gorisantal (column): `[x][y]`
 
-Returned:
++ Returned if success:
 ```json
 {
   "id": "id",
@@ -57,3 +59,27 @@ Returned:
 }
 ```
 `value = ["hit","miss"]`
+
+Code `200`
+
++ If player can't shoot:
+```json
+{
+  "id": "id",
+  "error": "Please wait"
+}
+```
+Code `202`
+
+## GET `/opponent?id={id}`
+
+Returned if success:
+```json
+{
+  "id": "id",
+  "opponentID": "opponent's ID"
+}
+```
+Code `200`
+
+If ID is invalid, code `400`

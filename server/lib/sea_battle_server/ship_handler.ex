@@ -75,7 +75,7 @@ defmodule SeaBattleServer.ShipHandler do
 
       if existance == true do
         Logger.debug("set opponent, id=#{id}, opID=#{opID}")
-        [%{"id" => id, "opponent" => opID}, 201]
+        [%{"id" => id, "opponentID" => opID}, 201]
       else
         ["", 500]
       end
