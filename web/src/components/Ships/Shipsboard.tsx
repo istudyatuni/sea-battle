@@ -3,12 +3,12 @@ import React, { /*useEffect,*/ useState } from 'react';
 import Ship from './Ship'
 import './Shipboard.css'
 
-let shipName = ["Aircraft", "Battleship",
-"Cruiser", "Submarine", "Carrier"]
+// линкор крейсер эсминец катер
+let shipName = ['Cruiser', 'Battleship', 'Destroyer', 'Boat']
 
 const Shipsboard: React.FC = () => {
 
-  const [kills, setKills] = useState([0,0,0,0,0])
+  const [kills, setKills] = useState([0,0,0,0])
 
   function changeKill(i: number, updown: number) {
     let kill = kills
@@ -24,7 +24,7 @@ const Shipsboard: React.FC = () => {
 
   function renderShips(): object[] {
     let ships = []
-    for(let i=0; i<5; i++) {
+    for(let i=0; i<4; i++) {
       ships.push(<Ship
           key={[i, kills[i]].toString()}
           i={i}
