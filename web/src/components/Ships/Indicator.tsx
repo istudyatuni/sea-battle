@@ -7,9 +7,11 @@ type ShipProps = {
 
 const Indicator: React.FC<ShipProps> = ({ isKill }) => {
   let path
-  if(isKill===true)
+  if(isKill===true) {
     path = "Hit"
-  else path = "Miss"
+  } else {
+    path = "Miss"
+  }
   path = "assets/" + path + "Small.png"
   return (
     <div className="Indicator">

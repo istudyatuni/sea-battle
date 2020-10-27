@@ -35,26 +35,30 @@ export const HideOrNot = (a: number): any => {
 }
 
 export const BoolToOnOff = (a: boolean): string => {
-  if(a===true)
+  if(a===true) {
     return getString('enabled')
-  else
+  } else {
     return getString('disabled')
+  }
 }
+
+enum ShotResult {none, hit, miss}
 
 export const HitOrMiss = async (id: string,
                                 x: number,
                                 y: number,
                                 changeField: (arg0: number, arg1: number, arg2: number) => void) => {
-  let type = "none"
+  let type = 'none'
   async function returnResponse(response: any) {
     type = response.type
   }
   await SendShot(id, x, y, returnResponse)
 
-  if (type==='miss')
+  if (type===ShotResult[ShotResult.miss]) {
     changeField(x, y, 1)
-  else if (type === 'hit')
+  } else if (type === ShotResult[ShotResult.hit]) {
     changeField(x, y, 2)
+  }
 }
 
 export const removeYID = (): void => {

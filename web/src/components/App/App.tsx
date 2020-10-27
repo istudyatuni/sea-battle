@@ -31,19 +31,21 @@ const App: React.FC = () => {
   const [theme, setTheme] = useState('light')
 
   function toggleTheme() {
-    if(theme==='light')
+    if(theme==='light') {
       setTheme('dark')
-    else if(theme==='dark')
+    } else if(theme==='dark') {
       setTheme('light')
+    }
   }
 
   useEffect(()=>{
     let html = document.getElementById('html')
     if(html!==null) {
-      if(theme==='light')
+      if(theme==='light') {
         html.classList.remove('dark-mode')
-      else if(theme==='dark')
+      } else if(theme==='dark') {
         html.classList.add('dark-mode')
+      }
     }
   }, [theme]);
 

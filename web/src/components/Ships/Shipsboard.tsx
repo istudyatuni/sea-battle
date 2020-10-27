@@ -4,7 +4,7 @@ import Ship from './Ship'
 import './Shipboard.css'
 
 // линкор крейсер эсминец катер
-let shipName = ['Cruiser', 'Battleship', 'Destroyer', 'Boat']
+enum ShipType {Cruiser, Battleship, Destroyer, Boat}
 
 const Shipsboard: React.FC = () => {
 
@@ -28,7 +28,7 @@ const Shipsboard: React.FC = () => {
       ships.push(<Ship
           key={[i, kills[i]].toString()}
           i={i}
-          name={shipName[i]}
+          name={ShipType[i]}
           count={i+1}
           kill={kills[i]}
           changeKill={changeKill}

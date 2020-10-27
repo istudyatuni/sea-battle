@@ -20,10 +20,11 @@ const CellRow: React.FC<CellRowProps> = ({ i, isClear, gameMode, row, shot }) =>
   }
 
   function setCell(ind: number) {
-    if(isClear===false)
+    if(isClear===false) {
       row[ind] = 1
-    else
+    } else {
       row[ind] = 0
+    }
   }
 
   function renderCells(): object[] {

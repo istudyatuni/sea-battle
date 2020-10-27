@@ -25,6 +25,7 @@ export const battle = (state: number): string => {
 }
 
 export const getCursor = (mode: number): any => {
-  if(mode===1)
+  if(mode===1) {
     return {cursor: "url('assets/aim50.png') 25 25, auto"}
+  }
 }

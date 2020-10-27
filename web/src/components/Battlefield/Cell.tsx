@@ -29,8 +29,9 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, sho
         setCell(i)
       } else if(isClear===true) {
         path = "Empty"
-        if(element===1)
+        if(element===1) {
           path = "Ship"
+        }
       } else {
         path = "Empty"
       }
@@ -42,10 +43,11 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, sho
           path = "Empty"
         } else {
           // if tap more one time
-          if(element===1)
+          if(element===1) {
             path = "Miss"
-          else if(element===2)
+          } else if(element===2) {
             path = "Hit"
+          }
         }
       } else {
         if(element===0) {
