@@ -42,13 +42,9 @@ export const BoolToOnOff = (a: boolean): string => {
 }
 
 export const HitOrMiss = async (id: string,
-                                 x: number,
-                                 y: number,
-                                 changeField: (arg0: number,
-                                               arg1: number,
-                                               arg2: number
-                                               ) => void
-                                 ) => {
+                                x: number,
+                                y: number,
+                                changeField: (arg0: number, arg1: number, arg2: number) => void) => {
   let type = "none"
   async function returnResponse(response: any) {
     type = response.type

@@ -6,14 +6,15 @@
   "friend_id": "ID друга",
   "go_battle": "В бой",
   "good_game": "Удачной игры!",
+  "move": "Ваш ход",
   "move_timeout": "Слишком долго делается ход...",
   "one_minute_timeout": "Ждали вашего соперника минуту, не дождались...",
   "opponent_hit": "Ваш противник попал в ваш корабль",
+  "opponent_move": "Ход соперника",
   "player": "Игрок",
   "please_wait": "Пожалуйста, подождите",
   "refresh": "Перезагрузка",
   "server_unavailable": "Сервер недоступен",
   "ws_closed": "Веб-сокет канал закрыт",
-  "your_id": "Ваш ID",
-  "your_move": "Ваш ход"
+  "your_id": "Ваш ID"
 }

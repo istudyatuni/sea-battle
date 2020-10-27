@@ -145,6 +145,10 @@ defmodule SeaBattleServer.ShipHandler do
     Process.send(pid, "move", [])
   end
 
+  defp sendOpMove(pid) do
+    Process.send(pid, "opponent_move", [])
+  end
+
   defp sendHit(pid) do
     Process.send(pid, "opponent_hit", [])
   end
@@ -185,6 +189,15 @@ defmodule SeaBattleServer.ShipHandler do
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending move after miss, id=#{id}")
         sendMove(pid)
+      end
+
+      pid =
+        opponentID?(id)
+        |> wspid?
+
+      if pid != nil and Process.alive?(pid) do
+        Logger.debug("Sending opponent_move, id=#{id}")
+        sendOpMove(pid)
       end
 
       swapCanMove(id)

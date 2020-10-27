@@ -6,14 +6,15 @@
   "friend_id": "Friend ID",
   "go_battle": "Go battle",
   "good_game": "Good game!",
+  "move": "Your move",
   "move_timeout": "The move takes to long...",
   "one_minute_timeout": "We waited for your opponent for a minute...",
   "opponent_hit": "Your opponent is hit to your ship",
+  "opponent_move": "Opponent move",
   "player": "Player",
   "please_wait": "Please wait",
   "refresh": "Refresh",
   "server_unavailable": "Server unavailable",
   "ws_closed": "WebSocket is close",
-  "your_id": "Your ID",
-  "your_move": "Your move"
+  "your_id": "Your ID"
 }

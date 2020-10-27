@@ -21,10 +21,18 @@ Timeout - 3 minutes
 }
 ```
 
-**When time for player's move**, sending:
+**When time for player's move**, sending
++ To player:
 ```json
 {
   "action": "move"
+}
+```
+
++ To opponent:
+```json
+{
+  "action": "opponent_move"
 }
 ```
 

@@ -46,7 +46,6 @@ defmodule SeaBattleServer.Router do
     conn = fetch_query_params(conn)
     %{"id" => id} = conn.params
 
-    # TODO return not only can or not, need opponent_hit
     [body, code] = ShipHandler.can_move?(id)
 
     body = Poison.encode!(body)

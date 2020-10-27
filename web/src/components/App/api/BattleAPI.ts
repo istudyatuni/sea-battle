@@ -2,11 +2,7 @@ import { delay, togglePopup } from '../AppFunctions'
 import { getString } from '../../Translation/String'
 import { sendLog } from './MainServerAPI'
 
-export const SendShot = async (id: string,
-                                x: number,
-                                y: number,
-                                sendResp: (arg0: any)=>any
-                              ) => {
+export const SendShot = async (id: string, x: number, y: number, sendResp: (arg0: any)=>any) => {
   let url = '/shot?id=' + id + '&x=' + x + '&y=' + y
   const response = await fetch(url, {
     method: 'GET',
@@ -34,21 +30,16 @@ export const SendShot = async (id: string,
 
 export const handleMovesWS = async (id: string) => {
   let ws = new WebSocket('ws://localhost:4000/ws/moves/' + id)
-  let message = JSON.stringify({ "id": id })
   ws.onopen = () => {
-    ws.send(message)
+    ws.send(JSON.stringify({ "id": id }))
   }
   ws.onmessage = ({data}) => {
-    let json = JSON.parse(data)
-    if(json.action==='move') {
-      setTimeout(function(){
-        togglePopup(true, 'success', getString('your_move'))
-      }, 5)
-    } else if(json.action==='opponent_hit') {
+    let action = JSON.parse(data).action
+    if(action==='move' || action==='opponent_hit' || action==='opponent_move') {
       togglePopup(false)
       setTimeout(function(){
-        togglePopup(true, 'warn', getString('opponent_hit'))
-      }, 5)
+        togglePopup(true, 'success', getString(action))
+      }, 50)
     }
   }
   ws.onerror = (e) => {
@@ -77,7 +68,7 @@ export const handleMovesPoll = async (id: string) => {
         can: boolean
       }
       if(resp.can===true) {
-        togglePopup(true, 'success', getString('your_move'))
+        togglePopup(true, 'success', getString('move'))
         // again
         timer = 0
       }

@@ -23,7 +23,14 @@ type ButtonsProps = {
   copyOpID: () => void
 }
 
-const Buttons: React.FC<ButtonsProps> = ({ setMode, gameMode, goBattle, setClear, isClear, setOpponentID, ID, copyOpID }) => {
+const Buttons: React.FC<ButtonsProps> = ({ setMode,
+                                         gameMode,
+                                         goBattle,
+                                         setClear,
+                                         isClear,
+                                         setOpponentID,
+                                         ID,
+                                         copyOpID }) => {
   const [newID, setNewID] = useState("")
 
   function handleChange(event: any) {
