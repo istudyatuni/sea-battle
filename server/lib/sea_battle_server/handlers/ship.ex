@@ -3,14 +3,10 @@ defmodule SeaBattleServer.ShipHandler do
   @all_ships :all_ships
   @can_move :can_move
 
-  defp number? do
-    :ets.lookup(@all_ships, "number")
-    |> Enum.at(0)
-    |> elem(1)
-  end
+  alias SeaBattleServer.EtsHandler, as: Ets
 
   def insert_new_ships(ships) do
-    id = number?()
+    id = Ets.number?()
     id = id + 1
 
     :ets.insert(@all_ships, {"number", id})
@@ -23,7 +19,7 @@ defmodule SeaBattleServer.ShipHandler do
 
     if opID !== "0" do
       set_opponent(opID, id)
-      pid = wspid?(opID)
+      pid = Ets.wspid?(opID)
 
       if pid != nil and Process.alive?(pid) do
         Process.send(pid, id, [])
@@ -41,23 +37,11 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  defp wspid?(id) do
-    pid =
-      :ets.lookup(:ws, id)
-      |> Enum.at(0)
-
-    if pid != nil do
-      elem(pid, 1)
-    else
-      nil
-    end
-  end
-
   def set_opponent(id, opID) do
     # 1st player can shoot the 2nd
     :ets.insert(@can_move, {opID, true})
 
-    check = number?()
+    check = Ets.number?()
 
     # for comparing
     {id, ""} = Integer.parse(id)
@@ -68,7 +52,7 @@ defmodule SeaBattleServer.ShipHandler do
       opID = to_string(opID)
 
       # save ships
-      ships = ships?(id)
+      ships = Ets.ships?(id)
 
       existance = :ets.insert(@all_ships, {id, opID, ships})
 
@@ -85,34 +69,16 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  defp opponentID?(id) do
-    :ets.lookup(@all_ships, id)
-    |> Enum.at(0)
-    |> elem(1)
-  end
-
-  defp ships?(id) do
-    :ets.lookup(@all_ships, id)
-    |> Enum.at(0)
-    |> elem(2)
-  end
-
-  defp move?(id) do
-    :ets.lookup(@can_move, id)
-    |> Enum.at(0)
-    |> elem(1)
-  end
-
   def can_move?(id) do
-    check = number?()
+    check = Ets.number?()
     {id, ""} = Integer.parse(id)
 
     if id <= check do
       id = to_string(id)
 
       can =
-        opponentID?(id)
-        |> move?
+        Ets.opponentID?(id)
+        |> Ets.move?
 
       [%{"id" => id, "can" => can}, 200]
     else
@@ -126,7 +92,7 @@ defmodule SeaBattleServer.ShipHandler do
     if id > 0 do
       id =
         to_string(id)
-        |> opponentID?
+        |> Ets.opponentID?
 
       [%{"opponentID" => id}, 200]
     else
@@ -135,7 +101,7 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   defp swapCanMove(cant) do
-    can = opponentID?(cant)
+    can = Ets.opponentID?(cant)
 
     :ets.insert(@can_move, {can, true})
     :ets.insert(@can_move, {cant, false})
@@ -159,7 +125,7 @@ defmodule SeaBattleServer.ShipHandler do
 
     # position
     value =
-      ships?(id)
+      Ets.ships?(id)
       |> Enum.at(x)
       |> Enum.at(y)
 
@@ -167,15 +133,15 @@ defmodule SeaBattleServer.ShipHandler do
 
     if value == 1 do
       pid =
-        opponentID?(id)
-        |> wspid?
+        Ets.opponentID?(id)
+        |> Ets.wspid?
 
       if pid != nil and Process.alive?(pid) do
-        Logger.debug("Sending move after hit, id=#{opponentID?(id)}")
+        Logger.debug("Sending move after hit, id=#{Ets.opponentID?(id)}")
         sendMove(pid)
       end
 
-      pid = wspid?(id)
+      pid = Ets.wspid?(id)
 
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending info about hitting, id=#{id}")
@@ -184,7 +150,7 @@ defmodule SeaBattleServer.ShipHandler do
 
       ["type", "hit", 200]
     else
-      pid = wspid?(id)
+      pid = Ets.wspid?(id)
 
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending move after miss, id=#{id}")
@@ -192,8 +158,8 @@ defmodule SeaBattleServer.ShipHandler do
       end
 
       pid =
-        opponentID?(id)
-        |> wspid?
+        Ets.opponentID?(id)
+        |> Ets.wspid?
 
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending opponent_move, id=#{id}")
@@ -206,7 +172,7 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def hitOrMiss(id, x, y) do
-    check = number?()
+    check = Ets.number?()
 
     {id, ""} = Integer.parse(id)
 
@@ -214,7 +180,7 @@ defmodule SeaBattleServer.ShipHandler do
       id = to_string(id)
 
       # :true or :false
-      can = move?(id)
+      can = Ets.move?(id)
 
       if can === true do
         shotResult(id, x, y)
