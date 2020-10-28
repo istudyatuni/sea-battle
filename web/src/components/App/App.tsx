@@ -71,7 +71,7 @@ const App: React.FC = () => {
   */
   const [wtf, setWTF] = useState(0)
   const shot = async (x: number, y: number) => {
-    await HitOrMiss(opponentID, x, y, changeField)
+    await HitOrMiss(ID, x, y, changeField)
     setWTF(wtf+1)
   }
 

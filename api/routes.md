@@ -45,7 +45,7 @@ Returned if success:
 Code `201`
 
 ## GET `/shot?id={id}&x={x}&y={y}`
-You need send as id - opponent's ID
+You need send as id - player's ID
 
 Where player make shot
 

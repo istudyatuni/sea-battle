@@ -78,7 +78,7 @@ defmodule SeaBattleServer.ShipHandler do
 
       can =
         Ets.opponentID?(id)
-        |> Ets.move?
+        |> Ets.move?()
 
       [%{"id" => id, "can" => can}, 200]
     else
@@ -92,7 +92,7 @@ defmodule SeaBattleServer.ShipHandler do
     if id > 0 do
       id =
         to_string(id)
-        |> Ets.opponentID?
+        |> Ets.opponentID?()
 
       [%{"opponentID" => id}, 200]
     else
@@ -134,7 +134,7 @@ defmodule SeaBattleServer.ShipHandler do
     if value == 1 do
       pid =
         Ets.opponentID?(id)
-        |> Ets.wspid?
+        |> Ets.wspid?()
 
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending move after hit, id=#{Ets.opponentID?(id)}")
@@ -159,7 +159,7 @@ defmodule SeaBattleServer.ShipHandler do
 
       pid =
         Ets.opponentID?(id)
-        |> Ets.wspid?
+        |> Ets.wspid?()
 
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending opponent_move, id=#{id}")
@@ -177,7 +177,9 @@ defmodule SeaBattleServer.ShipHandler do
     {id, ""} = Integer.parse(id)
 
     if id <= check && id > 0 do
-      id = to_string(id)
+      id =
+        to_string(id)
+        |> Ets.opponentID?()
 
       # :true or :false
       can = Ets.move?(id)
