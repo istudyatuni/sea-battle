@@ -1,6 +1,6 @@
 #!/bin/sh
 # variables
-deploy_source_branch="web"
+deploy_source_branch="dev"
 deploy_remote="deploy"
 gh_pages="gh-pages"
 
