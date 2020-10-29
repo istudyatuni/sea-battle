@@ -20,16 +20,20 @@ defmodule SeaBattleServer.EtsHandler do
     end
   end
 
-  def opponentID?(id) do
+  defp ship_element?(id) do
     :ets.lookup(@all_ships, id)
     |> Enum.at(0)
     |> elem(1)
   end
 
-  def ships?(id) do
-    :ets.lookup(@all_ships, id)
-    |> Enum.at(0)
-    |> elem(2)
+  def opponentID?(id) do
+    el = ship_element?(id)
+    el.opponent
+  end
+
+  def field?(id) do
+    el = ship_element?(id)
+    el.field
   end
 
   def move?(id) do

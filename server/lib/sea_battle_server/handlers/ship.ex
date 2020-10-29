@@ -13,7 +13,8 @@ defmodule SeaBattleServer.ShipHandler do
     id = to_string(id)
     opID = ships["opponent"]
 
-    existance = :ets.insert_new(@all_ships, {id, opID, ships["ships"]})
+    el = %{opponent: opID, field: ships["ships"]}
+    existance = :ets.insert_new(@all_ships, {id, el})
 
     :ets.insert(@can_move, {id, false})
 
@@ -51,10 +52,11 @@ defmodule SeaBattleServer.ShipHandler do
       id = to_string(id)
       opID = to_string(opID)
 
-      # save ships
-      ships = Ets.ships?(id)
+      # save field
+      field = Ets.field?(id)
 
-      existance = :ets.insert(@all_ships, {id, opID, ships})
+      el = %{opponent: opID, field: field}
+      existance = :ets.insert(@all_ships, {id, el})
 
       if existance == true do
         Logger.debug("set opponent, id=#{id}, opID=#{opID}")
@@ -125,7 +127,7 @@ defmodule SeaBattleServer.ShipHandler do
 
     # position
     value =
-      Ets.ships?(id)
+      Ets.field?(id)
       |> Enum.at(x)
       |> Enum.at(y)
 
