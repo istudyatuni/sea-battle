@@ -70,9 +70,9 @@ const App: React.FC = () => {
     i below), then all work. How, just.. HOW??
   */
   const [wtf, setWTF] = useState(0)
-  const shot = async (x: number, y: number) => {
+  async function shot (x: number, y: number) {
     await HitOrMiss(ID, x, y, changeField)
-    setWTF(wtf+1)
+    setWTF((wtf+1)%2)
   }
 
   function copyOpponentID() {

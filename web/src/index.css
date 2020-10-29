@@ -7,10 +7,10 @@
 }
 
 .dark-mode {
-  --text-color: #F8F8F8;
-  --border-color: #755F90;
-  --main-bg-color: #333;
-  --action-bg-color: #555;
+  --text-color: #d7dadc;
+  --border-color: #B13BB1;
+  --main-bg-color: #1a1a1a;
+  --action-bg-color: #313233;
 }
 
 html {

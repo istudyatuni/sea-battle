@@ -14,9 +14,7 @@ const CellRow: React.FC<CellRowProps> = ({ i, isClear, gameMode, row, shot }) =>
   row = tmpShip[0]
 
   function shotCell(j: number) {
-    (async ()=>{
-      await shot(i, j)
-    })()
+    shot(i, j)
   }
 
   function setCell(ind: number) {
