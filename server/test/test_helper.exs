@@ -12,7 +12,7 @@ ships = [
   [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
 ]
 
-body = %{"opponent" => "1", "ships" => ships}
+body = %{"opponent" => "1", "field" => ships}
 SeaBattleServer.ShipHandler.insert_new_ships(body)
 
 ExUnit.start()

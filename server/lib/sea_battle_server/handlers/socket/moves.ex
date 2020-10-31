@@ -39,10 +39,11 @@ defmodule SeaBattleServer.SocketHandler.Moves do
     {:reply, {:text, message}, state}
   end
 
-  def terminate(reason, request, _state) do
+  def terminate(reason, request, state) do
     Logger.debug(
       "Close socket connection, reason: #{inspect(reason)}, request: #{inspect(request)}"
     )
+    :ets.insert(:ws, {state.id, nil})
 
     :ok
   end

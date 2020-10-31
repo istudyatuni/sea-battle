@@ -8,10 +8,10 @@ import Battlefield from '../Battlefield/Battlefield'
 
 import {
   FieldInit, HitOrMiss,
-  togglePopup
+  togglePopup, validateAndTransform
 } from './AppFunctions'
 
-import { initLocale } from '../Translation/String'
+import { initLocale, getString } from '../Translation/String'
 
 import { SendShips } from './api/MainServerAPI'
 
@@ -56,6 +56,11 @@ const App: React.FC = () => {
   }
 
   const goBattle = async () => {
+    // togglePopup(true, 'warn', getString('incorrect_ship_placement'))
+    // setTimeout(function(){ togglePopup(false) }, 4000)
+    // return
+    validateAndTransform(field)
+
     await SendShips(field, setID, opponentID, setOpponentID, setMode)
 
     setField(FieldInit())
@@ -82,7 +87,7 @@ const App: React.FC = () => {
   // ¯\_(ツ)_/¯
   return (
     <div className="App">
-      <div className="theme-toggle" onClick={toggleTheme}>🌓</div>
+      <span role="img" aria-label="toggler" className="theme-toggle" onClick={toggleTheme}>🌓</span>
       <div className="inline-board">
         <Scoreboard player1={countPlayer1} player2={countPlayer2}/>
         <Shipsboard/>

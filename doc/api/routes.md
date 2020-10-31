@@ -4,7 +4,7 @@ Sending info about ships on battlefield as:
 ```json
 {
   "opponent": "opponent's id (or 0)",
-  "ships": [
+  "field": [
     [0,0,0,0,1,1,1,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,1,0,0,0,0,0,0],
@@ -15,7 +15,8 @@ Sending info about ships on battlefield as:
     [0,0,0,0,0,0,0,1,0,0],
     [0,0,0,0,1,0,0,1,0,0],
     [0,0,0,0,0,0,0,1,0,0]
-  ]
+  ],
+  "ships": "see doc/ships.json"
 }
 ```
 Returned if success:
@@ -73,6 +74,8 @@ Code `202`
 
 ## GET `/opponent?id={id}`
 
+Use when WebSocket failed, for polling
+
 Returned if success:
 ```json
 {
@@ -86,6 +89,8 @@ If ID is invalid, code `400`
 
 
 ## GET `/move?id={id}`
+
+Use when WebSocket failed, for polling
 
 Returned if ID isn't invalid:
 ```json

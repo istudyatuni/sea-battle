@@ -6,6 +6,7 @@
   "friend_id": "ID друга",
   "go_battle": "В бой",
   "good_game": "Удачной игры!",
+  "incorrect_ship_placement": "Корабли расставлены неверно",
   "move": "Ваш ход",
   "move_timeout": "Слишком долго делается ход...",
   "one_minute_timeout": "Ждали вашего соперника минуту, не дождались...",

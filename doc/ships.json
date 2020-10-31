@@ -1,0 +1,22 @@
+{
+  "row": {
+    // horizontal ship in 4 line, with coordinates (4, 4) - (4, 6)
+    "4": {
+      "beg": 4,
+      "end": 6
+    },
+    // horizontal ship in 6 line, with coordinates (6, 0) - (6, 4)
+    "6": {
+      "beg": 0,
+      "end": 4
+    }
+  },
+  "col": {
+    // vertical ship in 0 column, with coordinates (0, 2) - (0, 4)
+    "0": {
+      "beg": 2,
+      "end": 4
+    }
+  }
+}
+// if ships contain 1 cell, beg == end

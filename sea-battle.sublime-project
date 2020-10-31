@@ -6,8 +6,8 @@
             "path": "."
         },
         {
-            "name": "API",
-            "path": "api"
+            "name": "Doc",
+            "path": "doc"
         },
         {
             "folder_exclude_patterns":

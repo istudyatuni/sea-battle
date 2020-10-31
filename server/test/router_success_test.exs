@@ -18,7 +18,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
     ]
 
-    body = %{"opponent" => "0", "ships" => ships}
+    body = %{"opponent" => "0", "field" => ships}
     body = Poison.encode!(body)
 
     conn =

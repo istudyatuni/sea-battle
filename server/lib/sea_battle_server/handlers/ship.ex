@@ -5,15 +5,15 @@ defmodule SeaBattleServer.ShipHandler do
 
   alias SeaBattleServer.EtsHandler, as: Ets
 
-  def insert_new_ships(ships) do
+  def insert_new_ships(body) do
     id = Ets.number?()
     id = id + 1
 
     :ets.insert(@all_ships, {"number", id})
     id = to_string(id)
-    opID = ships["opponent"]
+    opID = body["opponent"]
 
-    el = %{opponent: opID, field: ships["ships"]}
+    el = %{opponent: opID, field: body["field"]}
     existance = :ets.insert_new(@all_ships, {id, el})
 
     :ets.insert(@can_move, {id, false})

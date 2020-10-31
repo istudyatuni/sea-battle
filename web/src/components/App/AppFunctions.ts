@@ -69,5 +69,189 @@ export const removeYID = (): void => {
 }
 
 export const delay = (ms: number) => {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
+type ship = {
+  res: string,
+  type: string,
+  index: number,
+  beg: number,
+  end: number,
+  len: number
+}
+/*
+  "res": success, fail or no need (already find)
+  "type": row or col
+  "index": row (col) index
+  "beg": begin ship index
+  "end": end index
+  "len": ship length
+*/
+
+export const validateAndTransform = (field: number[][]): object => {
+  let ships:ship[] = []
+  let result = {result: 'fail', ships: ships}
+  let tmp: ship
+
+  let i: number
+  let j: number
+  for(i = 0; i < 10; i++) {
+    for(j = 0; j < 10; j++) {
+
+      if(field[i][j] === 1) {
+        tmp = findShip(field, i, j)
+        if(tmp.res === 'fail') {
+          return result
+        } else if(tmp.res === 'success') {
+          ships.push(tmp)
+        }
+      }
+
+    }
+  }
+  result.result = 'success'
+  result.ships = ships
+  return result
+}
+
+const findShip = (field: number[][], i: number, j: number): ship => {
+  let result:ship = {res: 'none', type: 'none', index: -1, beg: -1, end: -1, len: -1}
+  // not side and not begin ship
+  if(i !== 0 && field[i - 1][j] === 1) {
+    result.res = 'finded'
+    return result
+  }
+  if(j !== 0 && field[i][j - 1] === 1) {
+    result.res = 'finded'
+    return result
+  }
+
+  let beg = i
+  let end = i
+
+  // vertical ship and len > 1
+  if(i < 9 && field[i + 1][j] === 1) {
+    while(end < 10) {
+      /*
+        checking smth like
+        0000
+        0110
+        0010
+        0000
+       */
+      // ship on left side
+      if(j === 0 && field[end][j + 1] === 1) {
+        result.res = 'fail'
+        return result
+      }
+      // ship on right side
+      if(j === 9 && field[end][j - 1] === 1) {
+        result.res = 'fail'
+        return result
+      }
+      // ship not near side
+      if(field[end][j - 1] === 1 || field[end][j + 1] === 1) {
+        result.res = 'fail'
+        return result
+      }
+      // SUCCESS
+      // find zero or field side
+      if(end === 9 || field[end + 1][j] === 0) {
+        /*
+          check smth like
+          010
+          010
+          100
+         */
+        if(end !== 9) {
+          if(j === 0 && field[end + 1][j + 1] === 1) {
+            result.res = 'fail'
+            return result
+          }
+          if(j === 9 && field[end + 1][j - 1] === 1) {
+            result.res = 'fail'
+            return result
+          }
+          if(field[end + 1][j - 1] === 1 || field[end + 1][j + 1] === 1) {
+            result.res = 'fail'
+            return result
+          }
+        }
+        result = {
+          res: 'success',
+          type: 'col',
+          index: j,
+          beg: beg,
+          end: end,
+          len: end - beg + 1
+        }
+        return result
+      }
+      end++
+    }
+  }
+  // horizontal ship and len > 1
+  else if(j < 9 && field[i][j + 1] === 1) {
+    beg = end = j
+    while(end < 10) {
+      // ship on top
+      if(i === 0 && field[i + 1][end] === 1) {
+        result.res = 'fail'
+        return result
+      }
+      // ship on bottom
+      if(i === 9 && field[i - 1][end] === 1) {
+        result.res = 'fail'
+        return result
+      }
+      // ship not near side
+      if(field[i - 1][end] === 1 || field[i + 1][end] === 1) {
+        result.res = 'fail'
+        return result
+      }
+      // SUCCESS
+      // find zero or field side
+      if(end === 9 || field[i][end + 1] === 0) {
+        if(end !== 9) {
+          if(i === 0 && field[i + 1][end + 1] === 1) {
+            result.res = 'fail'
+            return result
+          }
+          if(i === 9 && field[i - 1][end + 1] === 1) {
+            result.res = 'fail'
+            return result
+          }
+          if(field[i - 1][end + 1] === 1 || field[i + 1][end + 1] == 1) {
+            result.res = 'fail'
+            return result
+          }
+        }
+        result = {
+          res: 'success',
+          type: 'row',
+          index: i,
+          beg: beg,
+          end: end,
+          len: end - beg + 1
+        }
+        return result
+      }
+      end++
+    }
+  }
+  // len == 1
+  else {
+    // index == i because type == row
+    result = {
+      res: 'success',
+      type: 'row',
+      index: i,
+      beg: beg,
+      end: end,
+      len: end - beg + 1
+    }
+    return result
+  }
+  return result
 }
