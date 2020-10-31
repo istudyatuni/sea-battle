@@ -151,7 +151,7 @@ const findShip = (field: number[][], i: number, j: number): ship => {
         return result
       }
       // ship not near side
-      if(field[end][j - 1] === 1 || field[end][j + 1] === 1) {
+      if((j > 0 && j < 9) && (field[end][j - 1] === 1 || field[end][j + 1] === 1)) {
         result.res = 'fail'
         return result
       }
@@ -173,7 +173,7 @@ const findShip = (field: number[][], i: number, j: number): ship => {
             result.res = 'fail'
             return result
           }
-          if(field[end + 1][j - 1] === 1 || field[end + 1][j + 1] === 1) {
+          if((j > 0 && j < 9) && (field[end + 1][j - 1] === 1 || field[end + 1][j + 1] === 1)) {
             result.res = 'fail'
             return result
           }
@@ -206,7 +206,7 @@ const findShip = (field: number[][], i: number, j: number): ship => {
         return result
       }
       // ship not near side
-      if(field[i - 1][end] === 1 || field[i + 1][end] === 1) {
+      if((i > 0 && i < 9) && (field[i - 1][end] === 1 || field[i + 1][end] === 1)) {
         result.res = 'fail'
         return result
       }
@@ -222,7 +222,7 @@ const findShip = (field: number[][], i: number, j: number): ship => {
             result.res = 'fail'
             return result
           }
-          if(field[i - 1][end + 1] === 1 || field[i + 1][end + 1] == 1) {
+          if((i > 0 && i < 9) && (field[i - 1][end + 1] === 1 || field[i + 1][end + 1] == 1)) {
             result.res = 'fail'
             return result
           }
