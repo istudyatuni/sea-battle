@@ -13,6 +13,8 @@ defmodule SeaBattleServer.ShipHandler do
     id = to_string(id)
     opID = ships["opponent"]
 
+    SeaBattleServer.ShipHelper.find_ships(ships["ships"])
+
     el = %{opponent: opID, field: ships["ships"]}
     existance = :ets.insert_new(@all_ships, {id, el})
 
