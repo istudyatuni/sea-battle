@@ -28,7 +28,15 @@ const App: React.FC = () => {
   const [opponentID, setOpponentID] = useState("0")
   const [ID, setID] = useState("0")
 
-  const [theme, setTheme] = useState('light')
+  function getTheme (): string {
+    let t = (new Date).getHours()
+    if(t > 6 && t < 18) {
+      return 'light'
+    }
+    return 'dark'
+  }
+
+  const [theme, setTheme] = useState(getTheme())
 
   function toggleTheme() {
     if(theme==='light') {
