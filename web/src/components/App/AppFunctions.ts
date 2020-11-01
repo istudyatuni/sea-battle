@@ -224,6 +224,10 @@ const findShip = (field: number[][], i: number, j: number): ship => {
   }
   // len == 1
   else {
+    if(j < 9 && check(i, i, j + 1, 1, 0) === false) {
+      result.res = 'fail'
+      return result
+    }
     // index == i because type == row
     result = {
       res: 'success',
