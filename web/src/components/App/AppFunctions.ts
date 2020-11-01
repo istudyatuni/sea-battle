@@ -132,6 +132,21 @@ const findShip = (field: number[][], i: number, j: number): ship => {
 
   // vertical ship and len > 1
   if(i < 9 && field[i + 1][j] === 1) {
+    let check = (x: number): boolean => {
+      // ship on left side
+      if(j === 0 && field[x][j + 1] === 1) {
+        return false
+      }
+      // ship on right side
+      if(j === 9 && field[x][j - 1] === 1) {
+        return false
+      }
+      // ship not near side
+      if((j > 0 && j < 9) && (field[x][j - 1] === 1 || field[x][j + 1] === 1)) {
+        return false
+      }
+      return true
+    }
     while(end < 10) {
       /*
         checking smth like
@@ -140,18 +155,7 @@ const findShip = (field: number[][], i: number, j: number): ship => {
         0010
         0000
        */
-      // ship on left side
-      if(j === 0 && field[end][j + 1] === 1) {
-        result.res = 'fail'
-        return result
-      }
-      // ship on right side
-      if(j === 9 && field[end][j - 1] === 1) {
-        result.res = 'fail'
-        return result
-      }
-      // ship not near side
-      if((j > 0 && j < 9) && (field[end][j - 1] === 1 || field[end][j + 1] === 1)) {
+      if(check(end) === false) {
         result.res = 'fail'
         return result
       }
@@ -164,19 +168,9 @@ const findShip = (field: number[][], i: number, j: number): ship => {
           010
           100
          */
-        if(end !== 9) {
-          if(j === 0 && field[end + 1][j + 1] === 1) {
-            result.res = 'fail'
-            return result
-          }
-          if(j === 9 && field[end + 1][j - 1] === 1) {
-            result.res = 'fail'
-            return result
-          }
-          if((j > 0 && j < 9) && (field[end + 1][j - 1] === 1 || field[end + 1][j + 1] === 1)) {
-            result.res = 'fail'
-            return result
-          }
+        if(end !== 9 && check(end + 1) === false) {
+          result.res = 'fail'
+          return result
         }
         result = {
           res: 'success',
@@ -194,38 +188,32 @@ const findShip = (field: number[][], i: number, j: number): ship => {
   // horizontal ship and len > 1
   else if(j < 9 && field[i][j + 1] === 1) {
     beg = end = j
-    while(end < 10) {
+    let check = (y: number): boolean => {
       // ship on top
-      if(i === 0 && field[i + 1][end] === 1) {
-        result.res = 'fail'
-        return result
+      if(i === 0 && field[i + 1][y] === 1) {
+        return false
       }
       // ship on bottom
-      if(i === 9 && field[i - 1][end] === 1) {
-        result.res = 'fail'
-        return result
+      if(i === 9 && field[i - 1][y] === 1) {
+        return false
       }
       // ship not near side
-      if((i > 0 && i < 9) && (field[i - 1][end] === 1 || field[i + 1][end] === 1)) {
+      if((i > 0 && i < 9) && (field[i - 1][y] === 1 || field[i + 1][y] === 1)) {
+        return false
+      }
+      return true
+    }
+    while(end < 10) {
+      if(check(end) === false) {
         result.res = 'fail'
         return result
       }
       // SUCCESS
       // find zero or field side
       if(end === 9 || field[i][end + 1] === 0) {
-        if(end !== 9) {
-          if(i === 0 && field[i + 1][end + 1] === 1) {
-            result.res = 'fail'
-            return result
-          }
-          if(i === 9 && field[i - 1][end + 1] === 1) {
-            result.res = 'fail'
-            return result
-          }
-          if((i > 0 && i < 9) && (field[i - 1][end + 1] === 1 || field[i + 1][end + 1] == 1)) {
-            result.res = 'fail'
-            return result
-          }
+        if(end !== 9 && check(end + 1) === false) {
+          result.res = 'fail'
+          return result
         }
         result = {
           res: 'success',
