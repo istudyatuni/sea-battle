@@ -89,7 +89,12 @@ type ship = {
   "len": ship length
 */
 
-export const validateAndTransform = (field: number[][]): object => {
+export type AllShips = {
+  result: string,
+  ships: any
+}
+
+export const validateAndTransform = (field: number[][]): AllShips => {
   let ships:ship[] = []
   let result = {result: 'fail', ships: ships}
   let tmp: ship
@@ -110,6 +115,7 @@ export const validateAndTransform = (field: number[][]): object => {
 
     }
   }
+  convertShips(ships)
   result.result = 'success'
   result.ships = ships
   return result
@@ -239,5 +245,23 @@ const findShip = (field: number[][], i: number, j: number): ship => {
     }
     return result
   }
+  return result
+}
+
+const convertShips = (ships: ship[]): any => {
+  let result = new Map()
+  let row = new Map
+  let col = new Map
+
+  let colInd = 0
+  let rowInd = 0
+  for(let s in ships) {
+    let t = ships[s]
+    if(t.type === 'col') {
+      console.log(t)
+    }
+  }
+  // console.log(result)
+  // togglePopup(true, 'info', JSON.stringify(result))
   return result
 }

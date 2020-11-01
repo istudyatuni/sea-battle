@@ -1,22 +1,29 @@
+// all ships
 {
   "row": {
-    // horizontal ship in 4 line, with coordinates (4, 4) - (4, 6)
+    // row 4
     "4": {
-      "beg": 4,
-      "end": 6
+      // ship at 4 row with first index in row 2 ("beg")
+      "2": {"ship"},
+      "6": {"ship"}
     },
-    // horizontal ship in 6 line, with coordinates (6, 0) - (6, 4)
+    // row 6
     "6": {
-      "beg": 0,
-      "end": 4
+      "0": {"ship"},
+      "8": {"ship"}
     }
   },
   "col": {
-    // vertical ship in 0 column, with coordinates (0, 2) - (0, 4)
+    // column 0
     "0": {
-      "beg": 2,
-      "end": 4
+      "5": {"ship"}
     }
   }
 }
-// if ships contain 1 cell, beg == end
+
+// one ship
+{
+  "end": 5,
+  "len": 3
+}
+// if ship len == 1, beg == end

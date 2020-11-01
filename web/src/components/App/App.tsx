@@ -64,10 +64,11 @@ const App: React.FC = () => {
   }
 
   const goBattle = async () => {
-    // togglePopup(true, 'warn', getString('incorrect_ship_placement'))
-    // setTimeout(function(){ togglePopup(false) }, 4000)
-    // return
-    validateAndTransform(field)
+    let ships = validateAndTransform(field)
+    if(ships.result === 'fail') {
+      togglePopup(true, 'warn', getString('incorrect_ship_placement'))
+      return
+    }
 
     await SendShips(field, setID, opponentID, setOpponentID, setMode)
 
