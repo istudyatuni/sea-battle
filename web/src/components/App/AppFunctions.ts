@@ -130,23 +130,33 @@ const findShip = (field: number[][], i: number, j: number): ship => {
   let beg = i
   let end = i
 
+  /**
+   * проверка на наличие занятых клеток в "ореоле" корабля - вверх/вниз, вправо/влево от основной оси
+   * @param {"координата" по которой расположен корабль - i, j}
+   * @x {1 координата точки}
+   * @y {2 координата точки}
+   * @a {отклоняться (на сколько, но ставим 0 или 1) в текущей позиции в сторону или нет - для x}
+   * @b {аналогично - для y}
+   */
+  let check = (param: number, x: number, y: number, a: number, b: number): boolean => {
+    // ship on side
+    if(param === 0 && field[x + a][y + b] === 1) {
+      return false
+    }
+    if(param === 9 && field[x - a][y - b] === 1) {
+      return false
+    }
+    // ship not near side
+    if((param > 0 && param < 9) &&
+      (field[x - a][y - b] === 1 || field[x + a][y + b] === 1))
+    {
+      return false
+    }
+    return true
+  }
+
   // vertical ship and len > 1
   if(i < 9 && field[i + 1][j] === 1) {
-    let check = (x: number): boolean => {
-      // ship on left side
-      if(j === 0 && field[x][j + 1] === 1) {
-        return false
-      }
-      // ship on right side
-      if(j === 9 && field[x][j - 1] === 1) {
-        return false
-      }
-      // ship not near side
-      if((j > 0 && j < 9) && (field[x][j - 1] === 1 || field[x][j + 1] === 1)) {
-        return false
-      }
-      return true
-    }
     while(end < 10) {
       /*
         checking smth like
@@ -155,7 +165,7 @@ const findShip = (field: number[][], i: number, j: number): ship => {
         0010
         0000
        */
-      if(check(end) === false) {
+      if(check(j, end, j, 0, 1) === false) {
         result.res = 'fail'
         return result
       }
@@ -168,7 +178,7 @@ const findShip = (field: number[][], i: number, j: number): ship => {
           010
           100
          */
-        if(end !== 9 && check(end + 1) === false) {
+        if(end !== 9 && check(j, end + 1, j, 0, 1) === false) {
           result.res = 'fail'
           return result
         }
@@ -188,30 +198,14 @@ const findShip = (field: number[][], i: number, j: number): ship => {
   // horizontal ship and len > 1
   else if(j < 9 && field[i][j + 1] === 1) {
     beg = end = j
-    let check = (y: number): boolean => {
-      // ship on top
-      if(i === 0 && field[i + 1][y] === 1) {
-        return false
-      }
-      // ship on bottom
-      if(i === 9 && field[i - 1][y] === 1) {
-        return false
-      }
-      // ship not near side
-      if((i > 0 && i < 9) && (field[i - 1][y] === 1 || field[i + 1][y] === 1)) {
-        return false
-      }
-      return true
-    }
     while(end < 10) {
-      if(check(end) === false) {
+      if(check(i, i, end, 1, 0) === false) {
         result.res = 'fail'
         return result
       }
-      // SUCCESS
       // find zero or field side
       if(end === 9 || field[i][end + 1] === 0) {
-        if(end !== 9 && check(end + 1) === false) {
+        if(end !== 9 && check(i, i, end + 1, 1, 0) === false) {
           result.res = 'fail'
           return result
         }
