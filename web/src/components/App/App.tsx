@@ -101,7 +101,6 @@ const App: React.FC = () => {
         <Shipsboard/>
         <Buttons
           gameMode={gameMode}
-          setMode={setMode}
           goBattle={goBattle}
           isClear={isClear}
           setClear={setClear}

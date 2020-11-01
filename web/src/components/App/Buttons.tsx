@@ -9,7 +9,6 @@ import {
 import { getString } from '../Translation/String'
 
 type ButtonsProps = {
-  setMode: (arg0: number) => any,
   gameMode: number,
 
   goBattle: () => void,
@@ -23,8 +22,7 @@ type ButtonsProps = {
   copyOpID: () => void
 }
 
-const Buttons: React.FC<ButtonsProps> = ({ setMode,
-                                         gameMode,
+const Buttons: React.FC<ButtonsProps> = ({ gameMode,
                                          goBattle,
                                          setClear,
                                          isClear,
@@ -52,27 +50,33 @@ const Buttons: React.FC<ButtonsProps> = ({ setMode,
 
   return (
     <div className="Buttons">
-      <form onSubmit={submitID} style={HideOrNot(gameMode)} >
-        <label>
-          {getString('friend_id')}: <input
-            type="number"
-            value={newID}
-            placeholder="0"
-            onChange={handleChange} />
-        </label>
-        <input type="submit" value={getString('go_battle')}/>
-      </form>
+      <div style={HideOrNot(gameMode)} >
+        <form onSubmit={submitID}>
+          <label>
+            {getString('friend_id')}: <input
+              type="number"
+              value={newID}
+              placeholder="0"
+              onChange={handleChange} />
+          </label>
+          <input type="submit" value={getString('go_battle')}/>
+        </form>
 
-      <button
+        <button
           onClick={()=>setClear(!isClear)}
-          style={HideOrNot(gameMode)}>{getString('fix_ships')}</button>
-      <i style={HideOrNot(gameMode)}>
-        {BoolToOnOff(isClear)}</i>
-      <p style={HideOrNot(gameMode)}>{getString('fix_ships_explain')}</p>
-      <span style={HideOrNot((gameMode+1)%2)}
-         id="yID"
-         onClick={handleClickID}
-      >{getString('your_id')}: {ID}</span>
+        >{getString('fix_ships')}</button>
+        <i>{BoolToOnOff(isClear)}</i>
+        <p>{getString('fix_ships_explain')}</p>
+      </div>
+
+      <div style={HideOrNot((gameMode+1)%2)} >
+        <span
+           id="yID"
+           onClick={handleClickID}
+        >{getString('your_id')}: {ID}</span>
+        <br/>
+        <button onClick={()=>window.location.reload()}>{getString('new_game')}</button>
+      </div>
     </div>
   );
 };

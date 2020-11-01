@@ -9,6 +9,7 @@
   "incorrect_ship_placement": "Ship placement is incorrect",
   "move": "Your move",
   "move_timeout": "The move takes to long...",
+  "new_game": "New game",
   "one_minute_timeout": "We waited for your opponent for a minute...",
   "opponent_hit": "Your opponent is hit to your ship",
   "opponent_move": "Opponent move",
