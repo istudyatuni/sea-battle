@@ -131,6 +131,7 @@ button:focus, input:focus {
 
 .popup-box > span {
   margin: 0 0 0 15px;
+  font-size: 1.2em;
 }
 
 /* Theme */

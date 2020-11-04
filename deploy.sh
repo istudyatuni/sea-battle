@@ -44,31 +44,22 @@ if [ $current_branch != $deploy_source_branch ]; then
   git stash save 'save working directory before deploy'
   echo -e "\n${ORANGE}git stash apply$NC"
   git stash apply
+
+  # checking out source branch
+  echo -e "\n${ORANGE}git checkout $deploy_source_branch$NC"
+  git checkout $deploy_source_branch
 fi
 
-# checking out source branch
-echo -e "\n${ORANGE}git checkout $deploy_source_branch$NC"
-git checkout $deploy_source_branch
 cd web
 
 # building
 echo -e "\n${ORANGE}npm run deploy$NC"
 npm run deploy
 
-read -p "Check for unsaved changes in working directory (after it tap enter)"
-echo -e "\n${ORANGE}git stash save 'save working directory on deploy'$NC"
-git stash save 'save working directory on deploy'
-
 # pulling
-echo -e "\n${ORANGE}git checkout $gh_pages$NC"
-git checkout $gh_pages
-echo -e "\n${ORANGE}git pull origin $gh_pages$NC"
-git pull origin $gh_pages
+echo -e "\n${ORANGE}git pull origin $gh_pages:$gh_pages$NC"
+git pull origin $gh_pages:$gh_pages
 
 # pushing to deploy
 echo -e "\n${ORANGE}git push $deploy_remote $gh_pages$NC"
 git push $deploy_remote $gh_pages
-
-# returning
-echo -e "\n${ORANGE}git checkout $current_branch$NC"
-git checkout $current_branch
