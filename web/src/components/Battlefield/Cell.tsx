@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-  settingShips, getCursor
-} from './CellFunctions'
+import { getCursor } from './CellFunctions'
 
 type CellProps = {
   i: number,
@@ -14,62 +12,36 @@ type CellProps = {
 }
 
 const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, shot }) => {
-  // first == true when first cell's render
+  const [path, setPath] = useState('Empty')
 
   useEffect(()=>{
-    setImg(fillBlock(true))
-  },[element]);
-
-  function fillBlock(first: boolean): object {
-    let path
-    if(gameMode===0){
-      // setting ships
-      if(first===false) {
-        path = settingShips(first, isClear)
-        setCell(i)
-      } else if(isClear===true) {
-        path = "Empty"
-        if(element===1) {
-          path = "Ship"
-        }
+    if(gameMode===1) {
+      if(element===1) {
+        setPath('Miss')
       } else {
-        path = "Empty"
-      }
-    } else if(gameMode===1) {
-      // when battle
-      if(first===false) {
-        if(element===0) {
-          shot(i)
-          path = "Empty"
-        } else {
-          // if tap more one time
-          if(element===1) {
-            path = "Miss"
-          } else if(element===2) {
-            path = "Hit"
-          }
-        }
-      } else {
-        if(element===0) {
-          // before battle need clear field
-          path = "Empty"
-        } else if(element===1) {
-          path = "Miss"
-        } else {
-          path = "Hit"
-        }
+        setPath('Hit')
       }
     }
-    path = "assets/" + path + ".png"
-    return <img src={path} alt="" width="100%" height="100%"/>
+  },[element]);
+
+  function fillBlock() {
+    if(gameMode===0){
+      if(isClear===false) {
+        setPath('Ship')
+      } else {
+        setPath('Empty')
+      }
+      setCell(i)
+    } else if(gameMode===1 && element===0) {
+      shot(i)
+    }
   }
 
-  const [image, setImg] = useState(fillBlock(true))
   return (
     <div className="Cell"
-         onClick={()=>setImg(fillBlock(false))}
+         onClick={fillBlock}
          style={getCursor(gameMode)}>
-      {image}
+      <img src={'assets/' + path + '.png'} alt="" width="100%" height="100%"/>
     </div>
   );
 };

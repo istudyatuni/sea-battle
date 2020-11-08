@@ -14,12 +14,27 @@ import { initLocale, getString } from '../Translation/String'
 
 import { SendShips } from './api/MainServerAPI'
 
+function useKeyup(key: string, action: ()=>void) {
+  useEffect(()=>{
+    function onKeyup(e: any) {
+      if(e.key === key) {
+        e.preventDefault()
+        action()
+      }
+    }
+    window.addEventListener('keyup', onKeyup)
+    return () => window.removeEventListener('keyup', onKeyup)
+  }, []);
+}
+
 const App: React.FC = () => {
   initLocale()
 
   const [gameMode, setMode] = useState(0)
   const [field, setField] = useState<number[][]>(FieldInit())
   const [isClear, setClear] = useState(false)
+
+  useKeyup(' ', () => setClear(isClear => !isClear))
 
   const [opponentID, setOpponentID] = useState("0")
   const [ID, setID] = useState("0")

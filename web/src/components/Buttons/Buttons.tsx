@@ -62,6 +62,7 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
           <input type="submit" value={getString('go_battle')}/>
         </form>
 
+        <code>{getString('space')}</code>
         <button
           onClick={()=>setClear(!isClear)}
         >{getString('fix_ships')}</button>
