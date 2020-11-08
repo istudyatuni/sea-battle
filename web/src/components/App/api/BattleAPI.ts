@@ -35,7 +35,7 @@ export const handleMovesWS = async (id: string) => {
   }
   ws.onmessage = ({data}) => {
     let action = JSON.parse(data).action
-    if(action==='move' || action==='opponent_hit' || action==='opponent_move') {
+    if(action==='move' || action==='opponent_hit' || action==='opponent_move' || action==='decrease_alive') {
       togglePopup(false)
       setTimeout(function(){
         togglePopup(true, 'success', getString(action))

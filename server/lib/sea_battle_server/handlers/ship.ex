@@ -58,12 +58,7 @@ defmodule SeaBattleServer.ShipHandler do
     if id <= check && opID <= check && id > 0 && opID > 0 do
       id = to_string(id)
       opID = to_string(opID)
-
-      # save field
-      field = Ets.field?(id)
-
-      el = %{opponent: opID, field: field}
-      existance = :ets.insert(@all_ships, {id, el})
+      existance = Ets.updateOpID(id, opID)
 
       if existance == true do
         Logger.debug("set opponent, id=#{id}, opID=#{opID}")
@@ -128,6 +123,10 @@ defmodule SeaBattleServer.ShipHandler do
     Process.send(pid, "opponent_hit", [])
   end
 
+  def sendDecreaseAliveShip(pid) do
+    Process.send(pid, "decrease_alive", [])
+  end
+
   defp shotResult(id, x, y) do
     {x, ""} = Integer.parse(x)
     {y, ""} = Integer.parse(y)
@@ -141,24 +140,36 @@ defmodule SeaBattleServer.ShipHandler do
     Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
 
     if value != 0 do
+      pid = Ets.wspid?(id)
+      alive = Ets.decrease_alive(id, value)
+
+      if alive == 0 do
+        # send decrease ships to player
+        if pid != nil and Process.alive?(pid) do
+          Logger.debug("Sending decrease alive ships, id=#{Ets.opponentID?(id)}")
+          sendDecreaseAliveShip(pid)
+        end
+      else
+        # send hit to player
+        if pid != nil and Process.alive?(pid) do
+          Logger.debug("Sending info about hitting, id=#{id}")
+          sendHit(pid)
+        end
+      end
+
       pid =
         Ets.opponentID?(id)
         |> Ets.wspid?()
 
+      # send move to player
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending move after hit, id=#{Ets.opponentID?(id)}")
         sendMove(pid)
       end
 
-      pid = Ets.wspid?(id)
-
-      if pid != nil and Process.alive?(pid) do
-        Logger.debug("Sending info about hitting, id=#{id}")
-        sendHit(pid)
-      end
-
       ["type", "hit", 200]
     else
+      # send move to opponent
       pid = Ets.wspid?(id)
 
       if pid != nil and Process.alive?(pid) do
@@ -166,6 +177,7 @@ defmodule SeaBattleServer.ShipHandler do
         sendMove(pid)
       end
 
+      # send opponent_move to player
       pid =
         Ets.opponentID?(id)
         |> Ets.wspid?()

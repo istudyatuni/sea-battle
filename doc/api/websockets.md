@@ -45,3 +45,12 @@ Timeout - 3 minutes
   "action": "opponent_hit"
 }
 ```
+
+**When opponent kill ship**
+
+To player:
+```json
+{
+  "action": "decrease_alive"
+}
+```

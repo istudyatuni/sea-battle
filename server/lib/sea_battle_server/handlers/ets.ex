@@ -31,6 +31,12 @@ defmodule SeaBattleServer.EtsHandler do
     el.opponent
   end
 
+  def updateOpID(id, opID) do
+    el = ship_element?(id)
+    el = %{el | opponent: opID}
+    :ets.insert(@all_ships, {id, el})
+  end
+
   def field?(id) do
     el = ship_element?(id)
     el.field
@@ -62,12 +68,11 @@ defmodule SeaBattleServer.EtsHandler do
 
       el = %{
         el
-        | "alive" => %{
+        | alive: %{
             alive
             | index => num - 1
           }
       }
-
       updateShip(id, el)
       num - 1
     end

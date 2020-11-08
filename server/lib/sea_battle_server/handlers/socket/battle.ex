@@ -39,6 +39,11 @@ defmodule SeaBattleServer.SocketHandler.Battle do
     {:reply, {:text, message}, state}
   end
 
+  def websocket_info(message, state) do
+    message = Poison.encode!(message)
+    {:reply, {:text, message}, state}
+  end
+
   def terminate(reason, request, state) do
     Logger.debug(
       "Close socket connection, reason: #{inspect(reason)}, request: #{inspect(request)}"
