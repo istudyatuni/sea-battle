@@ -1,8 +1,9 @@
 import { delay, togglePopup, removeYID } from '../AppFunctions'
 import { getString } from '../../Translation/String'
 import { handleMovesWS } from './BattleAPI'
+import { AllShips } from '../AppFunctions'
 
-export const SendShips = async (field: number[][],
+export const SendShips = async (ships: AllShips,
                                 setID: (arg0: string)=>void,
                                 opID: string,
                                 setOpID: (arg0: string)=>void,
@@ -10,7 +11,12 @@ export const SendShips = async (field: number[][],
   const response = await fetch('/ships', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ opponent: opID, field: field }),
+    body: JSON.stringify({
+      opponent: opID,
+      field: ships.field,
+      total: ships.total,
+      len:   ships.len
+    })
   });
 
   if(response.ok) {

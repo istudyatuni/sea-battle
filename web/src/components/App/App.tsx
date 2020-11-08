@@ -70,7 +70,7 @@ const App: React.FC = () => {
       return
     }
 
-    await SendShips(field, setID, opponentID, setOpponentID, setMode)
+    await SendShips(ships, setID, opponentID, setOpponentID, setMode)
 
     setField(FieldInit())
     setMode(1)

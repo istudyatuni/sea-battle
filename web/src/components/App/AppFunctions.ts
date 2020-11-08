@@ -73,34 +73,31 @@ export const delay = (ms: number) => {
 }
 
 type ship = {
-  res: string,
-  type: string,
-  index: number,
-  beg: number,
-  end: number,
-  len: number
+  res: string,   // success, fail or no need (already find)
+  type: string,  // row or col
+  index: number, // row (col) index
+  beg: number,   // begin ship index
+  end: number,   // end index
+  len: number    // ship length
 }
-/*
-  "res": success, fail or no need (already find)
-  "type": row or col
-  "index": row (col) index
-  "beg": begin ship index
-  "end": end index
-  "len": ship length
-*/
 
 export type AllShips = {
   result: string,
-  ships: any
+  field: number[][],
+  total: number,
+  len: number[]
 }
 
 export const validateAndTransform = (field: number[][]): AllShips => {
-  let ships:ship[] = []
-  let result = {result: 'fail', ships: ships}
-  let tmp: ship
+  let ships = [...field]
+  let len = []
+
+  let result = {result: 'fail', field: ships, total: 0, len: [0]}
+  let counter = 1
 
   let i: number
   let j: number
+  let tmp: ship
   for(i = 0; i < 10; i++) {
     for(j = 0; j < 10; j++) {
 
@@ -109,15 +106,18 @@ export const validateAndTransform = (field: number[][]): AllShips => {
         if(tmp.res === 'fail') {
           return result
         } else if(tmp.res === 'success') {
-          ships.push(tmp)
+          ships = setShip(ships, tmp, counter)
+          len.push(tmp.len)
+          counter++
         }
       }
 
     }
   }
-  convertShips(ships)
   result.result = 'success'
-  result.ships = ships
+  result.field = ships
+  result.total = counter - 1
+  result.len = len
   return result
 }
 
@@ -239,29 +239,29 @@ const findShip = (field: number[][], i: number, j: number): ship => {
       res: 'success',
       type: 'row',
       index: i,
-      beg: beg,
-      end: end,
-      len: end - beg + 1
+      beg: j,
+      end: j,
+      len: 1
     }
     return result
   }
   return result
 }
 
-const convertShips = (ships: ship[]): any => {
-  let result = new Map()
-  let row = new Map
-  let col = new Map
-
-  let colInd = 0
-  let rowInd = 0
-  for(let s in ships) {
-    let t = ships[s]
-    if(t.type === 'col') {
-      console.log(t)
+/**
+ * 01100 -> 03300
+ * change ship's '1' to '{num}'
+ * for more details see doc/ships.json
+ */
+const setShip = (f: number[][], s: ship, num: number): number[][] => {
+  let field = [...f]
+  let i: number
+  for(i = s.beg; i <= s.end; i++) {
+    if(s.type === 'row') {
+      field[s.index][i] = num
+    } else if(s.type === 'col') {
+      field[i][s.index] = num
     }
   }
-  // console.log(result)
-  // togglePopup(true, 'info', JSON.stringify(result))
-  return result
+  return field
 }
