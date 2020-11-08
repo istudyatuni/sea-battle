@@ -36,7 +36,7 @@ defmodule SeaBattleServer.Application do
     # in this table - can I shoot to player['id']?
     :ets.new(:can_move, [:public, :named_table, read_concurrency: true])
 
-    # PID of WebSocket room moves
+    # PID of WebSocket room battle
     :ets.new(:ws, [:public, :named_table])
 
     # for counting, how many tables with battles already exist
@@ -53,7 +53,7 @@ defmodule SeaBattleServer.Application do
       {:_,
        [
          {"/ws/opponent/[...]", SeaBattleServer.SocketHandler.Opponent, []},
-         {"/ws/moves/[...]", SeaBattleServer.SocketHandler.Moves, []},
+         {"/ws/battle/[...]", SeaBattleServer.SocketHandler.Battle, []},
          {:_, Plug.Cowboy.Handler, {SeaBattleServer.Router, []}}
        ]}
     ]

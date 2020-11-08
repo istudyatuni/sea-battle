@@ -1,4 +1,4 @@
-defmodule SeaBattleServer.SocketHandler.Moves do
+defmodule SeaBattleServer.SocketHandler.Battle do
   require Logger
   @behaviour :cowboy_websocket
 
@@ -21,7 +21,7 @@ defmodule SeaBattleServer.SocketHandler.Moves do
 
     :ets.insert(:ws, {state.id, self()})
 
-    Logger.debug("Subscrube to WebSocket \"moves\"")
+    Logger.debug("Subscrube to WebSocket \"battle\"")
 
     {:ok, state}
   end

@@ -13,7 +13,14 @@ defmodule SeaBattleServer.ShipHandler do
     id = to_string(id)
     opID = body["opponent"]
 
-    el = %{opponent: opID, field: body["field"]}
+    el = %{
+      opponent: opID,
+      field: body["field"],
+      total: body["total"],
+      # number of alive cells i-th ship
+      alive: body["len"]
+    }
+
     existance = :ets.insert_new(@all_ships, {id, el})
 
     :ets.insert(@can_move, {id, false})
@@ -133,7 +140,7 @@ defmodule SeaBattleServer.ShipHandler do
 
     Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
 
-    if value == 1 do
+    if value != 0 do
       pid =
         Ets.opponentID?(id)
         |> Ets.wspid?()

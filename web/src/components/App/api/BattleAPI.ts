@@ -29,7 +29,7 @@ export const SendShot = async (id: string, x: number, y: number, sendResp: (arg0
 }
 
 export const handleMovesWS = async (id: string) => {
-  let ws = new WebSocket('ws://localhost:4000/ws/moves/' + id)
+  let ws = new WebSocket('ws://localhost:4000/ws/battle/' + id)
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
   }

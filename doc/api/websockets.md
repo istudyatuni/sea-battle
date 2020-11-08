@@ -11,7 +11,10 @@ Timeout - 1 minute
 ```
 Need closing chanel manually after getting correct ID
 
-## Moves `/ws/moves/{id}`
+## Battle `/ws/battle/{id}`
+
+Moves, number killed ships
+
 Timeout - 3 minutes
 
 **On message** sending:

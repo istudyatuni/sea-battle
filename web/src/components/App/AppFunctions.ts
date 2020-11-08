@@ -85,14 +85,14 @@ export type AllShips = {
   result: string,
   field: number[][],
   total: number,
-  len: number[]
+  len: object
 }
 
 export const validateAndTransform = (field: number[][]): AllShips => {
   let ships = [...field]
-  let len = []
+  let len:any = {}
 
-  let result = {result: 'fail', field: ships, total: 0, len: [0]}
+  let result = {result: 'fail', field: ships, total: 0, len: {}}
   let counter = 1
 
   let i: number
@@ -107,7 +107,7 @@ export const validateAndTransform = (field: number[][]): AllShips => {
           return result
         } else if(tmp.res === 'success') {
           ships = setShip(ships, tmp, counter)
-          len.push(tmp.len)
+          len[counter] = tmp.len
           counter++
         }
       }
