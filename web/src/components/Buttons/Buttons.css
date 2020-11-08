@@ -1,0 +1,21 @@
+.Buttons {
+  align-self: center;
+}
+
+/* copy ID box*/
+#yID {
+  margin: auto 0 auto 6em;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+#yID:hover {
+  background-color: var(--action-bg-color);
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+}
+
+#yID:active {
+  background-color: #86CA32;
+  transition: all .1s ease-in-out;
+}

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import './App.css'
+import './Buttons.css'
 
 import {
   HideOrNot, BoolToOnOff
-} from './AppFunctions'
+} from '../App/AppFunctions'
 
 import { getString } from '../Translation/String'
 
@@ -75,7 +75,7 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
            onClick={handleClickID}
         >{getString('your_id')}: {ID}</span>
         <br/>
-        <button onClick={()=>window.location.reload()}>{getString('new_game')}</button>
+        {/*<button onClick={()=>window.location.reload()}>{getString('new_game')}</button>*/}
       </div>
     </div>
   );

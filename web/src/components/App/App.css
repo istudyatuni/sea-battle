@@ -1,17 +1,20 @@
 .App {
   display: flex;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
   text-align: center;
   padding: 2em;
   user-select: none;
 }
 
 .inline-board {
+  display: inline-flex;
   flex-grow: 1;
+  justify-content: center;
+  /*align-items: center;*/
 }
 
 .inline-field {
-  flex-grow: 7;
+  flex-grow: 1;
 }
 
 button, input {
@@ -32,33 +35,6 @@ button, input {
 button:focus, input:focus {
   border-color: black;
   outline: none;
-}
-
-/* copy ID box*/
-#yID:after {
-  content: " Copy";
-  color: var(--text-color);
-  visibility: hidden;
-}
-
-#yID:hover:after {
-  visibility: visible;
-  transition: all .3s ease-in-out;
-}
-
-#yID {
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-#yID:hover {
-  background-color: var(--action-bg-color);
-  transition: all .3s ease-in-out;
-}
-
-#yID:active {
-  background-color: #86CA32;
-  transition: all .1s ease-in-out;
 }
 
 /* Colors */

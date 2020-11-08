@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import './App.css';
-import Buttons from'./Buttons'
-import Scoreboard from '../Scoreboard/Scoreboard'
-import Shipsboard from '../Ships/Shipsboard'
+import Buttons from'../Buttons/Buttons'
 import Battlefield from '../Battlefield/Battlefield'
 
 import {
   FieldInit, HitOrMiss,
-  togglePopup, validateAndTransform
+  togglePopup, validateAndTransform,
+  HideOrNot
 } from './AppFunctions'
 
 import { initLocale, getString } from '../Translation/String'
@@ -17,9 +16,6 @@ import { SendShips } from './api/MainServerAPI'
 
 const App: React.FC = () => {
   initLocale()
-
-  const [countPlayer1, setCount1] = useState(0)
-  const [countPlayer2, setCount2] = useState(0)
 
   const [gameMode, setMode] = useState(0)
   const [field, setField] = useState<number[][]>(FieldInit())
@@ -91,6 +87,7 @@ const App: React.FC = () => {
 
   function copyOpponentID() {
     navigator.clipboard.writeText(ID)
+    togglePopup(true, 'success', getString('copied'))
   }
 
   // ¯\_(ツ)_/¯
@@ -98,8 +95,16 @@ const App: React.FC = () => {
     <div className="App">
       <span role="img" aria-label="toggler" className="theme-toggle" onClick={toggleTheme}>🌓</span>
       <div className="inline-board">
-        <Scoreboard player1={countPlayer1} player2={countPlayer2}/>
-        <Shipsboard/>
+        <h1 className="title" style={HideOrNot(gameMode)}>Sea Battle</h1>
+        <div style={HideOrNot((gameMode+1)%2)}>
+          <Battlefield
+            key={gameMode.toString()}
+            isClear={isClear}
+            gameMode={gameMode}
+            field={field}
+            shot={shot}
+          />
+        </div>
         <Buttons
           gameMode={gameMode}
           goBattle={goBattle}
