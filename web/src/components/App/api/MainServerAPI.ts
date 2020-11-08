@@ -64,7 +64,6 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
   ws.onclose = (e) => {
     if(byClient===false) {
       togglePopup(true, 'warn', getString('one_minute_timeout'))
-      togglePopup(true, 'error', getString('ws_closed'))
       console.error('WebSocket closed', e)
     }
   }
