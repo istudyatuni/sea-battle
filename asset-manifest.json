@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/sea-battle-deploy/static/css/main.41a97212.chunk.css",
-    "main.js": "/sea-battle-deploy/static/js/main.dd65a138.chunk.js",
-    "main.js.map": "/sea-battle-deploy/static/js/main.dd65a138.chunk.js.map",
+    "main.css": "/sea-battle-deploy/static/css/main.e049e2e3.chunk.css",
+    "main.js": "/sea-battle-deploy/static/js/main.fc2dec2f.chunk.js",
+    "main.js.map": "/sea-battle-deploy/static/js/main.fc2dec2f.chunk.js.map",
     "runtime-main.js": "/sea-battle-deploy/static/js/runtime-main.a403f144.js",
     "runtime-main.js.map": "/sea-battle-deploy/static/js/runtime-main.a403f144.js.map",
-    "static/js/2.f442cf84.chunk.js": "/sea-battle-deploy/static/js/2.f442cf84.chunk.js",
-    "static/js/2.f442cf84.chunk.js.map": "/sea-battle-deploy/static/js/2.f442cf84.chunk.js.map",
+    "static/js/2.339eb35b.chunk.js": "/sea-battle-deploy/static/js/2.339eb35b.chunk.js",
+    "static/js/2.339eb35b.chunk.js.map": "/sea-battle-deploy/static/js/2.339eb35b.chunk.js.map",
     "index.html": "/sea-battle-deploy/index.html",
-    "precache-manifest.20d05178c05b7d0f80eca2d25b149ae6.js": "/sea-battle-deploy/precache-manifest.20d05178c05b7d0f80eca2d25b149ae6.js",
+    "precache-manifest.965055adffb81b44f8e5137935396fb3.js": "/sea-battle-deploy/precache-manifest.965055adffb81b44f8e5137935396fb3.js",
     "service-worker.js": "/sea-battle-deploy/service-worker.js",
-    "static/css/main.41a97212.chunk.css.map": "/sea-battle-deploy/static/css/main.41a97212.chunk.css.map",
-    "static/js/2.f442cf84.chunk.js.LICENSE.txt": "/sea-battle-deploy/static/js/2.f442cf84.chunk.js.LICENSE.txt"
+    "static/css/main.e049e2e3.chunk.css.map": "/sea-battle-deploy/static/css/main.e049e2e3.chunk.css.map",
+    "static/js/2.339eb35b.chunk.js.LICENSE.txt": "/sea-battle-deploy/static/js/2.339eb35b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a403f144.js",
-    "static/js/2.f442cf84.chunk.js",
-    "static/css/main.41a97212.chunk.css",
-    "static/js/main.dd65a138.chunk.js"
+    "static/js/2.339eb35b.chunk.js",
+    "static/css/main.e049e2e3.chunk.css",
+    "static/js/main.fc2dec2f.chunk.js"
   ]
 }
