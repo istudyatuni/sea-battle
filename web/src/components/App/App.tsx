@@ -7,7 +7,7 @@ import Battlefield from '../Battlefield/Battlefield'
 import {
   FieldInit, HitOrMiss,
   togglePopup, validateAndTransform,
-  HideOrNot
+  HideOrNot, transformBack
 } from './AppFunctions'
 
 import { initLocale, getString } from '../Translation/String'
@@ -31,7 +31,8 @@ const App: React.FC = () => {
   initLocale()
 
   const [gameMode, setMode] = useState(0)
-  const [field, setField] = useState<number[][]>(FieldInit())
+  const [playerField, setPlayerField] = useState<number[][]>(FieldInit())
+  const [opponentField, setOpField] = useState<number[][]>(FieldInit())
   const [isClear, setClear] = useState(false)
 
   useKeyup(' ', () => setClear(isClear => !isClear))
@@ -40,7 +41,7 @@ const App: React.FC = () => {
   const [ID, setID] = useState("0")
 
   function getTheme (): string {
-    let t = (new Date).getHours()
+    let t = (new Date()).getHours()
     if(t > 6 && t < 18) {
       return 'light'
     }
@@ -69,13 +70,14 @@ const App: React.FC = () => {
   }, [theme]);
 
   function changeField(x: number, y: number, new_value: number) {
-    let f = field
+    // only on placing ships
+    let f = opponentField
     f[x][y] = new_value
-    setField(f)
+    setOpField(f)
   }
 
   const goBattle = async () => {
-    let ships = validateAndTransform(field)
+    let ships = validateAndTransform(opponentField)
     if(ships.result === 'fail') {
       togglePopup(true, 'warn', getString('incorrect_ship_placement'))
       return
@@ -83,7 +85,8 @@ const App: React.FC = () => {
 
     await SendShips(ships, setID, opponentID, setOpponentID, setMode)
 
-    setField(FieldInit())
+    setPlayerField(transformBack(opponentField))
+    setOpField(FieldInit())
     setMode(1)
     setClear(false)
   }
@@ -115,8 +118,8 @@ const App: React.FC = () => {
           <Battlefield
             key={gameMode.toString()}
             isClear={isClear}
-            gameMode={gameMode}
-            field={field}
+            gameMode={2}
+            field={playerField}
             shot={shot}
           />
         </div>
@@ -136,7 +139,7 @@ const App: React.FC = () => {
           key={gameMode.toString()}
           isClear={isClear}
           gameMode={gameMode}
-          field={field}
+          field={opponentField}
           shot={shot}
         />
       </div>

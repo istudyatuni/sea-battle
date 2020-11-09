@@ -72,6 +72,25 @@ export const delay = (ms: number) => {
   return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
+export const transformBack = (f: number[][]): number[][] => {
+  let a = []
+  let i: number
+  let j: number
+  for(i = 0; i < 10; i++) {
+    let t = []
+    for(j = 0; j < 10; j++) {
+      if(f[i][j]!==0) {
+        // why 3 - see components/values.md
+        t.push(3)
+      } else {
+        t.push(0)
+      }
+    }
+    a.push(t)
+  }
+  return a
+}
+
 type ship = {
   res: string,   // success, fail or no need (already find)
   type: string,  // row or col

@@ -193,14 +193,9 @@ defmodule SeaBattleServer.ShipHandler do
   end
 
   def hitOrMiss(id, x, y) do
-    check = Ets.number?()
-
-    {id, ""} = Integer.parse(id)
-
-    if id <= check && id > 0 do
-      id =
-        to_string(id)
-        |> Ets.opponentID?()
+    # if id == id which store in opponent
+    if id == Ets.opponentID?(Ets.opponentID?(id)) do
+      id = Ets.opponentID?(id)
 
       # :true or :false
       can = Ets.move?(id)
@@ -211,6 +206,7 @@ defmodule SeaBattleServer.ShipHandler do
         ["error", "Please wait", 202]
       end
     else
+      Logger.warn("ID #{id} not exist")
       ["error", "ID not exist", 202]
     end
   end

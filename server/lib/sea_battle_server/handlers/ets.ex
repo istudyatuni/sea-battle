@@ -21,14 +21,25 @@ defmodule SeaBattleServer.EtsHandler do
   end
 
   defp ship_element?(id) do
-    :ets.lookup(@all_ships, id)
-    |> Enum.at(0)
-    |> elem(1)
+    el =
+      :ets.lookup(@all_ships, id)
+      |> Enum.at(0)
+
+    if el != nil do
+      elem(el, 1)
+    else
+      nil
+    end
   end
 
   def opponentID?(id) do
     el = ship_element?(id)
-    el.opponent
+
+    if el != nil do
+      el.opponent
+    else
+      nil
+    end
   end
 
   def updateOpID(id, opID) do
@@ -73,6 +84,7 @@ defmodule SeaBattleServer.EtsHandler do
             | index => num - 1
           }
       }
+
       updateShip(id, el)
       num - 1
     end

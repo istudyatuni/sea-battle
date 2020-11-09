@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { battle, getCursor } from './CellFunctions'
+import { battle, getCursor, view } from './CellFunctions'
 
 type CellProps = {
   i: number,
@@ -17,6 +17,8 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, sho
   useEffect(()=>{
     if(gameMode===1) {
       setPath(battle(element))
+    } else if(gameMode===2) {
+      setPath(view(element))
     }
   },[element]);
 
