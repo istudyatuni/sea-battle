@@ -110,7 +110,7 @@ const App: React.FC = () => {
     <div className="App">
       <span role="img" aria-label="toggler" className="theme-toggle" onClick={toggleTheme}>🌓</span>
       <div className="inline-board">
-        <h1 className="title" style={HideOrNot(gameMode)}>Sea Battle</h1>
+        <h1 className="title" style={HideOrNot(gameMode)}>{getString('sea_battle_title')}</h1>
         <div style={HideOrNot((gameMode+1)%2)}>
           <Battlefield
             key={gameMode.toString()}

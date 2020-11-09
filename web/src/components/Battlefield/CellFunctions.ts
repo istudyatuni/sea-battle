@@ -1,13 +1,11 @@
 export const battle = (state: number): string => {
-  let path
   if(state===1) {
-    path = "Miss"
-  } else if(state===2){
-    path = "Hit"
+    return 'Miss'
+  } else if(state===2) {
+    return 'Hit'
   } else {
-    path = "Empty"
+    return 'Empty'
   }
-  return path
 }
 
 export const getCursor = (mode: number): any => {

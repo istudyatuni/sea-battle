@@ -16,8 +16,9 @@
   "opponent_hit": "Your opponent is hit to your ship",
   "opponent_move": "Opponent move",
   "please_wait": "Please wait",
+  "sea_battle_title": "Sea battle",
   "server_unavailable": "Server unavailable",
-  "space": "PRESS SPACE",
+  "space": "Press SPACE",
   "ws_closed": "WebSocket is close",
   "your_id": "Your ID"
 }
