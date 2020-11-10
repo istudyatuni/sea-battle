@@ -7,7 +7,6 @@ export const SendShips = async (ships: AllShips,
                                 setID: (arg0: string)=>void,
                                 opID: string,
                                 setOpID: (arg0: string)=>void,
-                                refresh: (arg0: number)=>void,
                                 setField: (arg0: number, arg1: number, arg2: number)=>void) => {
   const response = await fetch('/ships', {
     method: 'POST',
@@ -34,7 +33,7 @@ export const SendShips = async (ships: AllShips,
       scrollTop()
     } else {
       togglePopup(true, "info", getString('please_wait'))
-      getOpponentID(resp.id, setOpID, refresh, setField)
+      getOpponentID(resp.id, setOpID, setField)
     }
   } else {
     // server unavailable
@@ -45,7 +44,6 @@ export const SendShips = async (ships: AllShips,
 
 export const getOpponentID = (id: string,
                               setOpID: (arg0: string)=>void,
-                              refresh: (arg0: number)=>void,
                               setField: (arg0: number, arg1: number, arg2: number)=>void) => {
   let ws = new WebSocket('ws://localhost:4000/ws/opponent/' + id)
   let byClient = false

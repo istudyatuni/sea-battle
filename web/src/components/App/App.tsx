@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cookie from 'js-cookie'
 
 import './App.css';
 import Buttons from'../Buttons/Buttons'
@@ -50,6 +51,10 @@ const App: React.FC = () => {
   const [ID, setID] = useState("0")
 
   function getTheme (): string {
+    let c = Cookie.get('theme')
+    if(c!==undefined) {
+      return c
+    }
     let t = (new Date()).getHours()
     if(t > 6 && t < 18) {
       return 'light'
@@ -60,11 +65,14 @@ const App: React.FC = () => {
   const [theme, setTheme] = useState(getTheme())
 
   function toggleTheme() {
+    let t = ''
     if(theme==='light') {
-      setTheme('dark')
+      t = 'dark'
     } else if(theme==='dark') {
-      setTheme('light')
+      t = 'light'
     }
+    Cookie.set('theme', t, { expires: 0.5 })
+    setTheme(t)
   }
 
   useEffect(()=>{
@@ -98,7 +106,7 @@ const App: React.FC = () => {
       return
     }
 
-    await SendShips(ships, setID, opponentID, setOpponentID, setMode, changeViewField)
+    await SendShips(ships, setID, opponentID, setOpponentID, changeViewField)
 
     setPlayerField(transformBack(opponentField))
     setOpField(FieldInit())
