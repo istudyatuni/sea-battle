@@ -37,7 +37,7 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
   ws.onmessage = ({data}) => {
     data = JSON.parse(data)
     let action = data.action
-    if(action==='move' || action==='opponent_hit' || action==='opponent_move' || action==='decrease_alive' || action==='endgame') {
+    if(action==='move' || action==='opponent_hit' || action==='opponent_move' || action==='decrease_alive') {
       togglePopup(false)
       setTimeout(function(){
         togglePopup(true, 'success', getString(action))
@@ -49,6 +49,18 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
       } else if(type==='hit') {
         setField(data.x, data.y, 2)
       }
+    } else if(action==='endgame') {
+      togglePopup(false)
+      let color = (t: string) => {
+        if(t==='lose') {
+          return 'warn'
+        } else {
+          return 'success'
+        }
+      }
+      setTimeout(function(){
+        togglePopup(true, color(data.type), getString(action + '_' + data.type))
+      }, 50)
     } else if(action==='close') {
       ws.close(1000, 'Opponent disconnect')
       disconnect = true

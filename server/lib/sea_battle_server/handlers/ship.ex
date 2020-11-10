@@ -119,6 +119,8 @@ defmodule SeaBattleServer.ShipHandler do
 
     if value != 0 do
       alive = Ets.decrease_alive(id, value)
+
+      # total opponent's ships
       total = Ets.decrease_total(id, alive)
 
       Broadcast.hit(id, alive, total, x, y)
@@ -148,7 +150,7 @@ defmodule SeaBattleServer.ShipHandler do
       end
     else
       Logger.warn("ID #{id} not exist")
-      ["error", "ID not exist", 202]
+      ["error", "Not linked", 202]
     end
   end
 end

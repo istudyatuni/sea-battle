@@ -71,7 +71,7 @@ defmodule SeaBattleServer.SocketHandler.PackBroadcast do
     pid = Ets.wspid?(id)
 
     if pid != nil and Process.alive?(pid) do
-      Process.send(pid, "endgame", [])
+      Process.send(pid, %{"action" => "endgame", "type" => "lose"}, [])
     end
 
     pid =
@@ -79,7 +79,7 @@ defmodule SeaBattleServer.SocketHandler.PackBroadcast do
       |> Ets.wspid?()
 
     if pid != nil and Process.alive?(pid) do
-      Process.send(pid, "endgame", [])
+      Process.send(pid, %{"action" => "endgame", "type" => "win"}, [])
     end
   end
 
