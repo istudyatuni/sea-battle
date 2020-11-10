@@ -4,6 +4,7 @@ defmodule SeaBattleServer.ShipHandler do
   @can_move :can_move
 
   alias SeaBattleServer.EtsHandler, as: Ets
+  alias SeaBattleServer.SocketHandler.PackBroadcast, as: Broadcast
 
   def insert_new_ships(body) do
     id = Ets.number?()
@@ -104,31 +105,6 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  defp sendMove(pid) do
-    Process.send(pid, "move", [])
-  end
-
-  defp sendCoord(pid, type, x, y) do
-    Process.send(pid, %{
-      "action" => "set_coordinate",
-      "type" => type,
-      "x" => x,
-      "y" => y
-    }, [])
-  end
-
-  defp sendOpMove(pid) do
-    Process.send(pid, "opponent_move", [])
-  end
-
-  defp sendHit(pid) do
-    Process.send(pid, "opponent_hit", [])
-  end
-
-  def sendDecreaseAliveShip(pid) do
-    Process.send(pid, "decrease_alive", [])
-  end
-
   defp shotResult(id, x, y) do
     {x, ""} = Integer.parse(x)
     {y, ""} = Integer.parse(y)
@@ -142,66 +118,12 @@ defmodule SeaBattleServer.ShipHandler do
     Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
 
     if value != 0 do
-      pid = Ets.wspid?(id)
-      alive = Ets.decrease_alive(id, value)
-
-      if alive == 0 do
-        # send decrease ships to opponent
-        if pid != nil and Process.alive?(pid) do
-          Logger.debug("Sending decrease alive ships, id=#{Ets.opponentID?(id)}")
-          sendDecreaseAliveShip(pid)
-        end
-      else
-        # send hit to opponent
-        if pid != nil and Process.alive?(pid) do
-          Logger.debug("Sending info about hitting, id=#{id}")
-          sendHit(pid)
-        end
-      end
-
-      # send coordinates to opponent
-      if pid != nil and Process.alive?(pid) do
-        Logger.debug("Sending coordinates, id=#{id}")
-        sendCoord(pid, "hit", x, y)
-      end
-
-      pid =
-        Ets.opponentID?(id)
-        |> Ets.wspid?()
-
-      # send move to player
-      if pid != nil and Process.alive?(pid) do
-        Logger.debug("Sending move after hit, id=#{Ets.opponentID?(id)}")
-        sendMove(pid)
-      end
+      Broadcast.hit(id, value, x, y)
 
       ["type", "hit", 200]
     else
-      pid = Ets.wspid?(id)
+      Broadcast.miss(id, x, y)
 
-      # send move to opponent
-      if pid != nil and Process.alive?(pid) do
-        Logger.debug("Sending move after miss, id=#{id}")
-        sendMove(pid)
-      end
-
-      # send coordinates to opponent
-      if pid != nil and Process.alive?(pid) do
-        Logger.debug("Sending coordinates, id=#{id}")
-        sendCoord(pid, "miss", x, y)
-      end
-
-      pid =
-        Ets.opponentID?(id)
-        |> Ets.wspid?()
-
-      # send opponent_move to player
-      if pid != nil and Process.alive?(pid) do
-        Logger.debug("Sending opponent_move, id=#{id}")
-        sendOpMove(pid)
-      end
-
-      Ets.swapCanMove(id)
       ["type", "miss", 200]
     end
   end
