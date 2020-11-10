@@ -1,5 +1,7 @@
 defmodule SeaBattleServer.SocketHandler.Battle do
   require Logger
+  alias SeaBattleServer.EtsHandler, as: Ets
+
   @behaviour :cowboy_websocket
 
   def init(request, _state) do
@@ -48,6 +50,14 @@ defmodule SeaBattleServer.SocketHandler.Battle do
     Logger.debug(
       "Close socket connection, reason: #{inspect(reason)}, request: #{inspect(request)}"
     )
+
+    pid =
+      Ets.opponentID?(state.id)
+      |> Ets.wspid?()
+
+    if pid != nil and Process.alive?(pid) do
+      Process.send(pid, "close", [])
+    end
 
     :ets.insert(:ws, {state.id, nil})
 

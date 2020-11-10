@@ -30,6 +30,7 @@ export const SendShot = async (id: string, x: number, y: number, sendResp: (arg0
 
 export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: number, arg2: number)=>void) => {
   let ws = new WebSocket('ws://localhost:4000/ws/battle/' + id)
+  let disconnect = false
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
   }
@@ -48,6 +49,9 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
       } else if(type==='hit') {
         setField(data.x, data.y, 2)
       }
+    } else if(action==='close') {
+      ws.close(1000, 'Opponent disconnect')
+      disconnect = true
     }
   }
   ws.onerror = (e) => {
@@ -56,7 +60,11 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
     handleMovesPoll(id)
   }
   ws.onclose = (e) => {
-    togglePopup(true, 'warn', getString('move_timeout'))
+    if(disconnect===true) {
+      togglePopup(true, 'warn', getString('opponent_disconnected'))
+    } else {
+      togglePopup(true, 'warn', getString('move_timeout'))
+    }
   }
 }
 

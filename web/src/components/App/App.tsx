@@ -87,8 +87,7 @@ const App: React.FC = () => {
   }, [theme]);
 
   function changeField(x: number, y: number, new_value: number) {
-    // only on placing ships
-    let f = opponentField
+    const f = opponentField
     f[x][y] = new_value
     setOpField(f)
   }
