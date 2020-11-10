@@ -54,3 +54,13 @@ To player:
   "action": "decrease_alive"
 }
 ```
+
+**On any change field** send to opponent:
+```json
+{
+  "action": "set_coordinate",
+  "type": "hit", // miss
+  "x": 5,
+  "y": 3
+}
+```

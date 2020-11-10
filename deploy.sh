@@ -56,9 +56,9 @@ cd web
 echo -e "\n${ORANGE}npm run deploy$NC"
 npm run deploy
 
-# pulling
-echo -e "\n${ORANGE}git pull origin $gh_pages:$gh_pages$NC"
-git pull origin $gh_pages:$gh_pages
+# fetching
+echo -e "\n${ORANGE}git fetch origin $gh_pages:$gh_pages$NC"
+git fetch origin $gh_pages:$gh_pages
 
 # pushing to deploy
 echo -e "\n${ORANGE}git push $deploy_remote $gh_pages$NC"

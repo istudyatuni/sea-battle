@@ -104,15 +104,17 @@ defmodule SeaBattleServer.ShipHandler do
     end
   end
 
-  defp swapCanMove(cant) do
-    can = Ets.opponentID?(cant)
-
-    :ets.insert(@can_move, {can, true})
-    :ets.insert(@can_move, {cant, false})
-  end
-
   defp sendMove(pid) do
     Process.send(pid, "move", [])
+  end
+
+  defp sendCoord(pid, type, x, y) do
+    Process.send(pid, %{
+      "action" => "set_coordinate",
+      "type" => type,
+      "x" => x,
+      "y" => y
+    }, [])
   end
 
   defp sendOpMove(pid) do
@@ -144,17 +146,23 @@ defmodule SeaBattleServer.ShipHandler do
       alive = Ets.decrease_alive(id, value)
 
       if alive == 0 do
-        # send decrease ships to player
+        # send decrease ships to opponent
         if pid != nil and Process.alive?(pid) do
           Logger.debug("Sending decrease alive ships, id=#{Ets.opponentID?(id)}")
           sendDecreaseAliveShip(pid)
         end
       else
-        # send hit to player
+        # send hit to opponent
         if pid != nil and Process.alive?(pid) do
           Logger.debug("Sending info about hitting, id=#{id}")
           sendHit(pid)
         end
+      end
+
+      # send coordinates to opponent
+      if pid != nil and Process.alive?(pid) do
+        Logger.debug("Sending coordinates, id=#{id}")
+        sendCoord(pid, "hit", x, y)
       end
 
       pid =
@@ -169,25 +177,31 @@ defmodule SeaBattleServer.ShipHandler do
 
       ["type", "hit", 200]
     else
-      # send move to opponent
       pid = Ets.wspid?(id)
 
+      # send move to opponent
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending move after miss, id=#{id}")
         sendMove(pid)
       end
 
-      # send opponent_move to player
+      # send coordinates to opponent
+      if pid != nil and Process.alive?(pid) do
+        Logger.debug("Sending coordinates, id=#{id}")
+        sendCoord(pid, "miss", x, y)
+      end
+
       pid =
         Ets.opponentID?(id)
         |> Ets.wspid?()
 
+      # send opponent_move to player
       if pid != nil and Process.alive?(pid) do
         Logger.debug("Sending opponent_move, id=#{id}")
         sendOpMove(pid)
       end
 
-      swapCanMove(id)
+      Ets.swapCanMove(id)
       ["type", "miss", 200]
     end
   end

@@ -59,6 +59,13 @@ defmodule SeaBattleServer.EtsHandler do
     |> elem(1)
   end
 
+  def swapCanMove(cant) do
+    can = opponentID?(cant)
+
+    :ets.insert(@can_move, {can, true})
+    :ets.insert(@can_move, {cant, false})
+  end
+
   def number_alive?(id, index) do
     el = ship_element?(id)
     el.alive[to_string(index)]

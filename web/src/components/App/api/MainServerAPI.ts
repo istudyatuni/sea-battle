@@ -7,7 +7,8 @@ export const SendShips = async (ships: AllShips,
                                 setID: (arg0: string)=>void,
                                 opID: string,
                                 setOpID: (arg0: string)=>void,
-                                refresh: (arg0: number)=>void) => {
+                                refresh: (arg0: number)=>void,
+                                setField: (arg0: number, arg1: number, arg2: number)=>void) => {
   const response = await fetch('/ships', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -29,11 +30,11 @@ export const SendShips = async (ships: AllShips,
       // successfully start game
       togglePopup(true, "success", getString('good_game'))
       setTimeout(function(){ removeYID() }, 30)
-      handleMovesWS(resp.id)
+      handleMovesWS(resp.id, setField)
       scrollTop()
     } else {
       togglePopup(true, "info", getString('please_wait'))
-      getOpponentID(resp.id, setOpID, refresh)
+      getOpponentID(resp.id, setOpID, refresh, setField)
     }
   } else {
     // server unavailable
@@ -42,7 +43,10 @@ export const SendShips = async (ships: AllShips,
   }
 }
 
-export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh: (arg0: number)=>void) => {
+export const getOpponentID = (id: string,
+                              setOpID: (arg0: string)=>void,
+                              refresh: (arg0: number)=>void,
+                              setField: (arg0: number, arg1: number, arg2: number)=>void) => {
   let ws = new WebSocket('ws://localhost:4000/ws/opponent/' + id)
   let byClient = false
   ws.onmessage = ({data}) => {
@@ -55,7 +59,7 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
       togglePopup(true, 'success', getString('good_game'))
       setTimeout(function(){ togglePopup(true, 'success', getString('move')) }, 1000)
 
-      handleMovesWS(id)
+      handleMovesWS(id, setField)
       removeYID()
       scrollTop()
     }
@@ -63,7 +67,7 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
   ws.onerror = (e) => {
     sendLog('WebSocket error, id=' + id + ', downgrade to polling', e)
     console.error('WebSocket failed: ', e, 'downgrade to polling')
-    getOpponentIDpoll(id, setOpID)
+    getOpponentIDpoll(id, setOpID, setField)
     // it not by client, but we need handle it
     byClient = true
   }
@@ -75,7 +79,9 @@ export const getOpponentID = (id: string, setOpID: (arg0: string)=>void, refresh
   }
 }
 
-export const getOpponentIDpoll = async (id: string, setOpID: (arg0: string)=>void) => {
+export const getOpponentIDpoll = async (id: string,
+                                        setOpID: (arg0: string)=>void,
+                                        setField: (arg0: number, arg1: number, arg2: number)=>void) => {
   let timeout = 60
   let timer = 0
   let setID = '0'
@@ -111,7 +117,7 @@ export const getOpponentIDpoll = async (id: string, setOpID: (arg0: string)=>voi
   if(setID!=='0') {
     togglePopup(true, 'success', getString('good_game'))
     setTimeout(function(){ togglePopup(true, "success", getString('move')) }, 1000)
-    handleMovesWS(id)
+    handleMovesWS(id, setField)
     scrollTop()
   }
   else {

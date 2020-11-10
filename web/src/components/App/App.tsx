@@ -22,8 +22,17 @@ function useKeyup(key: string, action: ()=>void) {
         action()
       }
     }
+    function onKeydown(e: any) {
+      if(e.key === key) {
+        e.preventDefault()
+      }
+    }
     window.addEventListener('keyup', onKeyup)
-    return () => window.removeEventListener('keyup', onKeyup)
+    window.addEventListener('keydown', onKeydown)
+    return () => {
+      window.removeEventListener('keyup', onKeyup)
+      window.removeEventListener('keydown', onKeydown)
+    }
   }, []);
 }
 
@@ -76,6 +85,12 @@ const App: React.FC = () => {
     setOpField(f)
   }
 
+  function changeViewField(x: number, y: number, new_value: number) {
+    const f = [...playerField]
+    f[x][y] = new_value
+    setPlayerField(f)
+  }
+
   const goBattle = async () => {
     let ships = validateAndTransform(opponentField)
     if(ships.result === 'fail') {
@@ -83,7 +98,7 @@ const App: React.FC = () => {
       return
     }
 
-    await SendShips(ships, setID, opponentID, setOpponentID, setMode)
+    await SendShips(ships, setID, opponentID, setOpponentID, setMode, changeViewField)
 
     setPlayerField(transformBack(opponentField))
     setOpField(FieldInit())
@@ -116,7 +131,7 @@ const App: React.FC = () => {
         <h1 className="title" style={HideOrNot(gameMode)}>{getString('sea_battle_title')}</h1>
         <div style={HideOrNot((gameMode+1)%2)}>
           <Battlefield
-            key={gameMode.toString()}
+            key={playerField.toString()}
             isClear={isClear}
             gameMode={2}
             field={playerField}

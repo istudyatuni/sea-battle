@@ -28,7 +28,7 @@ export const SendShot = async (id: string, x: number, y: number, sendResp: (arg0
   }
 }
 
-export const handleMovesWS = async (id: string) => {
+export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: number, arg2: number)=>void) => {
   let ws = new WebSocket('ws://localhost:4000/ws/battle/' + id)
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
@@ -41,6 +41,13 @@ export const handleMovesWS = async (id: string) => {
       setTimeout(function(){
         togglePopup(true, 'success', getString(action))
       }, 50)
+    } else if(action==='set_coordinate') {
+      let type = data.type
+      if(type==='miss') {
+        setField(data.x, data.y, 1)
+      } else if(type==='hit') {
+        setField(data.x, data.y, 2)
+      }
     }
   }
   ws.onerror = (e) => {
