@@ -31,9 +31,8 @@ defmodule SeaBattleServer.SocketHandler.PackBroadcast do
     Process.send(pid, "decrease_alive", [])
   end
 
-  def hit(id, value, x, y) do
+  defp sendHitMoves(id, alive, x, y) do
     pid = Ets.wspid?(id)
-    alive = Ets.decrease_alive(id, value)
 
     if alive == 0 do
       # send decrease ships to opponent
@@ -64,6 +63,32 @@ defmodule SeaBattleServer.SocketHandler.PackBroadcast do
       Logger.debug("Sending move after hit, id=#{Ets.opponentID?(id)}")
       sendMove(pid)
     end
+  end
+
+  defp sendEndGame(id) do
+    Logger.debug("Sending endgame, id=#{id}, opID=#{Ets.opponentID?(id)}")
+
+    pid = Ets.wspid?(id)
+
+    if pid != nil and Process.alive?(pid) do
+      Process.send(pid, "endgame", [])
+    end
+
+    pid =
+      Ets.opponentID?(id)
+      |> Ets.wspid?()
+
+    if pid != nil and Process.alive?(pid) do
+      Process.send(pid, "endgame", [])
+    end
+  end
+
+  def hit(id, alive, total, x, y) do
+    sendHitMoves(id, alive, x, y)
+
+    if total == 0 do
+      sendEndGame(id)
+    end
 
     :ok
   end
@@ -92,8 +117,6 @@ defmodule SeaBattleServer.SocketHandler.PackBroadcast do
       Logger.debug("Sending opponent_move, id=#{id}")
       sendOpMove(pid)
     end
-
-    Ets.swapCanMove(id)
 
     :ok
   end

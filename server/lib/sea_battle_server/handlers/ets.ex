@@ -71,6 +71,11 @@ defmodule SeaBattleServer.EtsHandler do
     el.alive[to_string(index)]
   end
 
+  def total?(id) do
+    el = ship_element?(id)
+    el.total
+  end
+
   defp updateShip(id, el) do
     :ets.insert(@all_ships, {id, el})
   end
@@ -93,7 +98,23 @@ defmodule SeaBattleServer.EtsHandler do
       }
 
       updateShip(id, el)
-      num - 1
+    end
+
+    num - 1
+  end
+
+  def decrease_total(id, alive) do
+    total = total?(id)
+    if alive == 0 do
+      total = total - 1
+
+      el = ship_element?(id)
+      el = %{el | total: total}
+      updateShip(id, el)
+
+      total
+    else
+      total
     end
   end
 end

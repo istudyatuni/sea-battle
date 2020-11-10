@@ -118,11 +118,16 @@ defmodule SeaBattleServer.ShipHandler do
     Logger.debug("player is shot, x=#{x}, y=#{y}, value=#{value}")
 
     if value != 0 do
-      Broadcast.hit(id, value, x, y)
+      alive = Ets.decrease_alive(id, value)
+      total = Ets.decrease_total(id, alive)
+
+      Broadcast.hit(id, alive, total, x, y)
 
       ["type", "hit", 200]
     else
       Broadcast.miss(id, x, y)
+
+      Ets.swapCanMove(id)
 
       ["type", "miss", 200]
     end

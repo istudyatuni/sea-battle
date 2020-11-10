@@ -3,6 +3,7 @@
   "decrease_alive": "Your opponent kill one your ship",
   "disabled": "Disabled",
   "enabled": "Enabled",
+  "endgame": "End game!",
   "fix_ships": "Fix ships",
   "fix_ships_explain": "You can fix ships if place them wrong",
   "friend_id": "Friend ID",
