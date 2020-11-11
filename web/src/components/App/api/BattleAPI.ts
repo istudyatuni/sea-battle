@@ -1,6 +1,8 @@
 import { delay, togglePopup } from '../AppFunctions'
 import { getString } from '../../Translation/String'
 import { sendLog } from './MainServerAPI'
+import { newGame } from '../../Buttons/ButtonFunctions'
+
 
 export const SendShot = async (id: string, x: number, y: number, sendResp: (arg0: any)=>any) => {
   let url = '/shot?id=' + id + '&x=' + x + '&y=' + y
@@ -50,7 +52,9 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
         setField(data.x, data.y, 2)
       }
     } else if(action==='endgame') {
+      newGame()
       togglePopup(false)
+
       let color = (t: string) => {
         if(t==='lose') {
           return 'warn'
@@ -58,6 +62,7 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
           return 'success'
         }
       }
+
       setTimeout(function(){
         togglePopup(true, color(data.type), getString(action + '_' + data.type))
       }, 50)

@@ -73,10 +73,15 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
       <div style={HideOrNot((gameMode+1)%2)} >
         <span
            id="yID"
+           className="middle"
            onClick={handleClickID}
         >{getString('your_id')}: {ID}</span>
         <br/>
-        {/*<button onClick={()=>window.location.reload()}>{getString('new_game')}</button>*/}
+        <button
+          className="middle hide"
+          id="new_game"
+          onClick={()=>window.location.reload()}
+        >{getString('new_game')}</button>
       </div>
     </div>
   );

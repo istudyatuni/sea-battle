@@ -71,7 +71,7 @@ const App: React.FC = () => {
     } else if(theme==='dark') {
       t = 'light'
     }
-    Cookie.set('theme', t, { expires: 0.5 })
+    Cookie.set('theme', t)
     setTheme(t)
   }
 
@@ -107,7 +107,8 @@ const App: React.FC = () => {
 
     await SendShips(ships, setID, opponentID, setOpponentID, changeViewField)
 
-    setPlayerField(transformBack(opponentField))
+    let t = transformBack(opponentField)
+    setPlayerField([...t])
     setOpField(FieldInit())
     setMode(1)
     setClear(false)

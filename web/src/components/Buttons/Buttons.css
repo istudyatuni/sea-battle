@@ -3,9 +3,12 @@
 }
 
 /* copy ID box*/
-#yID {
-  margin: auto 0 auto 6em;
+.middle {
+  margin: 1em 0 1em 6em;
   padding: 5px 10px;
+}
+
+#yID {
   border-radius: 5px;
 }
 
@@ -18,4 +21,12 @@
 #yID:active {
   background-color: #86CA32;
   transition: all .1s ease-in-out;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: auto;
 }
