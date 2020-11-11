@@ -11,6 +11,8 @@ import {
   HideOrNot, transformBack
 } from './AppFunctions'
 
+import { newGame } from '../Buttons/ButtonFunctions'
+
 import { initLocale, getString } from '../Translation/String'
 
 import { SendShips } from './api/MainServerAPI'
@@ -34,6 +36,19 @@ function useKeyup(key: string, action: ()=>void) {
       window.removeEventListener('keyup', onKeyup)
       window.removeEventListener('keydown', onKeydown)
     }
+  }, []);
+}
+
+function useKeydown(key: number, action: ()=>void) {
+  useEffect(()=>{
+    function onKeydown(e: any) {
+      if(e.keyCode === key) {
+        e.preventDefault()
+        action()
+      }
+    }
+    window.addEventListener('keydown', onKeydown)
+    return () => window.removeEventListener('keydown', onKeydown)
   }, []);
 }
 
@@ -110,9 +125,11 @@ const App: React.FC = () => {
     let t = transformBack(opponentField)
     setPlayerField([...t])
     setOpField(FieldInit())
-    setMode(1)
+    setMode(gameMode => 1)
     setClear(false)
   }
+
+  useKeydown(27, () => newGame())
 
   /*
     WTF? if call in 'shot' just one async function with await,

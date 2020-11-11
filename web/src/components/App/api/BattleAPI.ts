@@ -67,6 +67,7 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
         togglePopup(true, color(data.type), getString(action + '_' + data.type))
       }, 50)
     } else if(action==='close') {
+      newGame()
       ws.close(1000, 'Opponent disconnect')
       disconnect = true
     }
