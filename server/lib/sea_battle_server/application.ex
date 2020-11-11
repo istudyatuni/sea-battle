@@ -9,7 +9,7 @@ defmodule SeaBattleServer.Application do
 
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
-    port = Application.get_env(:sea_battle_server, :port)
+    port = getPort()
     Logger.debug("Set port #{port}")
 
     children = [
@@ -57,5 +57,14 @@ defmodule SeaBattleServer.Application do
          {:_, Plug.Cowboy.Handler, {SeaBattleServer.Router, []}}
        ]}
     ]
+  end
+
+  defp getPort() do
+    port_env = System.get_env("PORT")
+    if is_nil(port_env) do
+      Application.get_env(:sea_battle_server, :port)
+    else
+      String.to_integer(port_env)
+    end
   end
 end

@@ -71,8 +71,12 @@ defmodule SeaBattleServer.Router do
     send_resp(conn, 204, "")
   end
 
+  get "/" do
+    send_resp(conn, 200, "Server worked!")
+  end
+
   # "Default" route that will get called when no other route is matched
   match _ do
-    send_resp(conn, 404, "not found")
+    send_resp(conn, 404, "Not found")
   end
 end
