@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
 import './Buttons.css'
+import { newGame, BoolToOnOff } from './ButtonFunctions'
 
-import {
-  HideOrNot, BoolToOnOff
-} from '../App/AppFunctions'
+import { HideOrNot } from '../App/AppFunctions'
 
 import { getString } from '../Translation/String'
 

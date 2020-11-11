@@ -1,5 +1,4 @@
 import { SendShot } from './api/BattleAPI'
-import { getString } from '../Translation/String'
 
 export const togglePopup = (a: boolean, classColor: string = "", message: string = "") => {
   let popup = document.getElementById("popup")
@@ -34,14 +33,6 @@ export const HideOrNot = (a: number): any => {
   }
 }
 
-export const BoolToOnOff = (a: boolean): string => {
-  if(a===true) {
-    return getString('enabled')
-  } else {
-    return getString('disabled')
-  }
-}
-
 enum ShotResult {none, hit, miss}
 
 export const HitOrMiss = async (id: string,
@@ -58,13 +49,6 @@ export const HitOrMiss = async (id: string,
     changeField(x, y, 1)
   } else if (type === ShotResult[ShotResult.hit]) {
     changeField(x, y, 2)
-  }
-}
-
-export const removeYID = (): void => {
-  let yID = document.getElementById('yID')
-  if(yID!==null) {
-    yID.style.display = 'none'
   }
 }
 

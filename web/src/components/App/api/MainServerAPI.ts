@@ -1,7 +1,7 @@
-import { delay, togglePopup, removeYID } from '../AppFunctions'
+import { removeYID } from '../../Buttons/ButtonFunctions'
 import { getString } from '../../Translation/String'
 import { handleMovesWS } from './BattleAPI'
-import { AllShips } from '../AppFunctions'
+import { delay, togglePopup, AllShips } from '../AppFunctions'
 
 export const SendShips = async (ships: AllShips,
                                 setID: (arg0: string)=>void,
