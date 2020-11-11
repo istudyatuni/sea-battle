@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
-
 import './Buttons.css'
 import { newGame, BoolToOnOff } from './ButtonFunctions'
-
 import { HideOrNot } from '../App/AppFunctions'
-
 import { getString } from '../Translation/String'
 
 type ButtonsProps = {
   gameMode: number,
-
   goBattle: () => void,
-
   setClear: (arg0: boolean) => any,
   isClear: boolean,
-
   setOpponentID: (arg0: string) => any,
   ID: string,
-
   copyOpID: () => void
+  theme: string
 }
 
 const Buttons: React.FC<ButtonsProps> = ({ gameMode,
@@ -27,7 +21,8 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
                                          isClear,
                                          setOpponentID,
                                          ID,
-                                         copyOpID }) => {
+                                         copyOpID,
+                                         theme }) => {
   const [newID, setNewID] = useState("")
 
   function handleChange(event: any) {
@@ -67,6 +62,11 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
         >{getString('fix_ships')}</button>
         <i>{BoolToOnOff(isClear)}</i>
         <p>{getString('fix_ships_explain')}</p>
+        <div className={"gh-logo " + theme}>
+          <a href="https://www.github.com" target="blank">
+            <img src="assets/github.svg" alt="Github logo" />
+          </a>
+        </div>
       </div>
 
       <div style={HideOrNot((gameMode+1)%2)} >

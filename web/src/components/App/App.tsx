@@ -171,6 +171,7 @@ const App: React.FC = () => {
           setOpponentID={setOpponentID}
           ID={ID}
           copyOpID={copyOpponentID}
+          theme={theme}
         />
       </div>
 

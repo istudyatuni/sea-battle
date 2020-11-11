@@ -2,6 +2,33 @@
   align-self: center;
 }
 
+/* github logo */
+.gh-logo {
+  width: 64px;
+  height: 64px;
+  margin: auto;
+  border-radius: 5em;
+  margin-top: 10em;
+}
+
+.gh-logo img {
+  width: 64px;
+  height: 64px;
+}
+
+.gh-logo:hover {
+  cursor: pointer;
+  background-color: var(--hover-bg-color);
+}
+
+.gh-logo:active {
+  background-color: var(--action-bg-color);
+}
+
+.gh-logo.dark {
+  filter: invert(1);
+}
+
 /* copy ID box*/
 .middle {
   margin: 1em 0 1em 6em;
