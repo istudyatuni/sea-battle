@@ -1,4 +1,8 @@
 defmodule SeaBattleServer.EtsHandler do
+  @moduledoc """
+    Layer for work with all ETS tables in this project
+  """
+
   @all_ships :all_ships
   @can_move :can_move
 
@@ -32,7 +36,7 @@ defmodule SeaBattleServer.EtsHandler do
     end
   end
 
-  def opponentID?(id) do
+  def opponent_id?(id) do
     el = ship_element?(id)
 
     if el != nil do
@@ -42,7 +46,7 @@ defmodule SeaBattleServer.EtsHandler do
     end
   end
 
-  def updateOpID(id, opID) do
+  def update_op_id(id, opID) do
     el = ship_element?(id)
     el = %{el | opponent: opID}
     :ets.insert(@all_ships, {id, el})
@@ -59,8 +63,8 @@ defmodule SeaBattleServer.EtsHandler do
     |> elem(1)
   end
 
-  def swapCanMove(cant) do
-    can = opponentID?(cant)
+  def swap_can_move(cant) do
+    can = opponent_id?(cant)
 
     :ets.insert(@can_move, {can, true})
     :ets.insert(@can_move, {cant, false})
@@ -76,7 +80,7 @@ defmodule SeaBattleServer.EtsHandler do
     el.total
   end
 
-  defp updateShip(id, el) do
+  defp update_ship(id, el) do
     :ets.insert(@all_ships, {id, el})
   end
 
@@ -97,7 +101,7 @@ defmodule SeaBattleServer.EtsHandler do
           }
       }
 
-      updateShip(id, el)
+      update_ship(id, el)
     end
 
     num - 1
@@ -105,12 +109,13 @@ defmodule SeaBattleServer.EtsHandler do
 
   def decrease_total(id, alive) do
     total = total?(id)
+
     if alive == 0 do
       total = total - 1
 
       el = ship_element?(id)
       el = %{el | total: total}
-      updateShip(id, el)
+      update_ship(id, el)
 
       total
     else

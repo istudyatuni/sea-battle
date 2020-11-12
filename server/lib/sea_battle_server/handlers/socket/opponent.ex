@@ -1,4 +1,8 @@
 defmodule SeaBattleServer.SocketHandler.Opponent do
+  @moduledoc """
+    WebSocket handler for sending opponent ID to player
+  """
+
   require Logger
   @behaviour :cowboy_websocket
 

@@ -15,7 +15,7 @@ defmodule SeaBattleServer.Router do
     conn = fetch_query_params(conn)
     %{"id" => id, "x" => x, "y" => y} = conn.params
 
-    [key, msg, code] = ShipHandler.hitOrMiss(id, x, y)
+    [key, msg, code] = ShipHandler.hit_or_miss(id, x, y)
     ans = %{"id" => id, key => msg}
 
     ans = Poison.encode!(ans, [])
@@ -36,7 +36,7 @@ defmodule SeaBattleServer.Router do
     conn = fetch_query_params(conn)
     %{"id" => id} = conn.params
 
-    [body, code] = ShipHandler.getOpponentID(id)
+    [body, code] = ShipHandler.get_opponent_id(id)
 
     body = Poison.encode!(body)
     send_resp(conn, code, body)
@@ -54,9 +54,9 @@ defmodule SeaBattleServer.Router do
 
   patch "/opponent" do
     conn = fetch_query_params(conn)
-    %{"id" => id, "opponentID" => opponentID} = conn.params
+    %{"id" => id, "opponentID" => opponent_id} = conn.params
 
-    [body, code] = ShipHandler.set_opponent(id, opponentID)
+    [body, code] = ShipHandler.set_opponent(id, opponent_id)
 
     body = Poison.encode!(body)
     send_resp(conn, code, body)

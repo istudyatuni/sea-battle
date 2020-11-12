@@ -1,4 +1,8 @@
 defmodule SeaBattleServer.SocketHandler.Battle do
+  @moduledoc """
+    WebSocket handler in battle time
+  """
+
   require Logger
   alias SeaBattleServer.EtsHandler, as: Ets
 
@@ -52,7 +56,7 @@ defmodule SeaBattleServer.SocketHandler.Battle do
     )
 
     pid =
-      Ets.opponentID?(state.id)
+      Ets.opponent_id?(state.id)
       |> Ets.wspid?()
 
     if pid != nil and Process.alive?(pid) do
