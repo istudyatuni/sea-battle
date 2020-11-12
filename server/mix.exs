@@ -27,7 +27,8 @@ defmodule SeaBattleServer.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:plug, "~> 1.5"},
       {:poison, "~> 4.0"},
-      {:credo, "~> 1.5", only: [:dev], runtime: false}
+      {:credo, "~> 1.5", only: [:dev], runtime: false},
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false}
     ]
   end
 end
