@@ -1,6 +1,6 @@
 import { delay, togglePopup } from '../AppFunctions'
 import { getString } from '../../Translation/String'
-import { sendLog } from './MainServerAPI'
+import { sendLog, wsURL } from './MainServerAPI'
 import { newGame } from '../../Buttons/ButtonFunctions'
 
 
@@ -31,7 +31,8 @@ export const SendShot = async (id: string, x: number, y: number, sendResp: (arg0
 }
 
 export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: number, arg2: number)=>void) => {
-  let ws = new WebSocket('ws://localhost:4000/ws/battle/' + id)
+  let url = wsURL() + '/ws/battle/' + id
+  let ws = new WebSocket(url)
   let disconnect = false
   ws.onopen = () => {
     ws.send(JSON.stringify({ "id": id }))
@@ -75,8 +76,9 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
     }
   }
   ws.onerror = (e) => {
-    sendLog('WebSocket error, id=' + id + ', downgrade to polling', e)
+    sendLog('WebSocket error, id=' + id + ', downgrade to polling, url=' + url, e)
     console.error('WebSocket failed: ', e, 'downgrade to polling')
+    togglePopup(true, 'error', getString('ws_error'))
     handleMovesPoll(id)
   }
   ws.onclose = (e) => {

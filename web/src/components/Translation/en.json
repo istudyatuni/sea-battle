@@ -23,6 +23,6 @@
   "sea_battle_title": "Sea battle",
   "server_unavailable": "Server unavailable",
   "space": "Press SPACE",
-  "ws_closed": "WebSocket is close",
+  "ws_error": "WebSocket's error",
   "your_id": "Your ID"
 }

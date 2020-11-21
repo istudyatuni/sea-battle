@@ -23,6 +23,6 @@
   "sea_battle_title": "Морской бой",
   "server_unavailable": "Сервер недоступен",
   "space": "Нажми ПРОБЕЛ",
-  "ws_closed": "Веб-сокет канал закрыт",
+  "ws_error": "Ошибка веб-сокетов",
   "your_id": "Ваш ID"
 }
