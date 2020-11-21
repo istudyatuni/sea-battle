@@ -59,8 +59,9 @@ To player:
 ```json
 {
   "action": "set_coordinate",
-  "type": "hit", // miss
+  "type": "type",
   "x": 5,
   "y": 3
 }
 ```
+`"type": ["hit", "miss"]`

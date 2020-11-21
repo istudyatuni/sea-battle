@@ -32,7 +32,7 @@ By default in development client starting on `3000` port, and server on `4000`
 
 ## How to play in this
 
-Translations: [ru](HowToPlayRU.md)
+Translations: [ru](doc/HowToPlayRU.md)
 
 The player running the application on their PC and the second player must be on the same network. First player must know his IP address on this network, and the second player must connect to `http://address:3000` through browser
 
