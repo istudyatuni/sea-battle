@@ -5,6 +5,7 @@
   "enabled": "Enabled",
   "endgame_lose": "You are lose :(",
   "endgame_win": "You are win!",
+  "esc_for_new_game": "When you will play, press ESC for new game",
   "fix_ships": "Fix ships",
   "fix_ships_explain": "You can fix ships if place them wrong",
   "friend_id": "Friend ID",

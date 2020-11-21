@@ -144,8 +144,10 @@ const App: React.FC = () => {
   }
 
   function copyOpponentID() {
-    navigator.clipboard.writeText(ID)
-    togglePopup(true, 'success', getString('copied'))
+    if(navigator.clipboard) {
+      navigator.clipboard.writeText(ID)
+      togglePopup(true, 'success', getString('copied'))
+    }
   }
 
   // ¯\_(ツ)_/¯

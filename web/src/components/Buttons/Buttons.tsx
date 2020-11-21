@@ -67,6 +67,7 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
         >{getString('fix_ships')}</button>
         <i>{BoolToOnOff(isClear)}</i>
         <p>{getString('fix_ships_explain')}</p>
+        <p>{getString('esc_for_new_game')}</p>
       </div>
 
       <div style={HideOrNot((gameMode+1)%2)} >
