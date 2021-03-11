@@ -179,6 +179,7 @@ const App: React.FC = () => {
       </div>
 
       <div className="inline-field">
+        <h1 className="vertical-title" style={HideOrNot(gameMode)}>{getString('sea_battle_title')}</h1>
         <Battlefield
           key={gameMode.toString()}
           isClear={isClear}

@@ -12,9 +12,26 @@
   justify-content: center;
 }
 
-.title {
+.title, .vertical-title {
   height: fit-content;
-  margin-right: -3em;
+}
+
+@media screen and (max-width: 1700px) {
+  .title {
+    display: none;
+  }
+  .vertical-title {
+    margin: 0 0 1em auto;
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .title {
+    margin-right: -3em;
+  }
+  .vertical-title {
+    display: none;
+  }
 }
 
 .inline-field {
