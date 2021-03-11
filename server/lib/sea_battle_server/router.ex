@@ -4,6 +4,7 @@ defmodule SeaBattleServer.Router do
   use Plug.Debugger
 
   alias SeaBattleServer.ShipHandler
+  use Application
 
   require Logger
   plug(Plug.Logger, log: :debug)
@@ -71,8 +72,103 @@ defmodule SeaBattleServer.Router do
     send_resp(conn, 204, "")
   end
 
+  ### WEB APP STATIC FILES ###
+
+  def prod?() do
+    env = Application.get_env(:sea_battle_server, :env)
+
+    if env == :prod or env == :test do
+      true
+    else
+      false
+    end
+  end
+
+  get "/" do
+    if prod?() do
+      conn
+      |> put_resp_header("content-type", "text/html; charset=utf-8")
+      |> send_file(200, "/web/dist/index.html")
+    else
+      send_resp(conn, 200, "Server running in dev mode, no web application here")
+    end
+  end
+
+  def route_root_folder(conn, name) do
+    if prod?() do
+      avialable_files = [
+        "favicon.ico",
+        "manifest.json",
+        "robots.txt"
+      ]
+
+      mime_types = %{
+        "ico" => "image/vnd.microsoft.icon",
+        "json" => "application/json",
+        "txt" => "text/plain"
+      }
+
+      if Enum.member?(avialable_files, name) do
+        ext = Regex.scan(~r/[\da-zA-Z\-]+\.([a-z]+)/, name) |> hd |> tl |> hd
+
+        conn
+        |> put_resp_header("content-type", "#{mime_types[ext]}; charset=utf-8")
+        |> send_file(200, "/web/dist/#{name}")
+      else
+        send_resp(conn, 404, "")
+      end
+    else
+      send_resp(conn, 500, "Server running in dev mode, no web application here")
+    end
+  end
+
+  get "assets/:name" do
+    if prod?() do
+      ext =
+        Regex.scan(~r/[\da-zA-Z]+\.([a-z]+)/, name)
+        # extract from smth like [["name.png", "png"]]
+        |> hd
+        |> tl
+        |> hd
+
+      conn
+      |> put_resp_header("content-type", "image/#{ext}; charset=utf-8")
+      |> send_file(200, "/web/dist/assets/#{name}")
+    else
+      send_resp(conn, 500, "Server running in dev mode, no web application here")
+    end
+  end
+
+  get "static/js/:name" do
+    if prod?() do
+      conn
+      |> put_resp_header("content-type", "application/javascript; charset=utf-8")
+      |> send_file(200, "/web/dist/static/js/#{name}")
+    else
+      send_resp(conn, 500, "Server running in dev mode, no web application here")
+    end
+  end
+
+  get "static/css/:name" do
+    if prod?() do
+      conn
+      |> put_resp_header("content-type", "text/css; charset=utf-8")
+      |> send_file(200, "/web/dist/static/css/#{name}")
+    else
+      send_resp(conn, 500, "Server running in dev mode, no web application here")
+    end
+  end
+
   # "Default" route that will get called when no other route is matched
   match _ do
-    send_resp(conn, 404, "not found")
+    path =
+      conn.path_info
+      |> hd
+
+    if String.match?(path, ~r/[\S]+\.[a-zA-Z]/) do
+      route_root_folder(conn, path)
+    else
+      send_resp(conn, 404, "Not found")
+    end
   end
 end
