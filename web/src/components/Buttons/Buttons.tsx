@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {isBrowser} from 'react-device-detect';
 
 import './Buttons.css'
 import { newGame, BoolToOnOff } from './ButtonFunctions'
@@ -50,6 +51,9 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
   return (
     <div className="Buttons">
       <div style={HideOrNot(gameMode)} >
+      {isBrowser &&
+        <div><i>{getString("page_scale")}</i></div>
+      }
         <form onSubmit={submitID}>
           <label>
             {getString('friend_id')}: <input

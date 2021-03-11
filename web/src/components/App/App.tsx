@@ -136,6 +136,8 @@ const App: React.FC = () => {
     re-render child components not work (empty not change to
     "hit" / "miss"), but if use some changes for some state (like
     i below), then all work. How, just.. HOW??
+
+    Maybe bc i call it in Cell without await, like non-async function
   */
   const [wtf, setWTF] = useState(0)
   async function shot (x: number, y: number) {
