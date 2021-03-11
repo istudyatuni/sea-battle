@@ -1,7 +1,7 @@
 #!/bin/sh
 # variables
 deploy_source_branch="dev"
-deploy_remote="deploy"
+deploy_remote="origin"
 gh_pages="gh-pages"
 
 # colorize some output

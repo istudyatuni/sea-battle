@@ -51,7 +51,14 @@ export const wsURL = (): string => {
   } else {
     new_uri = 'ws:'
   }
-  return new_uri + '//' + loc.hostname + ':4000'
+
+  let port = ''
+  if(process.env.NODE_ENV !== "production") {
+    port = '4000'
+  } else {
+    port = '80'
+  }
+  return new_uri + '//' + loc.hostname + ':' + port
 }
 
 export const getOpponentID = (id: string,
