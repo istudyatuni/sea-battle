@@ -12,6 +12,11 @@
   justify-content: center;
 }
 
+.title {
+  height: fit-content;
+  margin-right: -3em;
+}
+
 .inline-field {
   flex-grow: 1;
   margin-bottom: 2em;
