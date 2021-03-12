@@ -91,18 +91,6 @@ defmodule SeaBattleServer.Router do
     send_static_file(conn, "", "index.html", "text/html")
   end
 
-  def route_root_folder(conn, name) do
-    mime_types = %{
-      "ico" => "image/vnd.microsoft.icon",
-      "json" => "application/json",
-      "txt" => "text/plain",
-      "js" => "application/javascript"
-    }
-
-    ext = Regex.scan(~r/[\da-zA-Z\-\.]+\.([a-z]+)/, name) |> hd |> tl |> hd
-    send_static_file(conn, "", name, mime_types[ext])
-  end
-
   get "assets/:name" do
     # extract from smth like [["name.png", "png"]]
     ext = Regex.scan(~r/[\da-zA-Z]+\.([a-z]+)/, name) |> hd |> tl |> hd
@@ -115,6 +103,18 @@ defmodule SeaBattleServer.Router do
 
   get "static/css/:name" do
     send_static_file(conn, "/static/css", name, "text/css")
+  end
+
+  def route_root_folder(conn, name) do
+    mime_types = %{
+      "ico" => "image/vnd.microsoft.icon",
+      "json" => "application/json",
+      "txt" => "text/plain",
+      "js" => "application/javascript"
+    }
+
+    ext = Regex.scan(~r/[\da-zA-Z\-\.]+\.([a-z]+)/, name) |> hd |> tl |> hd
+    send_static_file(conn, "", name, mime_types[ext])
   end
 
   # "Default" route that will get called when no other route is matched
