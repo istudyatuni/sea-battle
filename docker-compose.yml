@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  server:
+  production:
     build:
       context: .
-      dockerfile: server.dockerfile
+      dockerfile: production.dockerfile
     ports:
       - 80:80
