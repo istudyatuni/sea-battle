@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import {isBrowser} from 'react-device-detect';
 
 import './Buttons.css'
-import { newGame, BoolToOnOff } from './ButtonFunctions'
+import { BoolToOnOff } from './ButtonFunctions'
 
 import { HideOrNot } from 'components/App/AppFunctions'
 
@@ -51,9 +50,6 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
   return (
     <div className="Buttons">
       <div style={HideOrNot(gameMode)} >
-      {isBrowser &&
-        <div><i>{getString("page_scale")}</i></div>
-      }
         <form onSubmit={submitID}>
           <label>
             {getString('friend_id')}: <input
@@ -74,15 +70,14 @@ const Buttons: React.FC<ButtonsProps> = ({ gameMode,
         <p>{getString('esc_for_new_game')}</p>
       </div>
 
-      <div style={HideOrNot((gameMode+1)%2)} >
+      <div style={HideOrNot((gameMode+1))} className="middle" >
         <span
            id="yID"
-           className="middle"
            onClick={handleClickID}
         >{getString('your_id')}: {ID}</span>
         <br/>
         <button
-          className="middle hide"
+          className="hide"
           id="new_game"
           onClick={()=>window.location.reload()}
         >{getString('new_game')}</button>

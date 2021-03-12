@@ -30,8 +30,9 @@ const Cell: React.FC<CellProps> = ({ i, isClear, element, gameMode, setCell, sho
         setPath('Empty')
       }
       setCell(i)
-    } else if(gameMode===1 && element===0) {
+    } else if((gameMode===1 || gameMode===4) && element===0) {
       shot(i)
+      console.log('game mode is ', gameMode, ' path = ', path)
     }
   }
 

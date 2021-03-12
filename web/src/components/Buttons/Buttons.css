@@ -2,14 +2,22 @@
   align-self: center;
 }
 
-/* copy ID box*/
-.middle {
-  margin: 1em 0 1em 5em;
-  padding: 5px 10px;
+@media screen and (max-width: 1690px) {
+  .middle {
+    margin: 1em 0 1em 5em;
+  }
 }
 
+@media screen and (min-width: 1691px) {
+  .middle {
+    margin: 1em 0 1em 5em;
+  }
+}
+
+/* copy ID box*/
 #yID {
   border-radius: 5px;
+  padding: 5px 10px;
 }
 
 #yID:hover {

@@ -28,7 +28,7 @@ export const FieldInit = (): number[][] => {
 }
 
 export const HideOrNot = (a: number): any => {
-  if(a===1) {
+  if(a===1 || a===4) {
     return { display: 'none' }
   }
 }

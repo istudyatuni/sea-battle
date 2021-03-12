@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {isBrowser} from 'react-device-detect';
 import Cookie from 'js-cookie'
 
 import './App.css';
@@ -55,7 +56,13 @@ function useKeydown(key: number, action: ()=>void) {
 const App: React.FC = () => {
   initLocale()
 
-  const [gameMode, setMode] = useState(0)
+  const [gameMode, setGameMode] = useState(0)
+
+  useEffect(()=>{
+    // console.log(typeof(gameMode))
+    console.log('game mode changed: ', gameMode)
+  }, [gameMode])
+
   const [playerField, setPlayerField] = useState<number[][]>(FieldInit())
   const [opponentField, setOpField] = useState<number[][]>(FieldInit())
   const [isClear, setClear] = useState(false)
@@ -119,17 +126,18 @@ const App: React.FC = () => {
       togglePopup(true, 'warn', getString('incorrect_ship_placement'))
       return
     }
+    setGameMode(gameMode => 4)
 
-    await SendShips(ships, setID, opponentID, setOpponentID, changeViewField)
+    await SendShips(ships, setID, opponentID, setOpponentID, changeViewField, gameMode, setGameMode)
 
     let t = transformBack(opponentField)
     setPlayerField([...t])
     setOpField(FieldInit())
-    setMode(gameMode => 1)
     setClear(false)
   }
 
-  useKeydown(27, () => newGame())
+  // esc
+  useKeydown(27, () => {setGameMode(gameMode => 4); newGame()})
 
   /*
     WTF? if call in 'shot' just one async function with await,
@@ -179,7 +187,12 @@ const App: React.FC = () => {
       </div>
 
       <div className="inline-field">
-        <h1 className="vertical-title" style={HideOrNot(gameMode)}>{getString('sea_battle_title')}</h1>
+        <div className="vertical-field">
+          <h1 style={HideOrNot(gameMode)}>{getString('sea_battle_title')}</h1>
+          {isBrowser &&
+            <div><i>{getString("page_scale")}</i></div>
+          }
+        </div>
         <Battlefield
           key={gameMode.toString()}
           isClear={isClear}

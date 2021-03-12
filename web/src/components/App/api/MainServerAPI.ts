@@ -7,7 +7,9 @@ export const SendShips = async (ships: AllShips,
                                 setID: (arg0: string)=>void,
                                 opID: string,
                                 setOpID: (arg0: string)=>void,
-                                setField: (arg0: number, arg1: number, arg2: number)=>void) => {
+                                setField: (arg0: number, arg1: number, arg2: number)=>void,
+                                gameMode: number,
+                                setGameMode: (arg0: (arg0: number)=>number)=>void) => {
   const response = await fetch('/ships', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -29,11 +31,12 @@ export const SendShips = async (ships: AllShips,
       // successfully start game
       togglePopup(true, "success", getString('good_game'))
       setTimeout(function(){ removeYID() }, 30)
+      setGameMode(gameMode => 1)
       handleMovesWS(resp.id, setField)
       scrollTop()
     } else {
       togglePopup(true, "info", getString('please_wait'))
-      getOpponentID(resp.id, setOpID, setField)
+      getOpponentID(resp.id, setOpID, setField, gameMode, setGameMode)
     }
   } else {
     // server unavailable
@@ -63,7 +66,9 @@ export const wsURL = (): string => {
 
 export const getOpponentID = (id: string,
                               setOpID: (arg0: string)=>void,
-                              setField: (arg0: number, arg1: number, arg2: number)=>void) => {
+                              setField: (arg0: number, arg1: number, arg2: number)=>void,
+                              gameMode: number,
+                              setGameMode: (arg0: (arg0: number)=>number)=>void) => {
   let url = wsURL() + '/ws/opponent/' + id
   let ws = new WebSocket(url)
   sendLog('url=' + url, '')
@@ -78,6 +83,7 @@ export const getOpponentID = (id: string,
       togglePopup(true, 'success', getString('good_game'))
       setTimeout(function(){ togglePopup(true, 'success', getString('move')) }, 1000)
 
+      setGameMode(gameMode => 1)
       handleMovesWS(id, setField)
       removeYID()
       scrollTop()

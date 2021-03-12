@@ -1,5 +1,4 @@
 {
-  "page_scale": "Please zoom out if the buttons are below the battlefield",
   "copied": "Copied!",
   "decrease_alive": "Your opponent kill one your ship",
   "disabled": "Disabled",
@@ -20,6 +19,7 @@
   "opponent_disconnected": "Opponent disconnected",
   "opponent_hit": "Your opponent is hit to your ship",
   "opponent_move": "Opponent move",
+  "page_scale": "Please zoom out",
   "please_wait": "Please wait",
   "sea_battle_title": "Sea battle",
   "server_unavailable": "Server unavailable",

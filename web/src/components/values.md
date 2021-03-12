@@ -4,6 +4,7 @@
 - `0` - placing ships (before battle)
 - `1` - battle
 - `2` - view  player own field (on left)
+- `4` - before first shot, during waiting
 
 **`isClear`**:
 - `true` - if player can now clear ships
