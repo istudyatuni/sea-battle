@@ -115,7 +115,21 @@ defmodule SeaBattleServer.Router do
         |> put_resp_header("content-type", "#{mime_types[ext]}; charset=utf-8")
         |> send_file(200, "/web/dist/#{name}")
       else
-        send_resp(conn, 404, "")
+        send_resp(conn, 404, "Non avialable")
+      end
+    else
+      send_resp(conn, 500, "Server running in dev mode, no web application here")
+    end
+  end
+
+  def send_static_file(conn, folder, filename, mime_type) do
+    if prod?() do
+      if File.exists?("#{folder}/#{filename}") do
+        conn
+        |> put_resp_header("content-type", "#{mime_type}; charset=utf-8")
+        |> send_file(200, "#{folder}/#{filename}")
+      else
+        send_resp(conn, 404, "Not found")
       end
     else
       send_resp(conn, 500, "Server running in dev mode, no web application here")
@@ -123,47 +137,22 @@ defmodule SeaBattleServer.Router do
   end
 
   get "assets/:name" do
-    if prod?() do
-      ext =
-        Regex.scan(~r/[\da-zA-Z]+\.([a-z]+)/, name)
-        # extract from smth like [["name.png", "png"]]
-        |> hd
-        |> tl
-        |> hd
-
-      conn
-      |> put_resp_header("content-type", "image/#{ext}; charset=utf-8")
-      |> send_file(200, "/web/dist/assets/#{name}")
-    else
-      send_resp(conn, 500, "Server running in dev mode, no web application here")
-    end
+    # extract from smth like [["name.png", "png"]]
+    ext = Regex.scan(~r/[\da-zA-Z]+\.([a-z]+)/, name) |> hd |> tl |> hd
+    send_static_file(conn, "/web/dist/assets", name, "image/#{ext}; charset=utf-8")
   end
 
   get "static/js/:name" do
-    if prod?() do
-      conn
-      |> put_resp_header("content-type", "application/javascript; charset=utf-8")
-      |> send_file(200, "/web/dist/static/js/#{name}")
-    else
-      send_resp(conn, 500, "Server running in dev mode, no web application here")
-    end
+    send_static_file(conn, "/web/dist/static/js", name, "application/javascript")
   end
 
   get "static/css/:name" do
-    if prod?() do
-      conn
-      |> put_resp_header("content-type", "text/css; charset=utf-8")
-      |> send_file(200, "/web/dist/static/css/#{name}")
-    else
-      send_resp(conn, 500, "Server running in dev mode, no web application here")
-    end
+    send_static_file(conn, "web/dist/static/css", name, "text/css")
   end
 
   # "Default" route that will get called when no other route is matched
   match _ do
-    path =
-      conn.path_info
-      |> hd
+    path = conn.path_info |> hd
 
     if String.match?(path, ~r/[\S]+\.[a-zA-Z]/) do
       route_root_folder(conn, path)
