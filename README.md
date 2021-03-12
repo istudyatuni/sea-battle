@@ -1,5 +1,27 @@
 # Sea battle web application
 
+## Table of contents
+
+- [Running locally](#running-locally)
+  - [In docker container](#in-docker-container)
+  - [Build from source](#build-from-source)
+- [How to play in this](#how-to-play-in-this)
+
+## Running locally
+
+### In docker container
+
+You need pull image from docker hub and run it:
+
+```sh
+docker pull istudyatuni/sea-battle
+docker run -p 8080:80 istudyatuni/sea-battle
+```
+
+After it, open http://127.0.0.1:8080
+
+### Build from source
+
 *Web*
 
 To start client you need installed npm
