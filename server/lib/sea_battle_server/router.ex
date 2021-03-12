@@ -94,34 +94,6 @@ defmodule SeaBattleServer.Router do
     end
   end
 
-  def route_root_folder(conn, name) do
-    if prod?() do
-      avialable_files = [
-        "favicon.ico",
-        "manifest.json",
-        "robots.txt"
-      ]
-
-      mime_types = %{
-        "ico" => "image/vnd.microsoft.icon",
-        "json" => "application/json",
-        "txt" => "text/plain"
-      }
-
-      if Enum.member?(avialable_files, name) do
-        ext = Regex.scan(~r/[\da-zA-Z\-]+\.([a-z]+)/, name) |> hd |> tl |> hd
-
-        conn
-        |> put_resp_header("content-type", "#{mime_types[ext]}; charset=utf-8")
-        |> send_file(200, "/web/dist/#{name}")
-      else
-        send_resp(conn, 404, "Non avialable")
-      end
-    else
-      send_resp(conn, 500, "Server running in dev mode, no web application here")
-    end
-  end
-
   def send_static_file(conn, folder, filename, mime_type) do
     if prod?() do
       if File.exists?("#{folder}/#{filename}") do
@@ -136,6 +108,18 @@ defmodule SeaBattleServer.Router do
     end
   end
 
+  def route_root_folder(conn, name) do
+    mime_types = %{
+      "ico" => "image/vnd.microsoft.icon",
+      "json" => "application/json",
+      "txt" => "text/plain",
+      "js" => "application/javascript"
+    }
+
+    ext = Regex.scan(~r/[\da-zA-Z\-\.]+\.([a-z]+)/, name) |> hd |> tl |> hd
+    send_static_file(conn, "/web/dist", name, mime_types[ext])
+  end
+
   get "assets/:name" do
     # extract from smth like [["name.png", "png"]]
     ext = Regex.scan(~r/[\da-zA-Z]+\.([a-z]+)/, name) |> hd |> tl |> hd
@@ -147,7 +131,7 @@ defmodule SeaBattleServer.Router do
   end
 
   get "static/css/:name" do
-    send_static_file(conn, "web/dist/static/css", name, "text/css")
+    send_static_file(conn, "/web/dist/static/css", name, "text/css")
   end
 
   # "Default" route that will get called when no other route is matched
