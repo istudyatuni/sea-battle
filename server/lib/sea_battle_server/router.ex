@@ -74,38 +74,21 @@ defmodule SeaBattleServer.Router do
 
   ### WEB APP STATIC FILES ###
 
-  def prod?() do
-    env = Application.get_env(:sea_battle_server, :env)
+  def send_static_file(conn, folder, filename, mime_type) do
+    web_app_folder = Application.get_env(:sea_battle_server, :web_app_folder)
+    folder = "#{web_app_folder}#{folder}"
 
-    if env == :prod or env == :test do
-      true
+    if File.exists?("#{folder}/#{filename}") do
+      conn
+      |> put_resp_header("content-type", "#{mime_type}; charset=utf-8")
+      |> send_file(200, "#{folder}/#{filename}")
     else
-      false
+      send_resp(conn, 404, "Not found")
     end
   end
 
   get "/" do
-    if prod?() do
-      conn
-      |> put_resp_header("content-type", "text/html; charset=utf-8")
-      |> send_file(200, "/web/dist/index.html")
-    else
-      send_resp(conn, 200, "Server running in dev mode, no web application here")
-    end
-  end
-
-  def send_static_file(conn, folder, filename, mime_type) do
-    if prod?() do
-      if File.exists?("#{folder}/#{filename}") do
-        conn
-        |> put_resp_header("content-type", "#{mime_type}; charset=utf-8")
-        |> send_file(200, "#{folder}/#{filename}")
-      else
-        send_resp(conn, 404, "Not found")
-      end
-    else
-      send_resp(conn, 500, "Server running in dev mode, no web application here")
-    end
+    send_static_file(conn, "", "index.html", "text/html")
   end
 
   def route_root_folder(conn, name) do
@@ -117,21 +100,21 @@ defmodule SeaBattleServer.Router do
     }
 
     ext = Regex.scan(~r/[\da-zA-Z\-\.]+\.([a-z]+)/, name) |> hd |> tl |> hd
-    send_static_file(conn, "/web/dist", name, mime_types[ext])
+    send_static_file(conn, "", name, mime_types[ext])
   end
 
   get "assets/:name" do
     # extract from smth like [["name.png", "png"]]
     ext = Regex.scan(~r/[\da-zA-Z]+\.([a-z]+)/, name) |> hd |> tl |> hd
-    send_static_file(conn, "/web/dist/assets", name, "image/#{ext}; charset=utf-8")
+    send_static_file(conn, "/assets", name, "image/#{ext}; charset=utf-8")
   end
 
   get "static/js/:name" do
-    send_static_file(conn, "/web/dist/static/js", name, "application/javascript")
+    send_static_file(conn, "/static/js", name, "application/javascript")
   end
 
   get "static/css/:name" do
-    send_static_file(conn, "/web/dist/static/css", name, "text/css")
+    send_static_file(conn, "/static/css", name, "text/css")
   end
 
   # "Default" route that will get called when no other route is matched
