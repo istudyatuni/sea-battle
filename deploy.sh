@@ -1,4 +1,7 @@
 #!/bin/sh
+
+echo "gh-pages uninstalled" && exit 1
+
 # variables
 deploy_source_branch="dev"
 deploy_remote="origin"
