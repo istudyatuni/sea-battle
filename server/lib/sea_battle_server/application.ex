@@ -54,7 +54,8 @@ defmodule SeaBattleServer.Application do
        [
          {"/ws/opponent/[...]", SeaBattleServer.SocketHandler.Opponent, []},
          {"/ws/battle/[...]", SeaBattleServer.SocketHandler.Battle, []},
-         {:_, Plug.Cowboy.Handler, {SeaBattleServer.Router, []}}
+         {"/api/[...]", Plug.Cowboy.Handler, {SeaBattleServer.Router, []}},
+         {:_, Plug.Cowboy.Handler, {SeaBattleServer.Routers.Static, []}}
        ]}
     ]
   end

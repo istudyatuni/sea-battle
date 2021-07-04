@@ -36,7 +36,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
 
     conn =
       :post
-      |> conn("/ships", body)
+      |> conn("/api/ships", body)
       |> SeaBattleServer.Router.call(@options)
 
     body = Poison.decode!(conn.resp_body)
@@ -48,7 +48,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
   test "Making shots" do
     conn =
       :get
-      |> conn("/shot?id=1&x=0&y=0", %{})
+      |> conn("/api/shot?id=1&x=0&y=0", %{})
       |> SeaBattleServer.Router.call(@options)
 
     body = Poison.decode!(conn.resp_body)
@@ -58,7 +58,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
 
     conn =
       :get
-      |> conn("/shot?id=1&x=0&y=1", %{})
+      |> conn("/api/shot?id=1&x=0&y=1", %{})
       |> SeaBattleServer.Router.call(@options)
 
     body = Poison.decode!(conn.resp_body)
@@ -70,7 +70,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
   test "Get opponent ID" do
     conn =
       :get
-      |> conn("/opponent?id=1", %{})
+      |> conn("/api/opponent?id=1", %{})
       |> SeaBattleServer.Router.call(@options)
 
     body = Poison.decode!(conn.resp_body)
@@ -82,7 +82,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
   test "Patch opponent ID" do
     conn =
       :patch
-      |> conn("/opponent?id=1&opponentID=1", %{})
+      |> conn("/api/opponent?id=1&opponentID=1", %{})
       |> SeaBattleServer.Router.call(@options)
 
     body = Poison.decode!(conn.resp_body)
@@ -96,7 +96,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
 
     conn =
       :post
-      |> conn("/log", body)
+      |> conn("/api/log", body)
       |> SeaBattleServer.Router.call(@options)
 
     assert conn.status == 204
@@ -105,7 +105,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
   test "Other routes" do
     conn =
       :get
-      |> conn("/definitlynotworkingroute", %{})
+      |> conn("/api/definitlynotworkingroute", %{})
       |> SeaBattleServer.Router.call(@options)
 
     assert conn.status == 404
