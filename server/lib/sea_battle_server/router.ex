@@ -94,7 +94,7 @@ defmodule SeaBattleServer.Router do
   get "assets/:name" do
     # extract from smth like [["name.png", "png"]]
     ext = Regex.scan(~r/[\da-zA-Z]+\.([a-z]+)/, name) |> hd |> tl |> hd
-    send_static_file(conn, "/assets", name, "image/#{ext}; charset=utf-8")
+    send_static_file(conn, "/assets", name, "image/#{ext}")
   end
 
   get "static/js/:name" do
