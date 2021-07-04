@@ -56,3 +56,11 @@ In Linux you can find it using `ip a`, in Windows by running `ipconfig` from com
 
 - The player who placed the ships first makes the first move
 - Time for one move is 3 minutes
+
+**Building**
+
+*With docker*:
+
+```bash
+docker build -f production.dockerfile -t istudyatuni/sea-battle:latest .
+```
