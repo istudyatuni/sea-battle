@@ -24,7 +24,7 @@ After it, open http://127.0.0.1:8080
 
 *Web*
 
-To start client you need installed npm
+To start client you need installed yarn (from node)
 
 Run:
 ```bash
