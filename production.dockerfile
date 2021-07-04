@@ -11,10 +11,10 @@ FROM node:12.18.3-alpine3.12 AS node_builder
 ENV NODE_ENV="production" \
 GENERATE_SOURCEMAP=false
 WORKDIR /app
-COPY ./web/package*.json ./
-RUN npm install
+COPY ./web/package.json ./web/yarn.lock ./
+RUN yarn install
 COPY ./web ./
-RUN npm run build
+RUN yarn build
 
 FROM alpine:latest
 COPY --from=build-env /server/_build/prod/rel/sea_battle_server/ /server/
