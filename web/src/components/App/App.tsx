@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Cookie from 'js-cookie'
 
 import './App.css';
-import Buttons from'../Buttons/Buttons'
-import Battlefield from '../Battlefield/Battlefield'
+import Buttons from'components/Buttons/Buttons'
+import Battlefield from 'components/Battlefield/Battlefield'
 
 import {
   FieldInit, HitOrMiss,
@@ -11,11 +11,11 @@ import {
   HideOrNot, transformBack
 } from './AppFunctions'
 
-import { newGame } from '../Buttons/ButtonFunctions'
+import { newGame } from 'components/Buttons/ButtonFunctions'
 
-import { initLocale, getString } from '../Translation/String'
+import { initLocale, getString } from 'components/Translation/String'
 
-import { SendShips } from './api/MainServerAPI'
+import { SendShips } from 'api/MainServerAPI'
 
 function useKeyup(key: string, action: ()=>void) {
   useEffect(()=>{

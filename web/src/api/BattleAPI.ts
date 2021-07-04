@@ -1,11 +1,11 @@
-import { delay, togglePopup } from '../AppFunctions'
-import { getString } from '../../Translation/String'
+import { delay, togglePopup } from 'components/App/AppFunctions'
+import { getString } from 'components/Translation/String'
 import { sendLog, wsURL } from './MainServerAPI'
-import { newGame } from '../../Buttons/ButtonFunctions'
-
+import { newGame } from 'components/Buttons/ButtonFunctions'
+import { config } from 'config'
 
 export const SendShot = async (id: string, x: number, y: number, sendResp: (arg0: any)=>any) => {
-  let url = '/shot?id=' + id + '&x=' + x + '&y=' + y
+  let url = config.apiPrefix + '/shot?id=' + id + '&x=' + x + '&y=' + y
   const response = await fetch(url, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
@@ -93,7 +93,7 @@ export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: n
 export const handleMovesPoll = async (id: string) => {
   let timeout = 10//60 * 3
   let timer = 0
-  let url = '/move?id=' + id
+  let url = config.apiPrefix + '/move?id=' + id
   while(timer<timeout) {
     timer++
     const response = await fetch(url, {

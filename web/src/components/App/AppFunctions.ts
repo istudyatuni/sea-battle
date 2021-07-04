@@ -1,4 +1,4 @@
-import { SendShot } from './api/BattleAPI'
+import { SendShot } from 'api/BattleAPI'
 
 export const togglePopup = (a: boolean, classColor: string = "", message: string = "") => {
   let popup = document.getElementById("popup")

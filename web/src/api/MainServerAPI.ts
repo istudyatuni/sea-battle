@@ -1,14 +1,15 @@
-import { removeYID } from '../../Buttons/ButtonFunctions'
-import { getString } from '../../Translation/String'
+import { removeYID } from 'components/Buttons/ButtonFunctions'
+import { getString } from 'components/Translation/String'
 import { handleMovesWS } from './BattleAPI'
-import { delay, togglePopup, AllShips } from '../AppFunctions'
+import { delay, togglePopup, AllShips } from 'components/App/AppFunctions'
+import { config } from 'config'
 
 export const SendShips = async (ships: AllShips,
                                 setID: (arg0: string)=>void,
                                 opID: string,
                                 setOpID: (arg0: string)=>void,
                                 setField: (arg0: number, arg1: number, arg2: number)=>void) => {
-  const response = await fetch('/ships', {
+  const response = await fetch(config.apiPrefix + '/ships', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -25,7 +26,7 @@ export const SendShips = async (ships: AllShips,
       opponentID: string;
     }
     setID(resp.id)
-    if(resp.opponentID!=="0") {
+    if(resp.opponentID !== "0") {
       // successfully start game
       togglePopup(true, "success", getString('good_game'))
       setTimeout(function(){ removeYID() }, 30)
@@ -54,6 +55,7 @@ export const getOpponentID = (id: string,
   let byClient = false
   ws.onmessage = ({data}) => {
     let json = JSON.parse(data)
+
     if(json.opponentID!=="0") {
       setOpID(json.opponentID)
       byClient = true
@@ -71,11 +73,11 @@ export const getOpponentID = (id: string,
     sendLog('WebSocket error, id=' + id + ', downgrade to polling', e)
     console.error('WebSocket failed: ', e, 'downgrade to polling')
     getOpponentIDpoll(id, setOpID, setField)
-    // it not by client, but we need handle it
+    // it not by client, but we need to handle it
     byClient = true
   }
   ws.onclose = (e) => {
-    if(byClient===false) {
+    if(byClient === false) {
       togglePopup(true, 'warn', getString('one_minute_timeout'))
       console.error('WebSocket closed', e)
     }
@@ -88,20 +90,20 @@ export const getOpponentIDpoll = async (id: string,
   let timeout = 60
   let timer = 0
   let setID = '0'
-  let url = '/opponent?id=' + id
-  while(timer<timeout) {
+  let url = config.apiPrefix + '/opponent?id=' + id
+  while(timer < timeout) {
     timer++
     const response = await fetch(url, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });
-    if(response.status===200) {
+    if(response.status === 200) {
       // get response, handle
       let resp = await response.json() as {
         opponentID: string;
       }
       setID = resp.opponentID
-      if(setID!=='0') {
+      if(setID !== '0') {
         // opponent ID is correct
         timer = timeout
         setOpID(setID)
@@ -117,7 +119,7 @@ export const getOpponentIDpoll = async (id: string,
       return
     }
   }
-  if(setID!=='0') {
+  if(setID !== '0') {
     togglePopup(true, 'success', getString('good_game'))
     setTimeout(function(){ togglePopup(true, "success", getString('move')) }, 1000)
     handleMovesWS(id, setField)
@@ -138,7 +140,7 @@ export const sendLog = async (message: string, e: any = '') => {
       name: e['name'],
     },
   }
-  let url = '/log'
+  let url = config.apiPrefix + '/log'
   await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
