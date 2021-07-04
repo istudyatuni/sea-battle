@@ -1,4 +1,4 @@
-defmodule SeaBattleServer.Router do
+defmodule SeaBattleServer.Routers.Api do
   import Plug.Conn
   use Plug.Router
   use Plug.Debugger

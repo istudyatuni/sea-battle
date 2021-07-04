@@ -1,14 +1,14 @@
-defmodule SeaBattleServer.RouterFailTest do
+defmodule SeaBattleServer.Routers.ApiFailTest do
   use ExUnit.Case, async: false
   use Plug.Test
 
-  @options SeaBattleServer.Router.init([])
+  @options SeaBattleServer.Routers.Api.init([])
 
   test "ID on shot not exist" do
     conn =
       :get
       |> conn("/api/shot?id=3&x=0&y=0", %{})
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     assert conn.status == 202
   end
@@ -17,7 +17,7 @@ defmodule SeaBattleServer.RouterFailTest do
     conn =
       :patch
       |> conn("/api/opponent?id=3&opponentID=3", %{})
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     assert conn.status == 400
   end

@@ -1,8 +1,8 @@
-defmodule SeaBattleServer.RouterSuccessTest do
+defmodule SeaBattleServer.Routers.ApiSuccessTest do
   use ExUnit.Case, async: false
   use Plug.Test
 
-  @options SeaBattleServer.Router.init([])
+  @options SeaBattleServer.Routers.Api.init([])
 
   test "Posting ships" do
     ships = [
@@ -37,7 +37,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
     conn =
       :post
       |> conn("/api/ships", body)
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     body = Poison.decode!(conn.resp_body)
 
@@ -49,7 +49,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
     conn =
       :get
       |> conn("/api/shot?id=1&x=0&y=0", %{})
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     body = Poison.decode!(conn.resp_body)
 
@@ -59,7 +59,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
     conn =
       :get
       |> conn("/api/shot?id=1&x=0&y=1", %{})
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     body = Poison.decode!(conn.resp_body)
 
@@ -71,7 +71,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
     conn =
       :get
       |> conn("/api/opponent?id=1", %{})
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     body = Poison.decode!(conn.resp_body)
 
@@ -83,7 +83,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
     conn =
       :patch
       |> conn("/api/opponent?id=1&opponentID=1", %{})
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     body = Poison.decode!(conn.resp_body)
 
@@ -97,7 +97,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
     conn =
       :post
       |> conn("/api/log", body)
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     assert conn.status == 204
   end
@@ -106,7 +106,7 @@ defmodule SeaBattleServer.RouterSuccessTest do
     conn =
       :get
       |> conn("/api/definitlynotworkingroute", %{})
-      |> SeaBattleServer.Router.call(@options)
+      |> SeaBattleServer.Routers.Api.call(@options)
 
     assert conn.status == 404
   end
