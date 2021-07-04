@@ -29,6 +29,7 @@ const CellRow: React.FC<CellRowProps> = ({ i, isClear, gameMode, row, shot }) =>
     let cells = []
     for(let ind=0; ind<10; ind++) {
       cells.push(<Cell
+        key={ind}
         i={ind}
         isClear={isClear}
         gameMode={gameMode}

@@ -31,7 +31,7 @@ export const SendShot = async (id: string, x: number, y: number, sendResp: (arg0
 }
 
 export const handleMovesWS = async (id: string, setField: (arg0: number, arg1: number, arg2: number)=>void) => {
-  let url = wsURL() + '/ws/battle/' + id
+  let url = wsURL + '/ws/battle/' + id
   let ws = new WebSocket(url)
   let disconnect = false
   ws.onopen = () => {

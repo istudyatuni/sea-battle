@@ -16,8 +16,9 @@ const Battlefield: React.FC<BattlefieldProps> = ({ isClear, gameMode, field, sho
 
   function renderRows(): object[] {
     let rows = []
-    for(let ind=0; ind<10; ind++) {
+    for(let ind = 0; ind < 10; ind++) {
       rows.push(<CellRow
+        key={ind}
         i={ind}
         isClear={isClear}
         gameMode={gameMode}

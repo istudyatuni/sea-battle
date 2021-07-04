@@ -42,29 +42,13 @@ export const SendShips = async (ships: AllShips,
   }
 }
 
-// TODO: remake
-export const wsURL = (): string => {
-  let loc = window.location
-  let new_uri = ''
-  if(loc.protocol === 'https:') {
-    new_uri = 'wss:'
-  } else {
-    new_uri = 'ws:'
-  }
-
-  let port = ''
-  if(process.env.NODE_ENV !== "production") {
-    port = '4000'
-  } else {
-    port = '80'
-  }
-  return new_uri + '//' + loc.hostname + ':' + port
-}
+// we don't need wss://
+export const wsURL = 'ws://' + window.location.host
 
 export const getOpponentID = (id: string,
                               setOpID: (arg0: string)=>void,
                               setField: (arg0: number, arg1: number, arg2: number)=>void) => {
-  let url = wsURL() + '/ws/opponent/' + id
+  let url = wsURL + '/ws/opponent/' + id
   let ws = new WebSocket(url)
   sendLog('url=' + url, '')
   let byClient = false

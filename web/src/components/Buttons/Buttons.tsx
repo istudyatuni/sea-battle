@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {isBrowser} from 'react-device-detect';
 
 import './Buttons.css'
-import { newGame, BoolToOnOff } from './ButtonFunctions'
+import { BoolToOnOff } from './ButtonFunctions'
 
 import { HideOrNot } from 'components/App/AppFunctions'
 
