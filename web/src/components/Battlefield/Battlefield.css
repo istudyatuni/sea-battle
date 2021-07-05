@@ -1,0 +1,21 @@
+.Battlefield {
+  width: 100%;
+}
+
+.CellRow {
+  display: flex;
+  justify-content: center;
+}
+
+.Cell {
+  height: 70px;
+  width: 70px;
+}
+
+.Cell > img {
+  pointer-events: none;
+}
+
+.Cell:active {
+  background-color: #B897DF;
+}

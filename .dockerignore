@@ -1,0 +1,12 @@
+**/node_modules/
+.git
+
+**/_build/
+**/deps/
+**/doc/
+task/
+doc/
+
+*.md
+*.sublime-project
+deploy.sh

@@ -2,20 +2,36 @@
     "folders":
     [
         {
-            "exclude_folder_patterns":
-            [
-                "*node_modules"
-            ],
             "name": "sea-battle (Root)",
             "path": "."
         },
         {
-            "path": "web",
-            "name": "Web"
+            "name": "Doc",
+            "path": "doc"
+        },
+        {
+            "folder_exclude_patterns":
+            [
+                "*build"
+            ],
+            "name": "Server",
+            "path": "server"
+        },
+        {
+            "folder_exclude_patterns":
+            [
+                "node_modules",
+                "build"
+            ],
+            "name": "Web",
+            "path": "web"
         }
     ],
     "settings":
     {
-        "tab_size": 4
+        "tab_size": 2,
+        "translate_tabs_to_spaces": true,
+        "trim_trailing_white_space_on_save": true,
+        "ensure_newline_at_eof_on_save": true
     }
  }
