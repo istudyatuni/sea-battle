@@ -7,7 +7,7 @@ RUN mix local.hex --force && mix deps.get && mix local.rebar --force
 COPY ./server ./
 RUN mix release
 
-FROM node:12.18.3-alpine3.12 AS node_builder
+FROM node:alpine AS node_builder
 ENV NODE_ENV="production" \
 GENERATE_SOURCEMAP=false
 WORKDIR /app
