@@ -17,6 +17,8 @@ COPY ./web ./
 RUN yarn build
 
 FROM alpine:latest
+# Fix "Error loading shared library libncursesw.so.6"
+RUN apk add --no-cache ncurses-dev
 COPY --from=build-env /server/_build/prod/rel/sea_battle_server/ /server/
 COPY --from=node_builder /app/build /web/dist
 
